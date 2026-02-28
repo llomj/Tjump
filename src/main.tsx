@@ -7,7 +7,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     // Use base path for production (GitHub Pages), '/' for local development
-    const basePath = import.meta.env.PROD ? '/python-exercises-learn/' : '/';
+    const basePath = import.meta.env.BASE_URL || '/';
     navigator.serviceWorker.register(`${basePath}sw.js?v=4`)
       .then(registration => {
         console.log('Python Exercises Learn SW registered: ', registration);

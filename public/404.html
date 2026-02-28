@@ -6,7 +6,7 @@
     <title>Python Exercises Learn</title>
     <script>
         // Redirect to base path for GitHub Pages
-        const basePath = '/python-exercises-learn/';
+        const basePath = '/' + (location.pathname.split('/')[1] || 'python-exercisesV1') + '/';
         if (window.location.pathname !== basePath) {
             window.location.replace(basePath);
         }
