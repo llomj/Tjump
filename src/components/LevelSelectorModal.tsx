@@ -10,6 +10,7 @@ interface LevelSelectorModalProps {
   onSelectLevel: (level: number) => void;
   onClose: () => void;
   acquiredStars?: Record<number, number>;
+  randomMode?: boolean;
 }
 
 export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
@@ -17,7 +18,8 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   highestUnlockedLevel,
   onSelectLevel,
   onClose,
-  acquiredStars = {}
+  acquiredStars = {},
+  randomMode = false
 }) => {
   const { t } = useLanguage();
 
@@ -123,7 +125,12 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
           })}
         </div>
 
-        <div className="pt-4 border-t border-white/10">
+        <div className="pt-4 border-t border-white/10 space-y-2">
+          {randomMode && (
+            <p className="text-xs text-indigo-400 text-center font-medium">
+              {t('levelSelector.randomModeNote')}
+            </p>
+          )}
           <p className="text-xs text-slate-400 text-center">
             {currentLevel === highestUnlockedLevel
               ? formatTranslation(t('levelSelector.youAreOnLevel'), { level: currentLevel })

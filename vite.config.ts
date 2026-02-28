@@ -10,8 +10,12 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     base,
     server: {
-      port: 3000,
-      open: false
+      // Use 5174 so dev is never served by the old SW cache on :3000 — you always see the latest app
+      port: 5174,
+      open: false,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate'
+      }
     }
   };
 });

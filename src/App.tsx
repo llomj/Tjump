@@ -50,6 +50,7 @@ const App: React.FC = () => {
   const [showIdLog, setShowIdLog] = useState(false);
   const [showLevelSelector, setShowLevelSelector] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
@@ -144,6 +145,16 @@ const App: React.FC = () => {
   const confirmLevelMode = () => {
     setStats(prev => ({ ...prev, randomMode: false }));
     setShowRandomModeModal(false);
+    setRandomizeTrigger(prev => prev + 1);
+  };
+
+  const confirmResetApp = () => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    setStats(INITIAL_STATS);
+    setView('hub');
+    setShowResetModal(false);
+    setShowSettingsMenu(false);
+    setShowResult(null);
     setRandomizeTrigger(prev => prev + 1);
   };
 
@@ -314,6 +325,7 @@ const App: React.FC = () => {
             onShowOperations={view === 'quiz' ? () => setShowOperations(true) : undefined}
             onShowLevelSelector={() => setShowLevelSelector(true)}
             onToggleLanguage={toggleLanguage}
+            onResetApp={() => setShowResetModal(true)}
           />
         </div>
 
@@ -330,6 +342,7 @@ const App: React.FC = () => {
             onExit={() => setView('hub')}
             randomizeTrigger={randomizeTrigger}
             randomMode={randomMode}
+            randomModeStats={stats.randomModeStats}
           />
         ) : view === 'log' ? (
           <HistoryLog history={stats.history} onBack={() => setView('hub')} />
@@ -378,11 +391,11 @@ const App: React.FC = () => {
 
             <div className="py-4 px-6 bg-white/5 rounded-2xl flex flex-wrap justify-around gap-4 border border-white/5 relative z-10">
               <div>
-                <div className="text-xs text-slate-500 uppercase font-bold mb-1 tracking-wider">Evolution Gain</div>
+                <div className="text-xs text-slate-500 uppercase font-bold mb-1 tracking-wider">{t('result.evolutionGain')}</div>
                 <div className="text-2xl font-black text-amber-400">+{showResult.score * XP_PER_QUESTION} XP</div>
               </div>
               <div>
-                <div className="text-xs text-slate-500 uppercase font-bold mb-1 tracking-wider">Success Rate</div>
+                <div className="text-xs text-slate-500 uppercase font-bold mb-1 tracking-wider">{t('result.successRate')}</div>
                 <div className="text-2xl font-black text-sky-400">{Math.round((showResult.score / showResult.total) * 100)}%</div>
               </div>
               {showResult.randomMode && showResult.prevScore !== undefined && showResult.newScore !== undefined && showResult.newPersona && (
@@ -422,6 +435,39 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-[100] bg-slate-950 overflow-y-auto">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <OperationsView onBack={() => setShowOperations(false)} />
+          </div>
+        </div>
+      )}
+
+      {/* Reset App Confirmation Modal */}
+      {showResetModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+          <div className="glass rounded-3xl p-8 max-w-md w-full space-y-6 animate-in zoom-in duration-300 shadow-2xl border border-amber-500/20">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl bg-amber-500/20 text-amber-400">
+                <i className="fas fa-triangle-exclamation"></i>
+              </div>
+              <h2 className="text-2xl font-black text-white">
+                {t('resetModal.title')}
+              </h2>
+              <p className="text-slate-400 leading-relaxed">
+                {t('resetModal.warning')}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowResetModal(false)}
+                className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-white transition-all border border-white/10"
+              >
+                {t('resetModal.cancel')}
+              </button>
+              <button
+                onClick={confirmResetApp}
+                className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 rounded-xl font-bold text-white transition-all shadow-xl shadow-amber-500/30"
+              >
+                {t('resetModal.confirm')}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -487,6 +533,7 @@ const App: React.FC = () => {
           onSelectLevel={handleLevelChange}
           onClose={() => setShowLevelSelector(false)}
           acquiredStars={stats.acquiredStars}
+          randomMode={randomMode}
         />
       )}
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserStats, PersonaStage } from '../types';
-import { LEVELS, QUESTIONS_PER_LEVEL, getStarsFromProgress, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
+import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsFromProgress, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
 import { PersonaBadge } from './PersonaBadge';
 import { ProgressBar } from './ProgressBar';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -22,7 +22,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
   const progress = stats.levelProgress[stats.currentLevel] || 0;
 
   const totalCompleted = stats.completedQuestionIds.length;
-  const totalPossible = 1000; // Roadmap target: 10 levels * 100 questions
+  const totalPossible = TOTAL_QUESTIONS;
   const globalPercentage = Math.round((totalCompleted / totalPossible) * 100);
 
   const lastAccuracy = stats.lastSessionScore !== undefined && stats.lastSessionTotal

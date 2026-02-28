@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Question, QuestionAttempt } from '../types';
 import { quizService } from '../services/quizService';
 import { ProgressBar } from './ProgressBar';
-import { LEVELS } from '../constants';
+import { LEVELS, getRandomModeScore } from '../constants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useLanguage } from '../contexts/LanguageContext';
 import { formatTranslation } from '../translations';
 import { getTranslatedDetailedExplanation } from '../data/detailedExplanationsTranslations';
+import { translateQuestionText } from '../utils/translateQuestion';
 import { getTranslatedShortExplanation, SHORT_EXPLANATIONS_FR } from '../data/shortExplanationsTranslations';
 
 // Function to format code snippets with proper Python indentation
@@ -454,26 +455,8 @@ const enhanceBareMethodCall = (code: string): string => {
 const translateText = (text: string, language: string): string => {
   if (language !== 'fr') return text;
 
-  // Common question pattern translations
-  const questionTranslations: Record<string, string> = {
-    'What is': 'Qu\'est-ce que c\'est',
-    'What is?': 'Qu\'est-ce que c\'est ?',
-    'Result of': 'Résultat de',
-    'Output of': 'Sortie de',
-    'Value of': 'Valeur de',
-    'Which': 'Lequel',
-    'How': 'Comment',
-    'When': 'Quand',
-    'Where': 'Où',
-    'Why': 'Pourquoi',
-    'Can': 'Peut',
-    'Does': 'Est-ce que',
-    'Is': 'Est',
-    'Are': 'Sont',
-    'Will': 'Va',
-    'Would': 'Serait',
-    'Should': 'Devrait',
-  };
+  // Question prefix translation (shared with IdSearchModal, IdLogView)
+  let translated = translateQuestionText(text, language);
 
   // Common explanation pattern translations
   const explanationTranslations: Record<string, string> = {
@@ -502,16 +485,6 @@ const translateText = (text: string, language: string): string => {
     'returns a': 'retourne un',
     'Returns a': 'Retourne un',
   };
-
-  let translated = text;
-
-  // Apply question translations (at start of text)
-  for (const [en, fr] of Object.entries(questionTranslations)) {
-    const pattern = new RegExp(`^${en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i');
-    if (pattern.test(translated)) {
-      translated = translated.replace(pattern, fr);
-    }
-  }
 
   // Apply explanation translations (throughout text, but be careful with code)
   // Only translate if it's clearly an explanation (not code)
@@ -651,6 +624,7 @@ interface QuizViewProps {
   onExit: () => void;
   randomizeTrigger?: number; // Add trigger to force re-randomization
   randomMode?: boolean; // Random mode: questions from all levels
+  randomModeStats?: { totalAnswered: number; totalCorrect: number }; // Base stats for live score display
 }
 
 export const QuizView: React.FC<QuizViewProps> = ({
@@ -661,7 +635,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
   onComplete,
   onExit,
   randomizeTrigger,
-  randomMode = false
+  randomMode = false,
+  randomModeStats
 }) => {
   const { t, tRaw, language } = useLanguage();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -671,10 +646,13 @@ export const QuizView: React.FC<QuizViewProps> = ({
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState(0);
   const [showDetailedExplanation, setShowDetailedExplanation] = useState(false);
+  const [scoreJustIncreased, setScoreJustIncreased] = useState(false);
 
   // We use a ref to capture completedIds at the START of the quiz session.
   // This prevents the quiz from re-fetching if completedIds updates mid-quiz.
   const initialCompletedIds = useRef(completedIds);
+  // Ref for session correct count - updated synchronously so live score displays immediately
+  const sessionCorrectRef = useRef(0);
 
   // Helper function to shuffle array and track original index of correct answer
   const shuffleOptions = (question: Question): Question => {
@@ -712,6 +690,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
         setIsAnswered(false);
         setScore(0);
         setShowDetailedExplanation(false);
+        setScoreJustIncreased(false);
+        sessionCorrectRef.current = 0;
       } catch (err) {
         console.error("Failed to load genome batch:", err);
       } finally {
@@ -723,6 +703,12 @@ export const QuizView: React.FC<QuizViewProps> = ({
     // If completedIds (passed from props) changes, we do NOT re-run this.
   }, [level, randomizeTrigger, randomMode]);
 
+  useEffect(() => {
+    if (!scoreJustIncreased) return;
+    const t = setTimeout(() => setScoreJustIncreased(false), 500);
+    return () => clearTimeout(t);
+  }, [scoreJustIncreased]);
+
   const handleOptionClick = (index: number) => {
     if (isAnswered) return;
 
@@ -733,7 +719,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
     setIsAnswered(true);
 
     if (isCorrect) {
+      sessionCorrectRef.current += 1;
       setScore(s => s + 1);
+      if (randomMode) setScoreJustIncreased(true);
     }
 
     onAttempt({
@@ -788,6 +776,19 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
   const currentQuestion = questions[currentIndex];
 
+  // Live evolution score for Random mode: base stats + session progress
+  // Use sessionCorrectRef so it updates immediately (score state may lag)
+  const sessionAnswered = isAnswered ? currentIndex + 1 : currentIndex;
+  const sessionCorrect = sessionCorrectRef.current;
+  const base = randomModeStats ?? { totalAnswered: 0, totalCorrect: 0 };
+  const liveRandomStats = randomMode
+    ? {
+        totalAnswered: base.totalAnswered + sessionAnswered,
+        totalCorrect: base.totalCorrect + sessionCorrect
+      }
+    : null;
+  const liveEvolutionScore = liveRandomStats ? getRandomModeScore(liveRandomStats) : null;
+
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
@@ -820,6 +821,17 @@ export const QuizView: React.FC<QuizViewProps> = ({
               </div>
             </div>
             <div className="flex gap-4 items-center">
+              {liveEvolutionScore !== null && (
+                <span
+                  className={`px-2.5 py-1 rounded-lg font-black text-xs border transition-all duration-300 ${
+                    scoreJustIncreased
+                      ? 'bg-emerald-500/30 text-emerald-400 border-emerald-500/50 scale-110'
+                      : 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30'
+                  }`}
+                >
+                  {t('quiz.evolutionPoints')}: {liveEvolutionScore}
+                </span>
+              )}
               <span className="text-indigo-400">
                 {formatTranslation(t('quiz.mutationOf'), { current: currentIndex + 1, total: questions.length })}
               </span>

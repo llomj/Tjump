@@ -39,6 +39,7 @@ export const translations = {
     // Quiz View
     quiz: {
       mutationOf: "MUTATION {current} OF {total}",
+      evolutionPoints: "Evolution Points",
       stabilizingGenome: "Stabilizing Genome...",
       sequencingPatterns: "Sequencing 15 unique logic patterns for Stage {level}.",
       sequenceError: "Sequence Error",
@@ -157,6 +158,15 @@ export const translations = {
       switchToLevelMode: "Switch to Level Mode",
       switchToRandomMode: "Switch to Random Mode",
       settings: "Settings",
+      resetApp: "Reset App",
+    },
+    
+    // Reset App Modal
+    resetModal: {
+      title: "Reset App?",
+      warning: "This will erase all your progress (XP, levels, completed questions, learning log). You will start from zero. This cannot be undone.",
+      cancel: "Cancel",
+      confirm: "Reset Everything",
     },
     
     // Level Selector
@@ -166,6 +176,7 @@ export const translations = {
       currentLevel: "Current Level",
       highestUnlocked: "Highest Unlocked",
       youAreOnLevel: "You are currently on Level {level}. Complete questions to unlock higher levels.",
+      randomModeNote: "You're in Random Mode. The level you select will apply when you switch back to Level Mode.",
       currentLevelInfo: "Current Level: {current} • Highest Unlocked: {highest}",
     },
     
@@ -264,6 +275,7 @@ export const translations = {
     // Quiz View
     quiz: {
       mutationOf: "MUTATION {current} SUR {total}",
+      evolutionPoints: "Points d'Évolution",
       stabilizingGenome: "Stabilisation du Génome...",
       sequencingPatterns: "Séquençage de 15 motifs logiques uniques pour l'Étape {level}.",
       sequenceError: "Erreur de Séquence",
@@ -380,6 +392,15 @@ export const translations = {
       switchToLevelMode: "Passer en Mode Niveau",
       switchToRandomMode: "Passer en Mode Aléatoire",
       settings: "Paramètres",
+      resetApp: "Réinitialiser l'App",
+    },
+    
+    // Reset App Modal
+    resetModal: {
+      title: "Réinitialiser l'App ?",
+      warning: "Toute votre progression sera effacée (XP, niveaux, questions complétées, journal). Vous repartirez de zéro. Cette action est irréversible.",
+      cancel: "Annuler",
+      confirm: "Tout Réinitialiser",
     },
     
     // Level Selector
@@ -389,6 +410,7 @@ export const translations = {
       currentLevel: "Niveau Actuel",
       highestUnlocked: "Plus Haut Débloqué",
       youAreOnLevel: "Vous êtes actuellement au Niveau {level}. Complétez des questions pour débloquer des niveaux supérieurs.",
+      randomModeNote: "Vous êtes en Mode Aléatoire. Le niveau sélectionné s'appliquera lorsque vous reviendrez au Mode Niveau.",
       currentLevelInfo: "Niveau Actuel: {current} • Plus Haut Débloqué: {highest}",
     },
     

@@ -15,6 +15,7 @@ interface SettingsMenuProps {
   onShowOperations?: () => void;
   onShowLevelSelector?: () => void;
   onToggleLanguage?: () => void;
+  onResetApp?: () => void;
 }
 
 export const SettingsMenu: React.FC<SettingsMenuProps> = ({
@@ -29,7 +30,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onShowLearningLog,
   onShowOperations,
   onShowLevelSelector,
-  onToggleLanguage
+  onToggleLanguage,
+  onResetApp
 }) => {
   const { t, language } = useLanguage();
 
@@ -171,6 +173,23 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               <span className="text-sm font-medium">{item.label}</span>
             </button>
           ))}
+          
+          {/* Reset App button - at bottom with warning styling */}
+          {onResetApp && (
+            <>
+              <div className="my-2 border-t border-white/10" />
+              <button
+                onClick={() => {
+                  onResetApp();
+                  onClose();
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
+              >
+                <i className="fas fa-rotate-left text-sm w-5 flex-shrink-0"></i>
+                <span className="text-sm font-medium">{t('settings.resetApp')}</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>

@@ -4,11 +4,17 @@
 
 ---
 
-## Random Mode — Point-Based Evolution (NEXT TASK)
+## Next Task (TBD)
 
-**Status**: Planned. This is the next implementation task.
+Random Mode and French translations are complete. See Improvement Ideas below for possible next work.
 
-**Goal**: Give users two distinct gameplay paths that persist independently. When the user selects Random mode, evolution is driven by a point system (weighted average of accuracy and volume), not by level progression. Both systems save to `localStorage` so users can alternate between Level mode and Random mode without losing progress in either.
+---
+
+## Random Mode — Point-Based Evolution
+
+**Status**: ✅ Implemented.
+
+**Goal**: Give users two distinct gameplay paths that persist independently. When the user selects Random mode, evolution is driven by a point system (correct × accuracy), not by level progression. Both systems save to `localStorage` so users can alternate between Level mode and Random mode without losing progress in either.
 
 ---
 
@@ -175,11 +181,12 @@ interface RandomModeStats {
 
 ---
 
-### Changelog Entry (to add when done)
+### Changelog
 
 | Date | Change |
 |------|--------|
-| [Date] | Added Random Mode implementation plan: point-based evolution, dual persistence, hub Settings integration, phased implementation steps. |
+| 2025-02-28 | Added Random Mode implementation plan: point-based evolution, dual persistence, hub Settings integration, phased implementation steps. |
+| 2025-02-27 | Random Mode implemented: `randomModeStats`, `getRandomModeScore`, hub Settings toggle (hub + quiz), QuizView/quizService support, EvolutionHub display, EN+FR translations. |
 
 ---
 
@@ -193,9 +200,9 @@ interface RandomModeStats {
 
 | Component | Target | Current | Status |
 |-----------|--------|---------|--------|
-| **Short explanations** (e field) | 3000 | ~50 | In progress |
-| **Detailed explanations** (explication du codon) | 3000 | ~500 | In progress |
-| **UI strings** | All | Done | `translations.ts` |
+| **Short explanations** (e field) | 3000 | 3000 | Done |
+| **Detailed explanations** (explication du codon) | 3000 | 3000 | Done |
+| **UI strings** | All | All | Done | `translations.ts` |
 
 Update this table as translations progress. Add in batches of 50.
 

@@ -35,9 +35,12 @@ self.addEventListener('activate', (event) => {
 
 // Fetch: Serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
   if (event.request.method !== 'GET') return;
-  
+  // Never cache clear-sw.html so devs can always load it fresh to unregister and get latest app
+  if (event.request.url.includes('clear-sw.html')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {

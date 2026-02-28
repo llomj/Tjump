@@ -4,6 +4,7 @@ import { QUESTIONS_BANK } from '../questionsBank';
 import { useLanguage } from '../contexts/LanguageContext';
 import { formatTranslation } from '../translations';
 import { getTranslatedDetailedExplanation } from '../data/detailedExplanationsTranslations';
+import { translateQuestionText } from '../utils/translateQuestion';
 import { getTranslatedShortExplanation } from '../data/shortExplanationsTranslations';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -79,40 +80,9 @@ const formatCodeSnippet = (text: string): string => {
   return formattedLines.join('\n');
 };
 
-const translateText = (text: string, language: string): string => {
-  if (language !== 'fr') return text;
-  const questionTranslations: Record<string, string> = {
-    'What is': 'Qu\'est-ce que c\'est',
-    'What is?': 'Qu\'est-ce que c\'est ?',
-    'Result of': 'Résultat de',
-    'Output of': 'Sortie de',
-    'Value of': 'Valeur de',
-    'Which': 'Lequel',
-    'How': 'Comment',
-    'When': 'Quand',
-    'Where': 'Où',
-    'Why': 'Pourquoi',
-    'Can': 'Peut',
-    'Does': 'Est-ce que',
-    'Is': 'Est',
-    'Are': 'Sont',
-    'Will': 'Va',
-    'Would': 'Serait',
-    'Should': 'Devrait',
-  };
-  let translated = text;
-  for (const [en, fr] of Object.entries(questionTranslations)) {
-    const pattern = new RegExp(`^${en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i');
-    if (pattern.test(translated)) {
-      translated = translated.replace(pattern, fr);
-    }
-  }
-  return translated;
-};
-
 const splitQuestion = (text: string, language: string = 'en') => {
   try {
-    const enhancedText = translateText(text, language);
+    const enhancedText = translateQuestionText(text, language);
 
     if (enhancedText.includes('\n')) {
       const lines = enhancedText.split('\n');

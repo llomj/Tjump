@@ -4,6 +4,7 @@ export const XP_PER_QUESTION = 10;
 export const QUESTIONS_PER_SUBLEVEL = 100;
 export const SUBLEVELS_PER_LEVEL = 3;
 export const QUESTIONS_PER_LEVEL = QUESTIONS_PER_SUBLEVEL * SUBLEVELS_PER_LEVEL; // 300
+export const TOTAL_QUESTIONS = 3000; // 10 levels × 300 questions
 
 /** Derive number of stars (0–3) from progress for a level. Used for migration and display. */
 export const getStarsFromProgress = (progress: number): number => {

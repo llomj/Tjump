@@ -3,18 +3,23 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { LanguageProvider } from './contexts/LanguageContext';
 
-// Register Service Worker for PWA
+// Service Worker: register only in production; in dev, unregister so preview always gets latest (stars, etc.)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    // Use base path for production (GitHub Pages), '/' for local development
-    const basePath = import.meta.env.BASE_URL || '/';
-    navigator.serviceWorker.register(`${basePath}sw.js?v=4`)
-      .then(registration => {
-        console.log('Python Exercises Learn SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.log('Python Exercises Learn SW registration failed: ', registrationError);
+    if (import.meta.env.PROD) {
+      const basePath = import.meta.env.BASE_URL || '/';
+      navigator.serviceWorker.register(`${basePath}sw.js?v=4`)
+        .then(registration => {
+          console.log('Python Exercises Learn SW registered: ', registration);
+        })
+        .catch(registrationError => {
+          console.log('Python Exercises Learn SW registration failed: ', registrationError);
+        });
+    } else {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrations.forEach(reg => reg.unregister());
       });
+    }
   });
 }
 

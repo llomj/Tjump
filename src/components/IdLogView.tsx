@@ -3,6 +3,7 @@ import { IdLogEntry } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getTranslatedShortExplanation } from '../data/shortExplanationsTranslations';
 import { QUESTIONS_BANK } from '../questionsBank';
+import { translateQuestionText } from '../utils/translateQuestion';
 import { formatTranslation } from '../translations';
 import { getTranslatedDetailedExplanation } from '../data/detailedExplanationsTranslations';
 
@@ -102,7 +103,7 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
                 )}
                 
                 <p className="text-slate-200 font-bold mb-3 leading-tight">
-                  {entry.question}
+                  {translateQuestionText(entry.question, language)}
                 </p>
                 
                 <div className="mb-4">

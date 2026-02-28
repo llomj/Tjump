@@ -34,7 +34,7 @@
 - Level 9: ✅ COMPLETED - 100 truly unique questions (no number/variable variations)
 - Level 10: ✅ COMPLETED - 100 truly unique questions (no number/variable variations)
 
-🎉 **ALL 1000 QUESTIONS COMPLETE!** 🎉
+🎉 **ALL 3000 QUESTIONS COMPLETE!** (300 per level × 10 levels) 🎉
 
 ### Verification Process:
 Before moving to the next level:
@@ -71,7 +71,7 @@ Before moving to the next level:
 
 ## Solutions Implemented
 - Updated SW cache version for refresh
-- Added random mode button in quiz view only
+- Random Mode: toggle in Settings (hub + quiz), point-based evolution, dual persistence (`randomModeStats`), questions from all levels
 - Implemented question display with syntax highlighting for code questions
 
 ## Solutions Needed

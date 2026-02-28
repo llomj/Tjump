@@ -54,12 +54,8 @@ import { QUESTIONS_PER_SUBLEVEL } from './constants';
 
 // GENERATOR ENGINE
 // Assigns BEGINNER for the first third, INTERMEDIATE for the second third, EXPERT for the last third.
-// For now, since each array has 100 items and QUESTIONS_PER_SUBLEVEL=100, we'll repeat the 100 items 3 times 
-// to reach 300 questions per level. Or, wait, the implementation plan says "Migrate existing questions... We will NOT delete existing questions... to keep 3,000 questions fresh".
-// If I repeat the 100 questions to make 300, that violates the "never repeat" rule!
-// The user hasn't generated the remaining 200 questions per level yet.
-// So for now, we only have 100 questions per level.
-// Let's divide the current 100 questions: 0-33 Beginner, 34-66 Intermediate, 67-99 Expert.
+// Each level has 300 questions (100 Beginner + 100 Intermediate + 100 Expert).
+// Total: 3000 questions across 10 levels. IDs 1-3000.
 
 const getSubLevel = (index: number, totalPatterns: number): SubLevel => {
   if (index < totalPatterns / 3) return SubLevel.BEGINNER;

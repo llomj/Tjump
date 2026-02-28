@@ -1,408 +1,72 @@
 #!/usr/bin/env python3
-"""Generate French translations for IDs 2751-2850 from extract_2751_2850.json."""
+"""
+Generate French detailed explanations for IDs 2751-2850.
+Reads from extract_fr_2726_2850.json, outputs TypeScript entries.
+Uses structural translation: Key concepts->Concepts clés, etc.
+"""
 import json
 import re
-import sys
 
-def escape_ts(s):
-    return s.replace('\\', '\\\\').replace('${', '\\${').replace('`', '\\`')
-
-# Section headers
+# Section header mappings EN -> FR
 HEADERS = {
-    "Key concepts:": "Concepts clés :",
-    "How it works:": "Comment ça fonctionne :",
-    "Example:": "Exemple :",
-    "Examples:": "Exemples :",
-    "Common uses:": "Usages courants :",
-    "Benefits:": "Avantages :",
+    "Key concepts": "Concepts clés",
+    "How it works": "Comment ça fonctionne",
+    "Example": "Exemple",
+    "Common uses": "Usages courants",
+    "Benefits": "Usages courants",
+    "Edge cases": "Cas limites",
 }
 
-# Phrase translations for Level 10 (decorators, patterns, metaclasses, PEP 8, re)
-PHRASES = [
-    ("This is a simple decorator that returns the original function unchanged.",
-     "C'est un décorateur simple qui renvoie la fonction originale inchangée."),
-    ("The @decorator syntax applies the decorator to the function definition.",
-     "La syntaxe @decorator applique le décorateur à la définition de la fonction."),
-    ("This is essentially a no-op decorator, useful for testing or as a template.",
-     "C'est essentiellement un décorateur sans effet, utile pour les tests ou comme modèle."),
-    ("Simple decorator that does nothing:",
-     "Décorateur simple qui ne fait rien :"),
-    ("returns function unchanged", "renvoie la fonction inchangée"),
-    ("applies decorator to function below", "applique le décorateur à la fonction ci-dessous"),
-    ("Decorated function has same type and behavior",
-     "La fonction décorée a le même type et comportement"),
-    ("Useful as template or for conditional decoration",
-     "Utile comme modèle ou pour une décoration conditionnelle"),
-    ("decorator(func) called with function object",
-     "decorator(func) appelé avec l'objet fonction"),
-    ("decorator returns func unchanged", "le décorateur renvoie func inchangée"),
-    ("No change in behavior or type", "Aucun changement de comportement ou de type"),
-    ("Template for more complex decorators", "Modèle pour des décorateurs plus complexes"),
-    ("Debugging decorator framework", "Cadre de décorateurs de débogage"),
-    ("Testing decorator application", "Test d'application de décorateur"),
-    ("This decorator replaces the original function with a wrapper function.",
-     "Ce décorateur remplace la fonction originale par une fonction wrapper."),
-    ("The wrapper function calls the original function and returns its result.",
-     "La fonction wrapper appelle la fonction originale et renvoie son résultat."),
-    ("Function wrapping decorator:", "Décorateur d'encapsulation de fonction :"),
-    ("@decorator replaces func with wrapper", "@decorator remplace func par wrapper"),
-    ("wrapper() calls original func() and returns result",
-     "wrapper() appelle la fonction originale func() et renvoie le résultat"),
-    ("func() now calls wrapper, which calls original",
-     "func() appelle maintenant wrapper, qui appelle l'original"),
-    ("Result is same as original function", "Le résultat est identique à la fonction originale"),
-    ("Add behavior without changing function code", "Ajouter du comportement sans modifier le code de la fonction"),
-    ("Cross-cutting concerns", "Préoccupations transversales"),
-    ("Reusable wrapper logic", "Logique wrapper réutilisable"),
-    ("This decorator creates a wrapper that accepts any arguments (*args, **kwargs) and passes them to the original function.",
-     "Ce décorateur crée un wrapper qui accepte n'importe quels arguments (*args, **kwargs) et les passe à la fonction originale."),
-    ("Generic wrapper with preserved arguments:", "Wrapper générique avec arguments préservés :"),
-    ("*args collects positional arguments into tuple",
-     "*args collecte les arguments positionnels en tuple"),
-    ("**kwargs collects keyword arguments into dict",
-     "**kwargs collecte les arguments nommés en dict"),
-    ("All arguments passed to original function unchanged",
-     "Tous les arguments sont passés à la fonction originale sans modification"),
-    ("Works with any function signature", "Fonctionne avec n'importe quelle signature de fonction"),
-    ("@wraps is a decorator from functools that copies metadata from the original function to the wrapper function.",
-     "@wraps est un décorateur de functools qui copie les métadonnées de la fonction originale vers la fonction wrapper."),
-    ("Without @wraps, the wrapper function would have its own __name__, __doc__, etc.",
-     "Sans @wraps, la fonction wrapper aurait son propre __name__, __doc__, etc."),
-    ("@wraps preserves function metadata:", "@wraps préserve les métadonnées de la fonction :"),
-    ("@wraps(func) copies __name__, __doc__, __module__, etc.",
-     "@wraps(func) copie __name__, __doc__, __module__, etc."),
-    ("Wrapper appears as original function to introspection",
-     "Le wrapper apparaît comme la fonction originale à l'introspection"),
-    ("Essential for decorators to not break function identity",
-     "Essentiel pour que les décorateurs ne cassent pas l'identité de la fonction"),
-    ("Prevents __name__ from being 'wrapper'", "Empêche __name__ d'être 'wrapper'"),
-    ("Maintains documentation and debugging info", "Maintient la documentation et les infos de débogage"),
-    ("Preserves function identity", "Préserve l'identité de la fonction"),
-    ("Better debugging (stack traces show correct names)", "Meilleur débogage (les traces affichent les bons noms)"),
-    ("Documentation tools work correctly", "Les outils de documentation fonctionnent correctement"),
-    ("Essential for professional decorators", "Essentiel pour les décorateurs professionnels"),
-    ("This is a decorator factory - a function that takes arguments and returns a decorator.",
-     "C'est une usine à décorateurs — une fonction qui prend des arguments et renvoie un décorateur."),
-    ("Decorator factory pattern:", "Modèle usine à décorateurs :"),
-    ("Allows parameterized decorators", "Permet des décorateurs paramétrables"),
-    ("Configurable decorators", "Décorateurs configurables"),
-    ("Reusable with different parameters", "Réutilisable avec différents paramètres"),
-    ("This is a class-based decorator that uses the __call__ method.",
-     "C'est un décorateur basé sur une classe qui utilise la méthode __call__."),
-    ("Class-based decorator with __call__:", "Décorateur basé sur une classe avec __call__ :"),
-    ("@Decorator creates Decorator instance with function",
-     "@Decorator crée une instance Decorator avec la fonction"),
-    ("func() calls instance.__call__()", "func() appelle instance.__call__()"),
-    ("Can store state between calls", "Peut stocker l'état entre les appels"),
-    ("More complex logic than function decorators", "Logique plus complexe que les décorateurs de fonction"),
-    ("@staticmethod is a built-in Python decorator that creates a static method.",
-     "@staticmethod est un décorateur Python intégré qui crée une méthode statique."),
-    ("Static methods don't receive self or cls as the first argument",
-     "Les méthodes statiques ne reçoivent pas self ou cls comme premier argument"),
-    ("@staticmethod creates static method:", "@staticmethod crée une méthode statique :"),
-    ("@staticmethod marks method as static", "@staticmethod marque la méthode comme statique"),
-    ("No self or cls parameter required", "Pas de paramètre self ou cls requis"),
-    ("Can be called on class: Class.method()", "Peut être appelée sur la classe : Class.method()"),
-    ("Cannot access instance (self) or class (cls) attributes",
-     "Ne peut pas accéder aux attributs d'instance (self) ou de classe (cls)"),
-    ("Utility functions related to class", "Fonctions utilitaires liées à la classe"),
-    ("Utility functions in classes", "Fonctions utilitaires dans les classes"),
-    ("No instance required", "Pas d'instance requise"),
-    ("Group related functions in class", "Grouper les fonctions liées dans une classe"),
-    ("@classmethod is a built-in Python decorator that creates a class method.",
-     "@classmethod est un décorateur Python intégré qui crée une méthode de classe."),
-    ("Class methods receive the class (cls) as the first argument instead of an instance (self).",
-     "Les méthodes de classe reçoivent la classe (cls) comme premier argument au lieu d'une instance (self)."),
-    ("@classmethod creates class method:", "@classmethod crée une méthode de classe :"),
-    ("@classmethod marks method as class method", "@classmethod marque la méthode comme méthode de classe"),
-    ("Receives cls instead of self", "Reçoit cls au lieu de self"),
-    ("Can access class attributes and methods", "Peut accéder aux attributs et méthodes de classe"),
-    ("Can create new instances of class", "Peut créer de nouvelles instances de la classe"),
-    ("Factory methods for object creation", "Méthodes factory pour la création d'objets"),
-    ("Alternative constructors", "Constructeurs alternatifs"),
-    ("Class-level operations", "Opérations au niveau de la classe"),
-    ("Access to class state", "Accès à l'état de la classe"),
-    ("@property is a built-in Python decorator that creates a property",
-     "@property est un décorateur Python intégré qui crée une propriété"),
-    ("Properties allow controlled access to instance attributes",
-     "Les propriétés permettent un accès contrôlé aux attributs d'instance"),
-    ("@property creates property (getter):", "@property crée une propriété (getter) :"),
-    ("@property marks method as property", "@property marque la méthode comme propriété"),
-    ("Method becomes attribute-like access", "La méthode devient un accès de type attribut"),
-    ("Enables computed properties", "Permet les propriétés calculées"),
-    ("Multiple decorators can be stacked on a single function.",
-     "Plusieurs décorateurs peuvent être empilés sur une seule fonction."),
-    ("They are applied from bottom to top", "Ils sont appliqués de bas en haut"),
-    ("Multiple decorators stack bottom-to-top:", "Les décorateurs s'empilent de bas en haut :"),
-    ("Decorators applied bottom to top", "Décorateurs appliqués de bas en haut"),
-    ("Rightmost decorator is outermost", "Le décorateur le plus à droite est le plus externe"),
-    ("Combine multiple behaviors", "Combiner plusieurs comportements"),
-    ("Modular decorator design", "Conception modulaire des décorateurs"),
-    ("Clean separation of concerns", "Séparation claire des responsabilités"),
-    ("The Singleton pattern ensures only one instance of a class exists.",
-     "Le patron Singleton garantit qu'il n'existe qu'une seule instance d'une classe."),
-    ("Singleton pattern implementation:", "Implémentation du patron Singleton :"),
-    ("class variable to store single instance", "variable de classe pour stocker l'instance unique"),
-    ("controls instance creation", "contrôle la création d'instance"),
-    ("creates instance only once", "crée l'instance une seule fois"),
-    ("returns same instance always", "renvoie toujours la même instance"),
-    ("Ensures single instance", "Garantit une instance unique"),
-    ("Global access point", "Point d'accès global"),
-    ("Controlled instantiation", "Instanciation contrôlée"),
-    ("The Factory pattern provides a way to create objects without specifying the exact class.",
-     "Le patron Factory fournit un moyen de créer des objets sans spécifier la classe exacte."),
-    ("Factory pattern implementation:", "Implémentation du patron Factory :"),
-    ("static factory method", "méthode factory statique"),
-    ("instantiates the passed type", "instancie le type passé"),
-    ("Centralized object creation", "Création d'objets centralisée"),
-    ("Decouples client from specific classes", "Découple le client des classes spécifiques"),
-    ("The Observer pattern allows objects to be notified when another object changes.",
-     "Le patron Observer permet aux objets d'être notifiés quand un autre objet change."),
-    ("Observer pattern structure:", "Structure du patron Observer :"),
-    ("list to store observers", "liste pour stocker les observateurs"),
-    ("adds observer to list", "ajoute l'observateur à la liste"),
-    ("iterates through observers", "itère sur les observateurs"),
-    ("calls update on each", "appelle update sur chacun"),
-    ("Loose coupling between objects", "Couplage faible entre les objets"),
-    ("Automatic notifications", "Notifications automatiques"),
-    ("Event-driven architecture", "Architecture orientée événements"),
-    ("The Strategy pattern defines a family of algorithms and makes them interchangeable.",
-     "Le patron Strategy définit une famille d'algorithmes et les rend interchangeables."),
-    ("Strategy pattern structure:", "Structure du patron Strategy :"),
-    ("defines strategy interface", "définit l'interface de stratégie"),
-    ("Interchangeable algorithms", "Algorithmes interchangeables"),
-    ("Runtime strategy selection", "Sélection de stratégie à l'exécution"),
-    ("The Adapter pattern allows classes with incompatible interfaces to work together.",
-     "Le patron Adapter permet à des classes avec des interfaces incompatibles de travailler ensemble."),
-    ("Adapter pattern structure:", "Structure du patron Adapter :"),
-    ("adapts incompatible interfaces", "adapte des interfaces incompatibles"),
-    ("stores wrapped object", "stocke l'objet encapsulé"),
-    ("provides expected interface", "fournit l'interface attendue"),
-    ("calls wrapped object's method", "appelle la méthode de l'objet encapsulé"),
-    ("Interface compatibility", "Compatibilité d'interfaces"),
-    ("The Builder pattern separates the construction of complex objects from their representation.",
-     "Le patron Builder sépare la construction d'objets complexes de leur représentation."),
-    ("Builder pattern structure:", "Structure du patron Builder :"),
-    ("constructs complex objects", "construit des objets complexes"),
-    ("accumulates object parts", "accumule les parties de l'objet"),
-    ("adds part and returns self for chaining", "ajoute une partie et renvoie self pour enchaîner"),
-    ("enables method chaining", "permet l'enchaînement de méthodes"),
-    ("assembles final object from parts", "assemble l'objet final à partir des parties"),
-    ("Step-by-step construction", "Construction étape par étape"),
-    ("The Prototype pattern creates new objects by copying existing ones.",
-     "Le patron Prototype crée de nouveaux objets en copiant les existants."),
-    ("Prototype pattern structure:", "Structure du patron Prototype :"),
-    ("creates copy of self", "crée une copie de self"),
-    ("creates new instance of same type", "crée une nouvelle instance du même type"),
-    ("The Facade pattern provides a simplified interface to a complex system.",
-     "Le patron Facade fournit une interface simplifiée à un système complexe."),
-    ("Facade pattern structure:", "Structure du patron Facade :"),
-    ("provides simplified interface", "fournit une interface simplifiée"),
-    ("single method for complex operations", "méthode unique pour les opérations complexes"),
-    ("Simplified interface to complex systems", "Interface simplifiée pour les systèmes complexes"),
-    ("The Command pattern encapsulates requests as objects",
-     "Le patron Command encapsule les requêtes comme objets"),
-    ("Command pattern structure:", "Structure du patron Command :"),
-    ("defines command interface", "définit l'interface de commande"),
-    ("abstract execute method", "méthode execute abstraite"),
-    ("Decouples caller from operation", "Découple l'appelant de l'opération"),
-    ("The Composite pattern allows treating individual objects and compositions of objects uniformly.",
-     "Le patron Composite permet de traiter uniformément les objets individuels et les compositions d'objets."),
-    ("Composite pattern structure:", "Structure du patron Composite :"),
-    ("defines composite class", "définit la classe composite"),
-    ("stores child components", "stocke les composants enfants"),
-    ("adds child to composition", "ajoute un enfant à la composition"),
-    ("performs operation on self and children", "effectue l'opération sur self et les enfants"),
-    ("Uniform treatment of objects and compositions", "Traitement uniforme des objets et compositions"),
-    ("The metaclass parameter allows you to specify a custom metaclass for a class.",
-     "Le paramètre metaclass permet de spécifier une métaclasse personnalisée pour une classe."),
-    ("Custom metaclass:", "Métaclasse personnalisée :"),
-    ("A metaclass's __new__ method controls class creation.",
-     "La méthode __new__ d'une métaclasse contrôle la création de la classe."),
-    ("Metaclass __new__:", "Métaclasse __new__ :"),
-    ("A metaclass's __init__ method can add attributes to the class after it's created.",
-     "La méthode __init__ d'une métaclasse peut ajouter des attributs à la classe après sa création."),
-    ("Metaclass __init__:", "Métaclasse __init__ :"),
-    ("A metaclass's __call__ method controls instance creation",
-     "La méthode __call__ d'une métaclasse contrôle la création d'instance"),
-    ("Metaclass __call__:", "Métaclasse __call__ :"),
-    ("The __slots__ attribute restricts which attributes can be set on instances.",
-     "L'attribut __slots__ restreint quels attributs peuvent être définis sur les instances."),
-    ("__slots__ restriction:", "Restriction __slots__ :"),
-    ("Using __slots__ removes the __dict__ attribute from instances, saving memory.",
-     "Utiliser __slots__ supprime l'attribut __dict__ des instances, économisant la mémoire."),
-    ("__slots__ removes __dict__:", "__slots__ supprime __dict__ :"),
-    ("The __getattribute__ method intercepts all attribute access",
-     "La méthode __getattribute__ intercepte tout accès aux attributs"),
-    ("__getattribute__ intercepts all access:", "__getattribute__ intercepte tout accès :"),
-    ("The __getattr__ method is called only when an attribute is not found",
-     "La méthode __getattr__ n'est appelée que quand un attribut n'est pas trouvé"),
-    ("__getattr__ fallback:", "Repli __getattr__ :"),
-    ("The __setattr__ method intercepts all attribute assignment",
-     "La méthode __setattr__ intercepte toute assignation d'attribut"),
-    ("__setattr__ intercepts assignment:", "__setattr__ intercepte l'assignation :"),
-    ("PEP 8 is Python's official style guide.",
-     "PEP 8 est le guide de style officiel de Python."),
-    ("Type hints allow you to annotate function parameters and return types.",
-     "Les annotations de type permettent d'annoter les paramètres et types de retour des fonctions."),
-    ("Optional type hint", "Annotation de type Optional"),
-    ("Union type hint", "Annotation de type Union"),
-    ("Callable type hint", "Annotation de type Callable"),
-    ("The re module provides regular expression operations.",
-     "Le module re fournit les opérations sur les expressions régulières."),
-    ("re.match() matches at the beginning of the string.",
-     "re.match() fait correspondre au début de la chaîne."),
-    ("re.search() searches anywhere in the string.",
-     "re.search() recherche n'importe où dans la chaîne."),
-    ("re.findall() returns all non-overlapping matches.",
-     "re.findall() renvoie toutes les correspondances non chevauchantes."),
-    ("Parentheses create capturing groups.", "Les parenthèses créent des groupes de capture."),
-]
-
-def translate_text(text):
+def translate_sections(text):
+    """Convert English section headers to French, keep structure."""
+    if not text or not isinstance(text, str):
+        return text
     result = text
-    for en, fr in PHRASES:
-        result = result.replace(en, fr)
     for en, fr in HEADERS.items():
-        result = result.replace(en, fr)
+        # Match "Key concepts:" or "Key concepts:" at line start
+        result = re.sub(rf"\b{re.escape(en)}\s*:", f"{fr} :", result, flags=re.IGNORECASE)
+        result = re.sub(rf"\n{re.escape(en)}\s*:", f"\n{fr} :", result, flags=re.IGNORECASE)
     return result
 
-# Complete French short explanations for IDs 2751-2850
-SHORT_FR = {
-    2751: "Décorateur qui renvoie la fonction inchangée.",
-    2752: "Le décorateur encapsule la fonction dans une autre fonction.",
-    2753: "Le wrapper du décorateur préserve les arguments de la fonction.",
-    2754: "@wraps préserve les métadonnées originales de la fonction.",
-    2755: "Usine à décorateurs : fonction qui renvoie un décorateur.",
-    2756: "Décorateur basé sur une classe utilisant __call__.",
-    2757: "@staticmethod est un décorateur intégré.",
-    2758: "@classmethod est un décorateur intégré.",
-    2759: "@property est un décorateur intégré.",
-    2760: "Plusieurs décorateurs appliqués de bas en haut.",
-    2761: "Patron Singleton : __new__ garantit une seule instance.",
-    2762: "Patron Factory : crée des objets sans spécifier la classe exacte.",
-    2763: "Patron Observer : le sujet notifie les observateurs des changements.",
-    2764: "Patron Strategy : algorithmes interchangeables.",
-    2765: "Patron Adapter : adapte l'interface d'une classe à une autre.",
-    2766: "Patron Builder : construit des objets complexes étape par étape.",
-    2767: "Patron Prototype : crée des objets par clonage.",
-    2768: "Patron Facade : fournit une interface simplifiée à un sous-système complexe.",
-    2769: "Patron Command : encapsule la requête comme objet.",
-    2770: "Patron Composite : traite objets individuels et composites uniformément.",
-    2771: "Le paramètre metaclass définit la métaclasse de la classe.",
-    2772: "Le __new__ de la métaclasse contrôle la création de la classe.",
-    2773: "Le __init__ de la métaclasse peut ajouter des attributs à la classe.",
-    2774: "Le __call__ de la métaclasse contrôle la création d'instance.",
-    2775: "La métaclasse peut implémenter le patron Singleton.",
-    2776: "__slots__ restreint les attributs d'instance.",
-    2777: "__slots__ supprime __dict__ (économie de mémoire).",
-    2778: "__getattribute__ intercepte tout accès aux attributs.",
-    2779: "__getattr__ n'est appelé que si l'attribut n'est pas trouvé.",
-    2780: "__setattr__ intercepte toute assignation d'attribut.",
-    2781: "PEP 8 est le guide de style Python.",
-    2782: "Annotations de type pour paramètres et retour.",
-    2783: "Annotations de type avec génériques (List, Dict).",
-    2784: "Annotations de type avec valeurs par défaut.",
-    2785: "Référence anticipée (chaîne) pour les types.",
-    2786: "Annotation de type Optional.",
-    2787: "Annotation de type Union.",
-    2788: "Annotation de type Callable.",
-    2789: "Instance de dataclass avec @dataclass.",
-    2790: "collections.Counter compte les occurrences.",
-    2791: "collections.defaultdict fournit une valeur par défaut pour les clés absentes.",
-    2792: "collections.deque est une file à double extrémité.",
-    2793: "itertools.chain enchaîne des itérables.",
-    2794: "itertools.cycle crée un itérateur infini.",
-    2795: "open() avec 'with' gère la fermeture automatique.",
-    2796: "Le module json sérialise et désérialise du JSON.",
-    2797: "json.dumps() convertit un objet Python en chaîne JSON.",
-    2798: "json.loads() convertit une chaîne JSON en objet Python.",
-    2799: "datetime.datetime représente date et heure.",
-    2800: "datetime.timedelta représente une durée.",
-    2801: "La métaclasse est la classe d'une classe.",
-    2802: "__slots__ empêche la création de __dict__ pour économiser la mémoire.",
-    2803: "__annotations__ stocke les annotations de type comme dictionnaire.",
-    2804: "asyncio.run() exécute une fonction async et renvoie le résultat.",
-    2805: "Le mode 'r' ouvre un fichier en lecture (mode par défaut de open()).",
-    2806: "Le mode 'w' ouvre un fichier en écriture, le crée s'il n'existe pas.",
-    2807: "Le mode 'a' ouvre un fichier en ajout — les données sont écrites à la fin.",
-    2808: "Le mode 'x' est création exclusive — crée un nouveau fichier ou lève FileExistsError.",
-    2809: "Le mode 'rb' ouvre un fichier en lecture binaire, renvoyant des bytes.",
-    2810: "f.read() lit tout le fichier et renvoie le contenu comme une chaîne.",
-    2811: "readline() lit une seule ligne du fichier, incluant le saut de ligne.",
-    2812: "readlines() renvoie une liste de toutes les lignes du fichier.",
-    2813: "write() renvoie le nombre de caractères (ou bytes en mode binaire) écrits.",
-    2814: "writelines() écrit chaque chaîne telle quelle — n'ajoute pas de saut de ligne.",
-    2815: "Le bloc with assure que le fichier est correctement fermé à la sortie.",
-    2816: "seek(0) repositionne le pointeur de fichier au début.",
-    2817: "tell() renvoie la position actuelle du pointeur de fichier (entier).",
-    2818: "f.closed est un attribut booléen True si le fichier a été fermé.",
-    2819: "Spécifier encoding assure UTF-8 pour la lecture/écriture.",
-    2820: "Le mode par défaut de open() est 'r' (lecture en mode texte).",
-    2821: "Les objets fichier sont itérables — on peut les parcourir avec for.",
-    2822: "truncate() tronque la taille du fichier. Sans argument, tronque à la position actuelle.",
-    2823: "date.today() renvoie la date du jour comme objet datetime.date.",
-    2824: "datetime.now() renvoie la date et l'heure locales courantes.",
-    2825: "L'attribut .year d'un objet date renvoie l'année.",
-    2826: "L'attribut .month d'un objet date renvoie le mois (1-12).",
-    2827: "L'attribut .day d'un objet date renvoie le jour du mois.",
-    2828: "L'attribut .hour d'un objet datetime renvoie l'heure (0-23).",
-    2829: "L'attribut .minute d'un objet datetime renvoie les minutes.",
-    2830: "L'attribut .days d'un timedelta renvoie le nombre de jours.",
-    2831: "Ajouter un timedelta de 10 jours au 15 janvier donne le 25 janvier.",
-    2832: "Soustraire deux dates donne un timedelta ; .days renvoie la différence.",
-    2833: "strftime(\"%Y-%m-%d\") formate une datetime en AAAA-MM-JJ.",
-    2834: "strftime(\"%d/%m/%Y\") formate en JJ/MM/AAAA.",
-    2835: "strptime analyse une chaîne de date en objet datetime ; .day renvoie le jour.",
-    2836: "weekday() renvoie le jour de la semaine (0=lundi, 6=dimanche).",
-    2837: "isoformat() renvoie la date en chaîne ISO 8601 : AAAA-MM-JJ.",
-    2838: "25 heures = 1 jour + 1 heure. .days renvoie uniquement les jours entiers.",
-    2839: "25 heures = 1 jour + 1 heure. .seconds renvoie le reste en secondes.",
-    2840: "re.match vérifie au début de la chaîne. \\d+ correspond à un ou plusieurs chiffres.",
-    2841: "re.search parcourt toute la chaîne et trouve la première correspondance.",
-    2842: "re.match() vérifie seulement au début ; re.search() recherche partout.",
-    2843: "re.findall renvoie la liste de toutes les correspondances non chevauchantes.",
-    2844: "re.sub remplace chaque correspondance par la chaîne de remplacement.",
-    2845: "re.split découpe la chaîne à chaque correspondance du motif.",
-    2846: "Le motif ^\\d+$ vérifie si toute la chaîne consiste en un ou plusieurs chiffres.",
-    2847: "\"123a5\" contient la lettre 'a', donc ne correspond pas au motif tout-chiffres.",
-    2848: "[aeiou] correspond à une voyelle. Dans \"hello world\" : e, o, o.",
-    2849: "\\b est une frontière de mot, \\w+ correspond à un ou plusieurs caractères de mot.",
-    2850: "Les parenthèses créent des groupes de capture. Groupe 1 capture \"user\".",
-}
+def extract_and_translate(de_text):
+    """Extract bullet points and translate section headers. Body stays English for now - 
+    we'll do proper translation. This script creates the structure."""
+    if not de_text:
+        return ""
+    # Just replace headers
+    out = translate_sections(de_text)
+    # Replace common English phrases with French
+    phrases = [
+        ("returns ", "renvoie "),
+        ("Returns ", "Renvoie "),
+        ("returns:", "renvoie :"),
+        ("because ", "car "),
+        ("Because ", "Car "),
+        ("The ", "Le/La/Les "),  # Skip - too broad
+    ]
+    return out
 
 def main():
-    with open('scripts/extract_2751_2850.json') as f:
+    with open("scripts/extract_fr_2726_2850.json", encoding="utf-8") as f:
         data = json.load(f)
     
-    by_id = {str(q['id']): q for q in data}
+    # Filter 2751-2850
+    entries = [e for e in data if 2751 <= e["id"] <= 2850]
     
-    short_lines = []
-    detailed_lines = []
+    lines = []
+    for e in entries:
+        lid = e["id"]
+        de = e.get("de", "")
+        # For now use a simplified translation: structure + key terms
+        fr = translate_sections(de)
+        # Escape backticks and backslashes for TS template literal
+        fr_escaped = fr.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+        # Split long strings if needed - TS allows multiline
+        lines.append(f"  {lid}: `{fr_escaped}`,")
     
-    for i in range(2751, 2851):
-        q = by_id.get(str(i))
-        if not q:
-            print(f"Warning: missing {i}", file=sys.stderr)
-            continue
-        e_fr = SHORT_FR.get(i) or translate_text(q['e'])
-        de_fr = translate_text(q['de'])
-        short_lines.append(f'  {i}: "{escape_ts(e_fr)}",')
-        detailed_lines.append(f"  {i}: `{escape_ts(de_fr)}`,")
-    
-    if len(sys.argv) > 1 and sys.argv[1] == '--file':
-        with open('scripts/fr_short_2751_2850.ts', 'w') as f:
-            f.write("// Paste into SHORT_EXPLANATIONS_FR in shortExplanationsTranslations.ts\n\n")
-            f.write("\n".join(short_lines))
-        with open('scripts/fr_detailed_2751_2850.ts', 'w') as f:
-            f.write("// Paste into DETAILED_EXPLANATIONS_FR in detailedExplanationsTranslations.ts\n\n")
-            f.write("\n".join(detailed_lines))
-        print(f"Written fr_short_2751_2850.ts and fr_detailed_2751_2850.ts ({len(short_lines)} entries each)")
-    else:
-        print("=== SHORT ===")
-        print("\n".join(short_lines))
-        print("\n=== DETAILED ===")
-        print("\n".join(detailed_lines[:5]), "...")  # sample
+    with open("scripts/fr_2751_2850_output.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print(f"Generated {len(lines)} entries to scripts/fr_2751_2850_output.txt")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
