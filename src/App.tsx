@@ -276,7 +276,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-indigo-500/30 pb-28">
       <nav className="pt-[env(safe-area-inset-top)] px-2 pb-1.5 flex items-center justify-between border-b border-white/5 sticky top-0 z-50 glass">
-        <div className="flex items-center gap-4">
+        <div className="flex w-full items-center gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setView('hub')}>
             <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
               <i className="fas fa-terminal text-white text-xs"></i>
@@ -286,7 +286,7 @@ const App: React.FC = () => {
 
           <div className="h-8 w-[1px] bg-white/10 mx-2 hidden sm:block"></div>
 
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2">
             <div className="flex items-center gap-3 bg-white/5 px-3 py-1.5 rounded-2xl border border-white/10">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm">
                 <i className={`fas ${getPersonaIcon(currentPersona)} text-white`}></i>
@@ -303,7 +303,7 @@ const App: React.FC = () => {
             </div>
             <button
               onClick={() => setShowSettingsMenu(!showSettingsMenu)}
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 transition-all"
+              className="ml-4 w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 transition-all"
               title={t('settings.settings')}
             >
               <i className="fas fa-gear"></i>

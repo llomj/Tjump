@@ -259,7 +259,7 @@ export const translations = {
       continueMutation: "CONTINUER LA MUTATION",
       globalProgress: "Progression Globale",
       mastery: "Maîtrise",
-      mutationsRemaining: "mutations restantes pour la prochaine évolution.",
+      mutationsRemaining: "{count} mutations restantes pour la prochaine évolution.",
       absorbText: "Absorbez 15 nouvelles structures logiques pour renforcer votre ADN Python.",
       conceptsText: "concepts uniques à travers l'océan.",
       // Random mode
@@ -284,6 +284,8 @@ export const translations = {
       showExplanation: "Cliquez pour l'explication détaillée",
       hideExplanation: "Cliquez pour réduire",
       next: "SUIVANT",
+      finishEvolution: "TERMINER L'ÉVOLUTION",
+      continueMutation: "CONTINUER LA MUTATION",
       correct: "Correct",
       incorrect: "Incorrect",
       yourAnswer: "Votre Réponse",
