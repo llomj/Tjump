@@ -209,26 +209,29 @@ Before moving to the next level:
 - Add function to format code snippets with proper indentation (newlines and spaces)
 - Detect and format code in question strings for display
 
-## ✅ Fixed: Whitespace-Only Option Ambiguity (IDs like 96/97/98 and similar)
+## ✅ Fixed: Whitespace-Sensitive Option Ambiguity (Global)
 
-**Problem**: Some multiple-choice options differ only by leading/trailing/multiple spaces, which can look identical in the UI because normal HTML text rendering collapses or hides spacing differences.
+**Problem**: Some options differ by invisible spacing/padding (leading spaces, trailing spaces, internal spacing, tabs, or other invisible formatting), so users can perceive choices as identical.
 
-**User-impact examples**:
-- Questions where options contain padded strings can appear visually identical.
-- This can make users think there are duplicate options when they are actually different by whitespace.
+**Confirmed affected IDs from current 3000-question source scan**:  
+`22, 94, 95, 96, 97, 98, 101, 102, 103, 123, 125, 133, 139, 146, 174, 185, 186, 187, 192, 207, 355, 595, 1009, 1042, 1108, 1164, 1325, 1490, 1641, 2055, 2845, 2871, 2879, 2901`  
+**Total**: `34` questions.
 
-**Implemented fix (global, not ID-specific)**:
-- In `QuizView`, option rendering now detects whitespace-sensitive answer sets.
-- If whitespace-sensitive options are detected, the UI switches to a whitespace-visualized display:
+**Implemented fix (global rendering method)**:
+- In `QuizView`, options now trigger whitespace-visual mode when any of the following is true:
+1. Two or more options collapse to the same value after whitespace collapsing + trim.
+2. Two or more options become the same after removing all whitespace and invisible format characters.
+3. Any option contains significant whitespace (`leading/trailing`, repeated spaces, tabs, or newlines).
+
+- When triggered, whitespace is rendered visibly so choices are distinguishable:
   - space → `·`
   - tab → `⇥`
-  - newline → `↵`
-- This ensures options that differ by padding/spacing are always visually distinct.
+  - newline/carriage return → `↵`
+  - non-breaking space → `⍽`
+  - invisible format chars (Unicode `Cf`) → `◌`
 
-**Detection rule**:
-- Trigger visualization when:
-  1. Two or more options normalize to the same value after whitespace collapsing and trimming, **or**
-  2. Any option has significant whitespace (`leading/trailing`, `double spaces`, tab, newline).
+- UI also shows a hint in the options block:  
+  `Spaces are shown as · to make padded options distinct.`
 
 ## 🔴 URGENT CRITICAL BUG: Vague "What is?" Questions
 

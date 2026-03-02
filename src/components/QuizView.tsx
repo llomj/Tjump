@@ -617,24 +617,55 @@ const splitQuestion = (text: string, language: string = 'en') => {
 
 const shouldVisualizeOptionWhitespace = (options: string[]): boolean => {
   const normalized = new Map<string, Set<string>>();
+  const noInvisible = new Map<string, Set<string>>();
+  const invisibleFormatCharRegex = /\p{Cf}/u;
 
   for (const option of options) {
-    const key = option.replace(/\s+/g, ' ').trim();
-    if (!normalized.has(key)) normalized.set(key, new Set<string>());
-    normalized.get(key)!.add(option);
+    const collapsedKey = option.replace(/\s+/g, ' ').trim();
+    if (!normalized.has(collapsedKey)) normalized.set(collapsedKey, new Set<string>());
+    normalized.get(collapsedKey)!.add(option);
+
+    let stripped = '';
+    for (const char of option) {
+      if (/\s/u.test(char) || invisibleFormatCharRegex.test(char)) continue;
+      stripped += char;
+    }
+    if (!noInvisible.has(stripped)) noInvisible.set(stripped, new Set<string>());
+    noInvisible.get(stripped)!.add(option);
   }
 
   const hasWhitespaceSensitiveVariants = Array.from(normalized.values()).some(variants => variants.size > 1);
+  const hasInvisibleOnlyDifferences = Array.from(noInvisible.values()).some(variants => variants.size > 1);
   const hasSignificantWhitespace = options.some(option => /^\s|\s$| {2,}|\t|\n/.test(option));
 
-  return hasWhitespaceSensitiveVariants || hasSignificantWhitespace;
+  return hasWhitespaceSensitiveVariants || hasInvisibleOnlyDifferences || hasSignificantWhitespace;
 };
 
 const visualizeWhitespace = (text: string): string => {
-  return text
-    .replace(/ /g, '·')
-    .replace(/\t/g, '⇥')
-    .replace(/\n/g, '↵\n');
+  const invisibleFormatCharRegex = /\p{Cf}/u;
+  let result = '';
+
+  for (const char of text) {
+    if (char === ' ') {
+      result += '·';
+    } else if (char === '\t') {
+      result += '⇥';
+    } else if (char === '\n') {
+      result += '↵\n';
+    } else if (char === '\r') {
+      result += '↵';
+    } else if (char === '\u00A0') {
+      result += '⍽';
+    } else if (invisibleFormatCharRegex.test(char)) {
+      result += '◌';
+    } else if (/\s/u.test(char)) {
+      result += '·';
+    } else {
+      result += char;
+    }
+  }
+
+  return result;
 };
 
 interface QuizViewProps {
@@ -956,6 +987,11 @@ export const QuizView: React.FC<QuizViewProps> = ({
         </div>
 
         <div className="grid gap-3">
+          {showWhitespaceHints && (
+            <div className="text-[10px] text-slate-400 font-mono px-1">
+              {t('quiz.whitespaceHint')}
+            </div>
+          )}
           {currentQuestion.options.map((option, idx) => {
             let colorClass = "bg-slate-800/50 border-white/5 hover:border-indigo-500/50 hover:bg-slate-800";
             if (isAnswered) {

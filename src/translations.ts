@@ -55,6 +55,7 @@ export const translations = {
       incorrect: "Incorrect",
       yourAnswer: "Your Answer",
       correctAnswer: "Correct Answer",
+      whitespaceHint: "Spaces are shown as · to make padded options distinct.",
     },
 
     // Code Versatility panel (Level 9+)
@@ -292,6 +293,7 @@ export const translations = {
       incorrect: "Incorrect",
       yourAnswer: "Votre Réponse",
       correctAnswer: "Bonne Réponse",
+      whitespaceHint: "Les espaces sont affichés en · pour distinguer les options avec padding.",
     },
 
     // Code Versatility panel (Level 9+)
