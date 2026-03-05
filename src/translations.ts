@@ -8,6 +8,8 @@ export const translations = {
       glossary: "Glossary",
       learningLog: "Learning Log",
       operations: "Operations & Math",
+      methods: "Methods",
+      flow: "Flow",
     },
     
     // Evolution Hub
@@ -246,6 +248,8 @@ export const translations = {
       glossary: "Glossaire",
       learningLog: "Journal d'apprentissage",
       operations: "Opérations et Mathématiques",
+      methods: "Méthodes",
+      flow: "Flux",
     },
     
     // Evolution Hub

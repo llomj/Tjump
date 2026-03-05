@@ -33,6 +33,7 @@ export interface QuestionAttempt {
 }
 
 export enum PersonaStage {
+  EGG = "Egg",
   PLANKTON = "Plankton",
   SHRIMP = "Shrimp",
   CRAB = "Crab",

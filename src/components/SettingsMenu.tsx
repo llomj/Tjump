@@ -14,6 +14,8 @@ interface SettingsMenuProps {
   onShowIdLog?: () => void;
   onShowLearningLog?: () => void;
   onShowOperations?: () => void;
+  onShowMethods?: () => void;
+  onShowFlow?: () => void;
   onShowLevelSelector?: () => void;
   onToggleLanguage?: () => void;
   onResetApp?: () => void;
@@ -31,6 +33,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onShowIdLog,
   onShowLearningLog,
   onShowOperations,
+  onShowMethods,
+  onShowFlow,
   onShowLevelSelector,
   onToggleLanguage,
   onResetApp
@@ -124,6 +128,26 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
       label: t('app.operations'),
       onClick: () => {
         onShowOperations();
+        onClose();
+      }
+    });
+  }
+  if (onShowMethods) {
+    menuItems.push({
+      icon: 'fa-code',
+      label: t('app.methods'),
+      onClick: () => {
+        onShowMethods();
+        onClose();
+      }
+    });
+  }
+  if (onShowFlow) {
+    menuItems.push({
+      icon: 'fa-route',
+      label: t('app.flow'),
+      onClick: () => {
+        onShowFlow();
         onClose();
       }
     });

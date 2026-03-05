@@ -30,8 +30,14 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
     }
   };
 
+  // Font Awesome 6: many animal icons are in Regular (far), not Solid (fas). Use correct style so icons render.
+  const getPersonaIconStyle = (persona: PersonaStage): 'fas' | 'far' => {
+    const regularOnly: PersonaStage[] = [PersonaStage.SHRIMP, PersonaStage.CRAB, PersonaStage.OCTOPUS, PersonaStage.SEAL, PersonaStage.DOLPHIN, PersonaStage.SHARK, PersonaStage.WHALE];
+    return regularOnly.includes(persona) ? 'far' : 'fas';
+  };
   const getPersonaIcon = (persona: PersonaStage): string => {
     const personaIcons: Record<PersonaStage, string> = {
+      [PersonaStage.EGG]: "fa-egg",
       [PersonaStage.PLANKTON]: "fa-microbe",
       [PersonaStage.SHRIMP]: "fa-shrimp",
       [PersonaStage.CRAB]: "fa-crab",
@@ -106,7 +112,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                         ? 'bg-slate-700'
                         : 'bg-slate-800'
                     }`}>
-                    <i className={`fas ${getPersonaIcon(levelInfo.persona)} ${isCurrent ? 'text-white' : isUnlocked ? 'text-slate-400' : 'text-slate-600'
+                    <i className={`${getPersonaIconStyle(levelInfo.persona)} ${getPersonaIcon(levelInfo.persona)} ${isCurrent ? 'text-white' : isUnlocked ? 'text-slate-400' : 'text-slate-600'
                       }`}></i>
                   </div>
                   <div className="text-center">

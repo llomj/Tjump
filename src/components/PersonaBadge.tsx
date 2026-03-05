@@ -8,6 +8,7 @@ interface PersonaBadgeProps {
 
 // Font Awesome 6 Free: Use available free icons (fas) and approximations for Pro-only animals
 const personaIconStyle: Record<PersonaStage, string> = {
+  [PersonaStage.EGG]: "fas",
   [PersonaStage.PLANKTON]: "fas",
   [PersonaStage.SHRIMP]: "fas",
   [PersonaStage.CRAB]: "fas",
@@ -20,6 +21,7 @@ const personaIconStyle: Record<PersonaStage, string> = {
   [PersonaStage.GOD_WHALE]: "fas",
 };
 const personaIcons: Record<PersonaStage, string> = {
+  [PersonaStage.EGG]: "fa-egg",
   [PersonaStage.PLANKTON]: "fa-microbe",
   [PersonaStage.SHRIMP]: "fa-shrimp",
   [PersonaStage.CRAB]: "fa-hand-peace", // approximation for PRO fa-crab

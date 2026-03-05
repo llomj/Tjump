@@ -1,4 +1,5 @@
 import { Question, PersonaStage, SubLevel } from './types';
+import { level0Patterns } from './data/questions/level0';
 import { level1Patterns } from './data/questions/level1';
 import { level1IntermediateA } from './data/questions/level1_intermediate_a';
 import { level1IntermediateB } from './data/questions/level1_intermediate_b';
@@ -84,14 +85,15 @@ const generateLevel = (level: number, stage: PersonaStage, patterns: ((i: number
 };
 
 export const QUESTIONS_BANK: Question[] = [
-  ...generateLevel(1, PersonaStage.PLANKTON, [...level1Patterns, ...level1IntermediateA, ...level1IntermediateB, ...level1ExpertA, ...level1ExpertB], 1),
-  ...generateLevel(2, PersonaStage.SHRIMP, [...level2Patterns, ...level2IntermediateA, ...level2IntermediateB, ...level2ExpertA, ...level2ExpertB], 301),
-  ...generateLevel(3, PersonaStage.CRAB, [...level3Patterns, ...level3IntermediateA, ...level3IntermediateB, ...level3ExpertA, ...level3ExpertB], 601),
-  ...generateLevel(4, PersonaStage.SMALL_FISH, [...level4Patterns, ...level4ForLoopPatterns, ...level4WhileBatch1, ...level4WhileLoopPatterns, ...level4WhileBatch3, ...level4WhileBatch4], 901),
-  ...generateLevel(5, PersonaStage.OCTOPUS, [...level5Patterns, ...level5IntermediateA, ...level5IntermediateB, ...level5ExpertA, ...level5ExpertB], 1201),
-  ...generateLevel(6, PersonaStage.SEAL, [...level6Patterns, ...level6IntermediateA, ...level6IntermediateB, ...level6ExpertA, ...level6ExpertB], 1501),
-  ...generateLevel(7, PersonaStage.DOLPHIN, [...level7Patterns, ...level7IntermediateA, ...level7IntermediateB, ...level7ExpertA, ...level7ExpertB], 1801),
-  ...generateLevel(8, PersonaStage.SHARK, [...level8Patterns, ...level8IntermediateA, ...level8IntermediateB, ...level8ExpertA, ...level8ExpertB], 2101),
-  ...generateLevel(9, PersonaStage.WHALE, [...level9Patterns, ...level9IntermediateA, ...level9IntermediateB, ...level9ExpertA, ...level9ExpertB], 2401),
-  ...generateLevel(10, PersonaStage.GOD_WHALE, [...level10Patterns, ...level10IntermediateA, ...level10IntermediateB, ...level10ExpertA, ...level10ExpertB], 2701)
+  ...generateLevel(0, PersonaStage.EGG, level0Patterns, 1),
+  ...generateLevel(1, PersonaStage.PLANKTON, [...level1Patterns, ...level1IntermediateA, ...level1IntermediateB, ...level1ExpertA, ...level1ExpertB], 301),
+  ...generateLevel(2, PersonaStage.SHRIMP, [...level2Patterns, ...level2IntermediateA, ...level2IntermediateB, ...level2ExpertA, ...level2ExpertB], 601),
+  ...generateLevel(3, PersonaStage.CRAB, [...level3Patterns, ...level3IntermediateA, ...level3IntermediateB, ...level3ExpertA, ...level3ExpertB], 901),
+  ...generateLevel(4, PersonaStage.SMALL_FISH, [...level4Patterns, ...level4ForLoopPatterns, ...level4WhileBatch1, ...level4WhileLoopPatterns, ...level4WhileBatch3, ...level4WhileBatch4], 1201),
+  ...generateLevel(5, PersonaStage.OCTOPUS, [...level5Patterns, ...level5IntermediateA, ...level5IntermediateB, ...level5ExpertA, ...level5ExpertB], 1501),
+  ...generateLevel(6, PersonaStage.SEAL, [...level6Patterns, ...level6IntermediateA, ...level6IntermediateB, ...level6ExpertA, ...level6ExpertB], 1801),
+  ...generateLevel(7, PersonaStage.DOLPHIN, [...level7Patterns, ...level7IntermediateA, ...level7IntermediateB, ...level7ExpertA, ...level7ExpertB], 2101),
+  ...generateLevel(8, PersonaStage.SHARK, [...level8Patterns, ...level8IntermediateA, ...level8IntermediateB, ...level8ExpertA, ...level8ExpertB], 2401),
+  ...generateLevel(9, PersonaStage.WHALE, [...level9Patterns, ...level9IntermediateA, ...level9IntermediateB, ...level9ExpertA, ...level9ExpertB], 2701),
+  ...generateLevel(10, PersonaStage.GOD_WHALE, [...level10Patterns, ...level10IntermediateA, ...level10IntermediateB, ...level10ExpertA, ...level10ExpertB], 3001)
 ];

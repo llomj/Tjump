@@ -30,6 +30,8 @@ const OperationsView = lazy(() => import('./components/OperationsView').then((mo
 const IdSearchModal = lazy(() => import('./components/IdSearchModal').then((module) => ({ default: module.IdSearchModal })));
 const IdLogView = lazy(() => import('./components/IdLogView').then((module) => ({ default: module.IdLogView })));
 const LevelSelectorModal = lazy(() => import('./components/LevelSelectorModal').then((module) => ({ default: module.LevelSelectorModal })));
+const MethodsView = lazy(() => import('./components/MethodsView').then((module) => ({ default: module.MethodsView })));
+const FlowView = lazy(() => import('./components/FlowView').then((module) => ({ default: module.FlowView })));
 
 const ViewLoading: React.FC = () => (
   <div className="max-w-md mx-auto p-8 glass rounded-3xl text-center text-slate-400">
@@ -40,7 +42,7 @@ const ViewLoading: React.FC = () => (
 const App: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const [stats, setStats] = useState<UserStats>(INITIAL_STATS);
-  const [view, setView] = useState<'hub' | 'quiz' | 'log' | 'glossary'>('hub');
+  const [view, setView] = useState<'hub' | 'quiz' | 'log' | 'glossary' | 'methods' | 'flow'>('hub');
   const [showResult, setShowResult] = useState<{
     score: number;
     total: number;
@@ -84,7 +86,7 @@ const App: React.FC = () => {
         const levelProgress = parsed.levelProgress || {};
         const existingStars = parsed.acquiredStars || {};
         const migratedStars: Record<number, number> = { ...existingStars };
-        for (const level of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+        for (const level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
           const progress = levelProgress[level] || 0;
           const derivedStars = getStarsFromProgress(progress);
           if (derivedStars > (existingStars[level] || 0)) {
@@ -119,6 +121,7 @@ const App: React.FC = () => {
   };
   const getPersonaIcon = (persona: PersonaStage): string => {
     const personaIcons: Record<PersonaStage, string> = {
+      [PersonaStage.EGG]: "fa-egg",
       [PersonaStage.PLANKTON]: "fa-microbe",
       [PersonaStage.SHRIMP]: "fa-shrimp",
       [PersonaStage.CRAB]: "fa-hand-peace",
@@ -349,6 +352,8 @@ const App: React.FC = () => {
         onShowIdLog={view === 'hub' ? () => setShowIdLog(true) : undefined}
         onShowLearningLog={view === 'hub' ? () => setView('log') : undefined}
         onShowOperations={() => setShowOperations(true)}
+        onShowMethods={() => setView('methods')}
+        onShowFlow={() => setView('flow')}
         onShowLevelSelector={() => setShowLevelSelector(true)}
         onToggleLanguage={toggleLanguage}
         onResetApp={() => setShowResetModal(true)}
@@ -378,6 +383,14 @@ const App: React.FC = () => {
         ) : view === 'glossary' ? (
           <Suspense fallback={<ViewLoading />}>
             <GlossaryView onBack={() => setView('hub')} />
+          </Suspense>
+        ) : view === 'methods' ? (
+          <Suspense fallback={<ViewLoading />}>
+            <MethodsView onBack={() => setView('hub')} />
+          </Suspense>
+        ) : view === 'flow' ? (
+          <Suspense fallback={<ViewLoading />}>
+            <FlowView onBack={() => setView('hub')} />
           </Suspense>
         ) : showResult ? (
           <div className="max-w-md mx-auto p-10 glass rounded-3xl text-center space-y-6 animate-in zoom-in duration-500 shadow-2xl relative overflow-hidden">

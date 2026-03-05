@@ -4,7 +4,7 @@ export const XP_PER_QUESTION = 10;
 export const QUESTIONS_PER_SUBLEVEL = 100;
 export const SUBLEVELS_PER_LEVEL = 3;
 export const QUESTIONS_PER_LEVEL = QUESTIONS_PER_SUBLEVEL * SUBLEVELS_PER_LEVEL; // 300
-export const TOTAL_QUESTIONS = 3000; // 10 levels × 300 questions
+export const TOTAL_QUESTIONS = 3300; // 11 levels (0–10) × 300 questions
 
 /** Derive number of stars (0–3) from progress for a level. Used for migration and display. */
 export const getStarsFromProgress = (progress: number): number => {
@@ -14,17 +14,18 @@ export const getStarsFromProgress = (progress: number): number => {
   return 0;
 };
 
-// Random Mode: score = correct × accuracy (correct/total). Same 10 personas, point-based progression.
+// Random Mode: score = correct × accuracy (correct/total). Level 0 = Egg, then same 10 personas.
 export const RANDOM_MODE_THRESHOLDS: { minScore: number; persona: PersonaStage }[] = [
-  { minScore: 0, persona: PersonaStage.PLANKTON },
-  { minScore: 15, persona: PersonaStage.SHRIMP },
-  { minScore: 40, persona: PersonaStage.CRAB },
-  { minScore: 80, persona: PersonaStage.SMALL_FISH },
-  { minScore: 150, persona: PersonaStage.OCTOPUS },
-  { minScore: 250, persona: PersonaStage.SEAL },
-  { minScore: 400, persona: PersonaStage.DOLPHIN },
-  { minScore: 600, persona: PersonaStage.SHARK },
-  { minScore: 900, persona: PersonaStage.WHALE },
+  { minScore: 0, persona: PersonaStage.EGG },
+  { minScore: 15, persona: PersonaStage.PLANKTON },
+  { minScore: 40, persona: PersonaStage.SHRIMP },
+  { minScore: 80, persona: PersonaStage.CRAB },
+  { minScore: 150, persona: PersonaStage.SMALL_FISH },
+  { minScore: 250, persona: PersonaStage.OCTOPUS },
+  { minScore: 400, persona: PersonaStage.SEAL },
+  { minScore: 600, persona: PersonaStage.DOLPHIN },
+  { minScore: 900, persona: PersonaStage.SHARK },
+  { minScore: 1300, persona: PersonaStage.WHALE },
   { minScore: 1300, persona: PersonaStage.GOD_WHALE },
 ];
 
@@ -52,8 +53,15 @@ export const getNextRandomModeThreshold = (score: number): { minScore: number; p
   return null;
 };
 
-// Level configurations with personas and concepts
+// Level configurations with personas and concepts (Level 0 = Egg/Cell, most basic)
 export const LEVELS: LevelInfo[] = [
+  {
+    level: 0,
+    persona: PersonaStage.EGG,
+    concepts: ["literals", "values", "first steps"],
+    description: "Your first steps. Literals, simple values, and type basics.",
+    color: "#94a3b8"
+  },
   {
     level: 1,
     persona: PersonaStage.PLANKTON,
