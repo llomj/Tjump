@@ -1,7 +1,9 @@
 import React from 'react';
 import { QuestionAttempt } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { formatTranslation } from '../translations';
+import { formatCodeSnippet, splitQuestion } from '../utils/questionDisplay';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface HistoryLogProps {
   history: QuestionAttempt[];
@@ -11,7 +13,7 @@ interface HistoryLogProps {
 }
 
 export const HistoryLog: React.FC<HistoryLogProps> = ({ history, onBack, onSaveToIdLog, savedIdLogIds = [] }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const sortedHistory = [...history].sort((a, b) => b.timestamp - a.timestamp);
 
   return (
@@ -77,9 +79,53 @@ export const HistoryLog: React.FC<HistoryLogProps> = ({ history, onBack, onSaveT
                 </span>
               </div>
               
-              <p className="text-slate-200 font-bold mb-3 leading-tight">
-                {attempt.question}
-              </p>
+              <div className="mb-3">
+                <div className="max-h-[45vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
+                  {(() => {
+                    const { prefix, code } = splitQuestion(attempt.question, language);
+                    if (code) {
+                      return (
+                        <div className="flex flex-col">
+                          {prefix && (
+                            <div className="px-4 pt-4 pb-2 border-b border-slate-700/50">
+                              <p className="text-white text-lg font-medium leading-relaxed">{prefix}</p>
+                            </div>
+                          )}
+                          <div className="overflow-x-auto flex-1">
+                            <SyntaxHighlighter
+                              language="python"
+                              style={oneDark}
+                              customStyle={{
+                                padding: '1rem',
+                                margin: 0,
+                                background: 'transparent',
+                                fontSize: '0.875rem',
+                                lineHeight: '1.75',
+                                fontFamily: "'Fira Code', monospace"
+                              }}
+                              codeTagProps={{
+                                style: {
+                                  fontFamily: "'Fira Code', monospace",
+                                  whiteSpace: 'pre',
+                                  display: 'block'
+                                }
+                              }}
+                              PreTag="div"
+                            >
+                              {formatCodeSnippet(code)}
+                            </SyntaxHighlighter>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <p className="text-slate-200 font-bold p-4 leading-tight">
+                        {attempt.question}
+                      </p>
+                    );
+                  })()}
+                </div>
+              </div>
               
               <div className="space-y-2 mb-4">
                 <div className={`text-xs p-2 rounded-lg flex items-center gap-2 ${
