@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserStats, PersonaStage } from '../types';
-import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsFromAccuracy, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
+import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsFromAccuracy, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
 import { PersonaIcon } from './PersonaIcon';
 import { ProgressBar } from './ProgressBar';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -29,11 +29,12 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
     ? Math.round((stats.lastSessionScore / stats.lastSessionTotal) * 100)
     : null;
 
-  // 5-star rating from accuracy (correct/total) for current level
+  // 5-star rating from accuracy (correct/total) for current level; Random mode uses stricter thresholds
   const correct = stats.levelCorrect?.[stats.currentLevel] ?? 0;
   const earnedStars = getStarsFromAccuracy(correct, progress);
+  const randomEarnedStars = getStarsFromAccuracyRandom(rm.totalCorrect, rm.totalAnswered);
 
-  // Star tier for labels: 1-2 = Beginner, 3-4 = Intermediate, 4-5 = Expert (0 = Beginner)
+  // Star tier for labels (level mode only): 1-2 = Beginner, 3-4 = Intermediate, 4-5 = Expert
   const getStarTier = (stars: number): 'beginner' | 'intermediate' | 'expert' => {
     if (stars >= 4) return 'expert';
     if (stars >= 3) return 'intermediate';
@@ -42,6 +43,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
   const starTier = getStarTier(earnedStars);
 
   const displayPersona = randomMode ? randomPersona : currentLevelInfo.persona;
+  const starsToShow = randomMode ? randomEarnedStars : earnedStars;
 
   const renderStars = () => {
     return (
@@ -50,12 +52,12 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
           <div
             key={starNum}
             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500
-              ${starNum <= earnedStars
+              ${starNum <= starsToShow
                 ? 'bg-amber-400 text-amber-900 shadow-[0_0_15px_rgba(251,191,36,0.5)] scale-110'
                 : 'bg-slate-800 text-slate-600 border border-white/5'
               }`}
           >
-            <i className={`fas fa-star ${starNum <= earnedStars ? 'animate-pulse' : ''} text-sm`}></i>
+            <i className={`fas fa-star ${starNum <= starsToShow ? 'animate-pulse' : ''} text-sm`}></i>
           </div>
         ))}
       </div>
@@ -78,7 +80,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
               {displayPersona} {t('hub.class')}
             </span>
           </div>
-          {!randomMode && renderStars()}
+          {renderStars()}
         </div>
       </div>
 
@@ -95,6 +97,21 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
                 </p>
               </div>
               <div className="space-y-4 pt-6 border-t border-white/5 min-w-0">
+                {/* 5 stars from average accuracy (stricter thresholds in Random mode) */}
+                <div className="flex gap-1.5 justify-center">
+                  {[1, 2, 3, 4, 5].map(starNum => (
+                    <div
+                      key={starNum}
+                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300
+                        ${starNum <= randomEarnedStars
+                          ? 'bg-amber-400 text-amber-900 shadow-[0_0_10px_rgba(251,191,36,0.4)]'
+                          : 'bg-slate-800 text-slate-600 border border-white/5'
+                        }`}
+                    >
+                      <i className={`fas fa-star ${starNum <= randomEarnedStars ? 'animate-pulse' : ''} text-[10px]`}></i>
+                    </div>
+                  ))}
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-slate-900/50 rounded-2xl p-3 border border-white/5 min-w-0">
                     <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1 truncate">{t('hub.totalAnswered')}</div>

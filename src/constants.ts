@@ -17,12 +17,25 @@ export const getStarsFromProgress = (progress: number): number => {
 /** Accuracy thresholds for 5-star rating: 10%, 30%, 50%, 70%, 90%. */
 export const STAR_ACCURACY_THRESHOLDS = [0.1, 0.3, 0.5, 0.7, 0.9] as const;
 
+/** Stricter accuracy thresholds for Random mode stars (harder to achieve): 25%, 45%, 65%, 85%, 95%. */
+export const STAR_ACCURACY_THRESHOLDS_RANDOM = [0.25, 0.45, 0.65, 0.85, 0.95] as const;
+
 /** Derive number of stars (0–5) from accuracy (correct/total) for a level. */
 export const getStarsFromAccuracy = (correct: number, total: number): number => {
   if (total === 0) return 0;
   const pct = correct / total;
   for (let i = STAR_ACCURACY_THRESHOLDS.length - 1; i >= 0; i--) {
     if (pct >= STAR_ACCURACY_THRESHOLDS[i]) return i + 1;
+  }
+  return 0;
+};
+
+/** Derive stars (0–5) from average accuracy in Random mode; uses stricter thresholds. */
+export const getStarsFromAccuracyRandom = (correct: number, total: number): number => {
+  if (total === 0) return 0;
+  const pct = correct / total;
+  for (let i = STAR_ACCURACY_THRESHOLDS_RANDOM.length - 1; i >= 0; i--) {
+    if (pct >= STAR_ACCURACY_THRESHOLDS_RANDOM[i]) return i + 1;
   }
   return 0;
 };

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Question, QuestionAttempt } from '../types';
 import { quizService } from '../services/quizService';
 import { ProgressBar } from './ProgressBar';
-import { LEVELS, getRandomModeScore } from '../constants';
+import { LEVELS, getRandomModeScore, getStarsFromAccuracyRandom } from '../constants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -862,6 +862,10 @@ export const QuizView: React.FC<QuizViewProps> = ({
       }
     : null;
   const liveEvolutionScore = liveRandomStats ? getRandomModeScore(liveRandomStats) : null;
+  // In random mode, stars are based on live average accuracy (stricter thresholds)
+  const displayStars = randomMode && liveRandomStats
+    ? getStarsFromAccuracyRandom(liveRandomStats.totalCorrect, liveRandomStats.totalAnswered)
+    : earnedStars;
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -869,26 +873,37 @@ export const QuizView: React.FC<QuizViewProps> = ({
         <button onClick={onExit} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors border border-white/5">
           <i className="fas fa-times"></i>
         </button>
-        <div className="flex-1 min-w-0 px-6 overflow-x-auto">
+          <div className="flex-1 min-w-0 px-6 overflow-x-auto">
           <div className="flex justify-between items-center text-[10px] font-black tracking-[0.2em] mb-1.5 min-w-max">
             <div className="flex items-center gap-2 flex-shrink-0">
-              <span className="text-indigo-400">
-                {currentQuestion.subLevel === 'Beginner' && t('subLevels.beginnerCaps')}
-                {currentQuestion.subLevel === 'Intermediate' && t('subLevels.intermediateCaps')}
-                {currentQuestion.subLevel === 'Expert' && t('subLevels.expertCaps')}
-              </span>
-              {!randomMode && (
+              {randomMode ? (
                 <div className="flex gap-0.5">
                   {[1, 2, 3, 4, 5].map(starNum => (
                     <i
                       key={starNum}
-                      className={`fas fa-star text-[8px] ${starNum <= earnedStars ? 'text-amber-400' : 'text-slate-700'}`}
+                      className={`fas fa-star text-[8px] ${starNum <= displayStars ? 'text-amber-400' : 'text-slate-700'}`}
                     ></i>
                   ))}
                 </div>
+              ) : (
+                <>
+                  <span className="text-indigo-400">
+                    {currentQuestion.subLevel === 'Beginner' && t('subLevels.beginnerCaps')}
+                    {currentQuestion.subLevel === 'Intermediate' && t('subLevels.intermediateCaps')}
+                    {currentQuestion.subLevel === 'Expert' && t('subLevels.expertCaps')}
+                  </span>
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map(starNum => (
+                      <i
+                        key={starNum}
+                        className={`fas fa-star text-[8px] ${starNum <= displayStars ? 'text-amber-400' : 'text-slate-700'}`}
+                      ></i>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
-            <div className="flex gap-4 items-center flex-shrink-0">
+            <div className="flex gap-4 items-center flex-shrink-0 ml-6">
               {liveEvolutionScore !== null && (
                 <span className="text-indigo-400">
                   {t('quiz.evolution')}: {liveEvolutionScore}

@@ -5,7 +5,7 @@ import { FallingStars } from './components/FallingStars';
 import { PersonaIcon } from './components/PersonaIcon';
 import { SettingsMenu } from './components/SettingsMenu';
 import { IdLogEntry } from './types';
-import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsFromAccuracy, getRandomModeScore, getPersonaFromRandomScore } from './constants';
+import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsFromAccuracy, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
 import { formatTranslation } from './translations';
 
@@ -550,7 +550,9 @@ const App: React.FC = () => {
               randomModeStats={stats.randomModeStats}
               onSaveToIdLog={saveToIdLog}
               savedIdLogIds={stats.idLog.map(entry => entry.id)}
-              earnedStars={getStarsFromAccuracy(stats.levelCorrect?.[stats.currentLevel] ?? 0, currentProgress)}
+              earnedStars={randomMode
+                ? getStarsFromAccuracyRandom(stats.randomModeStats?.totalCorrect ?? 0, stats.randomModeStats?.totalAnswered ?? 0)
+                : getStarsFromAccuracy(stats.levelCorrect?.[stats.currentLevel] ?? 0, currentProgress)}
             />
           </Suspense>
         ) : view === 'log' ? (
