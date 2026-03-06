@@ -681,6 +681,11 @@ interface QuizViewProps {
   randomMode?: boolean; // Random mode: questions from all levels
   randomModeStats?: { totalAnswered: number; totalCorrect: number }; // Base stats for live score display
   earnedStars?: number; // 0-5 stars for current level (from accuracy); only in level mode
+  soundEnabled?: boolean;
+  hapticEnabled?: boolean;
+  onPlayCorrectSound?: () => void;
+  onPlayWrongSound?: () => void;
+  triggerHaptic?: () => void;
 }
 
 export const QuizView: React.FC<QuizViewProps> = ({
@@ -695,7 +700,12 @@ export const QuizView: React.FC<QuizViewProps> = ({
   randomizeTrigger,
   randomMode = false,
   randomModeStats,
-  earnedStars = 0
+  earnedStars = 0,
+  soundEnabled = true,
+  hapticEnabled = true,
+  onPlayCorrectSound,
+  onPlayWrongSound,
+  triggerHaptic
 }) => {
   const { t, tRaw, language } = useLanguage();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -772,8 +782,15 @@ export const QuizView: React.FC<QuizViewProps> = ({
   const handleOptionClick = (index: number) => {
     if (isAnswered) return;
 
+    if (hapticEnabled && triggerHaptic) triggerHaptic();
+
     const currentQuestion = questions[currentIndex];
     const isCorrect = index === currentQuestion.correct_option_index;
+
+    if (soundEnabled) {
+      if (isCorrect && onPlayCorrectSound) onPlayCorrectSound();
+      else if (!isCorrect && onPlayWrongSound) onPlayWrongSound();
+    }
 
     setSelectedOption(index);
     setIsAnswered(true);

@@ -5,7 +5,7 @@ import { FallingStars } from './components/FallingStars';
 import { PersonaIcon } from './components/PersonaIcon';
 import { SettingsMenu } from './components/SettingsMenu';
 import { IdLogEntry } from './types';
-import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsFromAccuracy, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore } from './constants';
+import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsForLevel, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
 import { formatTranslation } from './translations';
 
@@ -192,6 +192,75 @@ const playGameCompleteSound = (): void => {
   window.setTimeout(() => void ctx.close(), 8600);
 };
 
+const SOUND_PREF_KEY = 'python_exercises_sound_v1';
+const HAPTIC_PREF_KEY = 'python_exercises_haptic_v1';
+
+/** Short positive jingle when user selects the correct answer. */
+const playCorrectAnswerSound = (): void => {
+  if (typeof window === 'undefined') return;
+  const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) return;
+
+  const ctx = new AudioContextClass();
+  if (ctx.state === 'suspended') void ctx.resume();
+
+  const now = ctx.currentTime;
+  const masterGain = ctx.createGain();
+  masterGain.connect(ctx.destination);
+  masterGain.gain.setValueAtTime(0.6, now);
+  masterGain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+
+  const tone = (freq: number, start: number, dur: number, vol: number) => {
+    const sq = ctx.createOscillator();
+    const g = ctx.createGain();
+    sq.type = 'square';
+    sq.frequency.setValueAtTime(freq, now + start);
+    g.gain.setValueAtTime(vol, now + start);
+    g.gain.linearRampToValueAtTime(0.01, now + start + dur);
+    sq.connect(g);
+    g.connect(masterGain);
+    sq.start(now + start);
+    sq.stop(now + start + dur + 0.02);
+  };
+
+  const E5 = 659.25, G5 = 783.99, C6 = 1046.5;
+  tone(E5, 0, 0.08, 0.4);
+  tone(G5, 0.08, 0.08, 0.4);
+  tone(C6, 0.16, 0.12, 0.45);
+
+  window.setTimeout(() => void ctx.close(), 400);
+};
+
+/** Short "wrong" tone when user selects an incorrect answer. */
+const playWrongAnswerSound = (): void => {
+  if (typeof window === 'undefined') return;
+  const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) return;
+
+  const ctx = new AudioContextClass();
+  if (ctx.state === 'suspended') void ctx.resume();
+
+  const now = ctx.currentTime;
+  const masterGain = ctx.createGain();
+  masterGain.connect(ctx.destination);
+  masterGain.gain.setValueAtTime(0.5, now);
+  masterGain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+
+  const osc = ctx.createOscillator();
+  const g = ctx.createGain();
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(120, now);
+  osc.frequency.linearRampToValueAtTime(80, now + 0.3);
+  g.gain.setValueAtTime(0.35, now);
+  g.gain.linearRampToValueAtTime(0.01, now + 0.3);
+  osc.connect(g);
+  g.connect(masterGain);
+  osc.start(now);
+  osc.stop(now + 0.35);
+
+  window.setTimeout(() => void ctx.close(), 400);
+};
+
 const INITIAL_STATS: UserStats = {
   currentLevel: 0,
   xp: 0,
@@ -248,6 +317,30 @@ const App: React.FC = () => {
   const [showResetModal, setShowResetModal] = useState(false);
   const [openSettingsOnBack, setOpenSettingsOnBack] = useState(false);
 
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    try {
+      const v = localStorage.getItem(SOUND_PREF_KEY);
+      return v === null ? true : v === 'true';
+    } catch {
+      return true;
+    }
+  });
+  const [hapticEnabled, setHapticEnabled] = useState(() => {
+    try {
+      const v = localStorage.getItem(HAPTIC_PREF_KEY);
+      return v === null ? true : v === 'true';
+    } catch {
+      return true;
+    }
+  });
+
+  const triggerHaptic = () => {
+    if (!hapticEnabled || typeof navigator === 'undefined' || !navigator.vibrate) return;
+    try {
+      navigator.vibrate(10);
+    } catch (_) {}
+  };
+
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
   };
@@ -287,6 +380,19 @@ const App: React.FC = () => {
   }, [stats]);
 
   useEffect(() => {
+    try {
+      localStorage.setItem(SOUND_PREF_KEY, String(soundEnabled));
+    } catch (_) {}
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(HAPTIC_PREF_KEY, String(hapticEnabled));
+    } catch (_) {}
+  }, [hapticEnabled]);
+
+  useEffect(() => {
+    if (!soundEnabled) return;
     if (showResult?.starEarned === 5 && showResult?.allLevelsFiveStars) {
       playGameCompleteSound();
     } else if (showResult?.starEarned === 5) {
@@ -294,7 +400,7 @@ const App: React.FC = () => {
     } else if (showResult?.starEarned) {
       playStarCelebrationSound();
     }
-  }, [showResult?.starEarned, showResult?.allLevelsFiveStars]);
+  }, [soundEnabled, showResult?.starEarned, showResult?.allLevelsFiveStars]);
 
   const currentLevelInfo = LEVELS.find(l => l.level === stats.currentLevel) || LEVELS[0];
   const currentPersona = (stats.randomMode && stats.randomModeStats)
@@ -410,7 +516,7 @@ const App: React.FC = () => {
       // Level mode: update levelProgress, levelCorrect, currentLevel; stars from accuracy (5-star)
       const currentLevelProgress = stats.levelProgress[stats.currentLevel] || 0;
       const currentLevelCorrect = stats.levelCorrect?.[stats.currentLevel] || 0;
-      const prevStars = getStarsFromAccuracy(currentLevelCorrect, currentLevelProgress);
+      const prevStars = getStarsForLevel(currentLevelCorrect);
 
       setStats(prev => {
         const newXp = prev.xp + xpGained;
@@ -447,14 +553,13 @@ const App: React.FC = () => {
 
       const newLevelProgress = Math.min(QUESTIONS_PER_LEVEL, currentLevelProgress + total);
       const newLevelCorrect = currentLevelCorrect + score;
-      const newStars = getStarsFromAccuracy(newLevelCorrect, newLevelProgress);
+      const newStars = getStarsForLevel(newLevelCorrect);
       const starEarned = newStars > prevStars ? newStars : null;
       const levelAccuracyPercent = newLevelProgress > 0 ? Math.round((newLevelCorrect / newLevelProgress) * 100) : undefined;
 
       const allLevelsFiveStars = starEarned === 5 && LEVELS.every(level => {
-        const prog = level.level === stats.currentLevel ? newLevelProgress : (stats.levelProgress[level.level] ?? 0);
         const correct = level.level === stats.currentLevel ? newLevelCorrect : (stats.levelCorrect?.[level.level] ?? 0);
-        return prog > 0 && getStarsFromAccuracy(correct, prog) === 5;
+        return getStarsForLevel(correct) === 5;
       });
 
       setShowResult({ score, total, starEarned, levelAccuracyPercent, allLevelsFiveStars: allLevelsFiveStars || undefined });
@@ -521,17 +626,21 @@ const App: React.FC = () => {
         view={view}
         anchorBottom
         randomMode={randomMode}
-        onToggleRandomMode={view === 'hub' || view === 'quiz' ? handleRandomModeToggle : undefined}
-        onShowGlossary={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setView('glossary'); } : undefined}
-        onShowIdSearch={view === 'hub' || view === 'quiz' ? () => setShowIdSearch(true) : undefined}
-        onShowIdLog={view === 'hub' || view === 'quiz' ? () => setShowIdLog(true) : undefined}
-        onShowLearningLog={view === 'hub' || view === 'quiz' ? () => setView('log') : undefined}
+        onToggleRandomMode={handleRandomModeToggle}
+        onShowGlossary={() => { setOpenSettingsOnBack(true); setView('glossary'); }}
+        onShowIdSearch={() => setShowIdSearch(true)}
+        onShowIdLog={() => setShowIdLog(true)}
+        onShowLearningLog={() => { setOpenSettingsOnBack(true); setView('log'); }}
         onShowLevelSelector={() => setShowLevelSelector(true)}
-        onShowMethods={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setView('methods'); } : undefined}
-        onShowFlow={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setView('flow'); } : undefined}
-        onShowOperations={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setShowOperations(true); } : undefined}
+        onShowMethods={() => { setOpenSettingsOnBack(true); setView('methods'); }}
+        onShowFlow={() => { setOpenSettingsOnBack(true); setView('flow'); }}
+        onShowOperations={() => { setOpenSettingsOnBack(true); setShowOperations(true); }}
         onToggleLanguage={toggleLanguage}
-        onPreviewStarSound={playStarCelebrationSound}
+        soundEnabled={soundEnabled}
+        hapticEnabled={hapticEnabled}
+        onToggleSound={() => setSoundEnabled(s => !s)}
+        onToggleHaptic={() => setHapticEnabled(h => !h)}
+        triggerHaptic={triggerHaptic}
         onRefreshApp={() => window.location.reload()}
         onResetApp={() => setShowResetModal(true)}
       />
@@ -553,7 +662,12 @@ const App: React.FC = () => {
               savedIdLogIds={stats.idLog.map(entry => entry.id)}
               earnedStars={randomMode
                 ? getStarsFromAccuracyRandom(stats.randomModeStats?.totalCorrect ?? 0, stats.randomModeStats?.totalAnswered ?? 0)
-                : getStarsFromAccuracy(stats.levelCorrect?.[stats.currentLevel] ?? 0, currentProgress)}
+                : getStarsForLevel(stats.levelCorrect?.[stats.currentLevel] ?? 0)}
+              soundEnabled={soundEnabled}
+              hapticEnabled={hapticEnabled}
+              onPlayCorrectSound={playCorrectAnswerSound}
+              onPlayWrongSound={playWrongAnswerSound}
+              triggerHaptic={triggerHaptic}
             />
           </Suspense>
         ) : view === 'log' ? (

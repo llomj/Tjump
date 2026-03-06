@@ -20,7 +20,7 @@ export const STAR_ACCURACY_THRESHOLDS = [0.1, 0.3, 0.5, 0.7, 0.9] as const;
 /** Stricter accuracy thresholds for Random mode stars (harder to achieve): 25%, 45%, 65%, 85%, 95%. */
 export const STAR_ACCURACY_THRESHOLDS_RANDOM = [0.25, 0.45, 0.65, 0.85, 0.95] as const;
 
-/** Derive number of stars (0–5) from accuracy (correct/total) for a level. */
+/** Derive number of stars (0–5) from accuracy (correct/total). Use total = QUESTIONS_PER_LEVEL (300) for level stars so stars are based on % of the full level, not the current batch. */
 export const getStarsFromAccuracy = (correct: number, total: number): number => {
   if (total === 0) return 0;
   const pct = correct / total;
@@ -29,6 +29,10 @@ export const getStarsFromAccuracy = (correct: number, total: number): number => 
   }
   return 0;
 };
+
+/** Stars for a level: based on correct answers out of 300 (full level). 1★ ≥10%, 2★ ≥30%, 3★ ≥50%, 4★ ≥70%, 5★ ≥90%. */
+export const getStarsForLevel = (correct: number): number =>
+  getStarsFromAccuracy(correct, QUESTIONS_PER_LEVEL);
 
 /** Derive stars (0–5) from average accuracy in Random mode; uses stricter thresholds. */
 export const getStarsFromAccuracyRandom = (correct: number, total: number): number => {

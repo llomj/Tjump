@@ -9,285 +9,394 @@ interface MethodsViewProps {
 
 const METHOD_CHEAT_SHEET_EN = `# ===================== Python Ultimate Method Cheat Sheet =====================
 
-# ----------------- Strings -----------------
-str.capitalize()       # Capitalize first character
-str.casefold()         # Lowercase for caseless comparison
-str.center(w)          # Center in width
-str.count(sub)         # Count occurrences
-str.encode()           # Encode to bytes
-str.endswith(s)        # Ends with?
-str.expandtabs(n)      # Expand tabs
-str.find(s)            # Find substring
-str.format(...)        # Format string
-str.format_map(d)      # Format using dict
-str.index(s)           # Index of substring
-str.isalnum()          # Alphanumeric?
-str.isalpha()          # Alphabetic?
-str.isascii()          # ASCII?
-str.isdecimal()        # Decimal?
-str.isdigit()          # Digit?
-str.isidentifier()     # Valid identifier?
-str.islower()          # Lowercase?
-str.isnumeric()        # Numeric?
-str.isprintable()      # Printable?
-str.isspace()          # Whitespace?
-str.istitle()          # Titlecase?
-str.isupper()          # Uppercase?
-str.join(iter)         # Join iterable
-str.ljust(w)           # Left justify
-str.lower()            # Lowercase
-str.lstrip()           # Strip left
-str.partition(s)       # Split into 3 parts
-str.replace(a,b)       # Replace substring
-str.rfind(s)           # Last occurrence
-str.rindex(s)          # Last index
-str.rjust(w)           # Right justify
-str.rpartition(s)      # Split from right
-str.rsplit(s)          # Split from right
-str.rstrip()           # Strip right
-str.split(s)           # Split string
-str.splitlines()       # Split lines
-str.startswith(p)      # Starts with prefix?
-str.strip()            # Strip both ends
-str.swapcase()         # Swap case
-str.title()            # Titlecase
-str.translate(t)       # Translate chars
-str.upper()            # Uppercase
-str.zfill(w)           # Zero pad left
+# HOW TO READ THIS
+# - Instance method (most common): obj.method(args)
+# - Equivalent form (rare): Type.method(obj, args)
+# - Immutable types (str/tuple/bytes): return a NEW value
+# - Mutable types (list/dict/set): often mutate IN PLACE and return None
+#   Examples: list.sort(), list.reverse(), dict.update(), set.update()
+#
+# Pro tips:
+# - dir(obj) shows available attributes (including methods)
+# - help(obj.method) explains arguments and behavior
 
-# ----------------- Lists -----------------
-list.append(x)         # Add element
-list.extend(it)        # Add multiple
-list.insert(i,x)       # Insert at index
-list.remove(x)         # Remove element
-list.pop(i=-1)         # Remove and return
-list.clear()           # Clear list
-list.index(x)          # Index of element
-list.count(x)          # Count occurrences
-list.sort(key=None, reverse=False) # Sort list
-list.reverse()        # Reverse list
-list.copy()            # Shallow copy
+# ----------------- STRINGS (str) -----------------
+s = "python"
+s.capitalize()          # 'Python'
+s.casefold()            # 'python'
+s.center(10, ".")       # '..python..'
+s.count("o")            # 1
+s.encode("utf-8")       # b'python'
+s.endswith("on")        # True
+s.expandtabs(4)         # Tabs -> spaces
+s.find("th")            # 2 (or -1 if missing)
+s.format()              # For format strings only (see f-strings too)
+s.format_map({"x": 1})  # Format with dict mapping
+s.index("th")           # 2 (ValueError if missing)
+s.isalnum()             # True for letters/digits only
+s.isalpha()             # True for letters only
+s.isascii()             # True if all chars are ASCII
+s.isdecimal()           # Decimal digits only (strict)
+s.isdigit()             # Digits (includes some unicode)
+s.isidentifier()        # Valid variable name?
+s.islower()             # True if all cased chars are lowercase
+s.isnumeric()           # Numeric chars (broader than digits)
+s.isprintable()         # Visible / whitespace-only?
+s.isspace()             # Whitespace-only?
+s.istitle()             # Titlecase?
+s.isupper()             # Uppercase?
+"-".join(["a", "b"])    # 'a-b' (join is called on the separator)
+s.ljust(10, ".")        # 'python....'
+s.lower()               # 'python'
+s.lstrip()              # Strip left whitespace
+s.partition("th")       # ('py', 'th', 'on')
+s.removeprefix("py")    # 'thon' (Py 3.9+)
+s.removesuffix("on")    # 'pyth' (Py 3.9+)
+s.replace("py", "MY")   # 'MYthon'
+s.rfind("o")            # 4
+s.rindex("o")           # 4
+s.rjust(10, ".")        # '....python'
+s.rpartition("th")      # ('py', 'th', 'on')
+s.rsplit("t")           # ['py', 'hon']
+s.rstrip()              # Strip right whitespace
+s.split("t")            # ['py', 'hon']
+s.splitlines()          # Split on line breaks
+s.startswith("py")      # True
+s.strip()               # Strip both ends whitespace
+s.swapcase()            # Swap case
+s.title()               # 'Python'
+s.translate(str.maketrans({"p": "P"}))  # Replace via translation table
+s.upper()               # 'PYTHON'
+s.zfill(10)             # '0000python'
 
-# ----------------- Dictionaries -----------------
-dict.clear()             # Remove all items
-dict.copy()              # Shallow copy
-dict.fromkeys(seq,val)   # Create dict from keys
-dict.get(k,default=None) # Get value, default if missing
-dict.items()             # Return (key,value)
-dict.keys()              # Keys view
-dict.values()            # Values view
-dict.pop(k,default=None) # Remove key
-dict.popitem()           # Remove last (key,value)
-dict.setdefault(k,v=None)# Get or set default
-dict.update(other)       # Update dict
+# ----------------- LISTS (list) -----------------
+xs = [3, 1, 2]
+xs.append(4)            # in-place, returns None
+xs.extend([5, 6])       # in-place, returns None
+xs.insert(0, 99)        # in-place, returns None
+xs.remove(99)           # in-place, returns None (ValueError if missing)
+xs.pop()                # returns removed element
+xs.clear()              # in-place, returns None
+xs.index(2)             # index of first match (ValueError if missing)
+xs.count(2)             # count occurrences
+xs.sort()               # in-place, returns None  (use sorted(xs) for a new list)
+xs.reverse()            # in-place, returns None  (use reversed(xs) for an iterator)
+xs.copy()               # shallow copy
 
-# ----------------- Tuples -----------------
-tuple.count(x)           # Count occurrences
-tuple.index(x)           # Index of element
+# ----------------- DICTIONARIES (dict) -----------------
+d = {"a": 1, "b": 2}
+d.clear()
+d.copy()
+dict.fromkeys(["x", "y"], 0)
+d.get("x", 0)
+d.items()
+d.keys()
+d.values()
+d.pop("a", None)
+d.popitem()
+d.setdefault("k", 123)
+d.update({"z": 9})      # in-place, returns None
 
-# ----------------- Sets -----------------
-set.add(e)                     # Add element
-set.clear()                    # Clear set
-set.copy()                     # Shallow copy
-set.difference(*o)             # Return difference
-set.difference_update(*o)      # Remove differences
-set.discard(e)                 # Remove if present
-set.intersection(*o)           # Intersection
-set.intersection_update(*o)    # Keep intersection
-set.isdisjoint(o)              # No elements in common?
-set.issubset(o)                # Is subset?
-set.issuperset(o)              # Is superset?
-set.pop()                      # Remove arbitrary
-set.remove(e)                  # Remove element
-set.symmetric_difference(o)     # Elements in either, not both
-set.symmetric_difference_update(o)# Update to symmetric difference
-set.union(*o)                  # Union of sets
-set.update(*o)                 # Add elements
+# ----------------- TUPLES (tuple) -----------------
+t = (1, 2, 2, 3)
+t.count(2)
+t.index(3)
 
-# ----------------- Frozenset -----------------
-# frozenset methods = same as set, but immutable (no add/remove/update)
+# ----------------- SETS (set) -----------------
+s1 = {1, 2, 3}
+s1.add(4)
+s1.clear()
+s1.copy()
+s1.difference({2})
+s1.difference_update({2})
+s1.discard(999)         # no error if missing
+s1.intersection({1, 2})
+s1.intersection_update({1, 2})
+s1.isdisjoint({10})
+s1.issubset({1, 2, 3, 4})
+s1.issuperset({1})
+s1.pop()
+s1.remove(1)            # KeyError if missing
+s1.symmetric_difference({1, 9})
+s1.symmetric_difference_update({1, 9})
+s1.union({9})
+s1.update({10, 11})
 
-# ----------------- Bytes & Bytearray -----------------
-# b''.capitalize(), b''.casefold(), b''.decode(), b''.endswith(), b''.find(),
-# b''.hex(), b''.isalnum(), b''.isalpha(), b''.isdigit(), b''.join(),
-# b''.replace(), b''.split(), b''.startswith(), b''.strip(), b''.upper(), b''.lower()
-# bytearray has extra mutable methods: append(), extend(), insert(), pop(), remove(), clear()
+# ----------------- FROZENSET -----------------
+fs = frozenset({1, 2, 3})
+fs2 = fs.union({4})
+fs3 = fs.intersection({2, 3})
 
-# ----------------- Memoryview -----------------
-# memoryview(obj).tobytes(), .tolist(), .cast(format, shape)
+# ----------------- BYTES & BYTEARRAY -----------------
+data = b"hello"
+data.decode("utf-8")
+data.hex()
 
-# ----------------- Range -----------------
-# range(start, stop, step) # Iterable
-# len(range), range[i], range.index(val), range.count(val)
+buf = bytearray(b"abc")
+buf.append(100)         # add one byte
+buf.extend(b"ef")       # add many bytes
 
-# ----------------- Numbers -----------------
-# int, float, complex methods:
-# abs(), as_integer_ratio(), bit_length(), conjugate(), from_bytes(), to_bytes()
-# float: is_integer(), hex(), fromhex()
-# complex: real, imag, conjugate()
+# ----------------- MEMORYVIEW -----------------
+view = memoryview(b"hello")
+view.tobytes()
+view.tolist()
 
-# ----------------- Boolean -----------------
-# bool inherits from int; no extra methods
+# ----------------- RANGE -----------------
+r = range(1, 10, 2)
+len(r)
+r[0]
+3 in r
 
-# ----------------- File objects -----------------
-# f.read(), f.readline(), f.readlines(), f.write(), f.writelines(),
-# f.close(), f.flush(), f.seek(), f.tell()
+# ----------------- NUMBERS -----------------
+n = 42
+n.bit_length()
+(3.5).is_integer()
+(3+4j).conjugate()
 
-# ----------------- Functions -----------------
-# f.__call__(), __name__, __defaults__, __code__, __annotations__, __closure__
+# ----------------- BOOLEAN -----------------
+flag = bool(1)          # True, bool inherits from int
 
-# ----------------- Classes -----------------
-# .__init__(), __new__(), __str__(), __repr__(), __class__, __dict__, __mro__, __bases__
+# ----------------- FILE OBJECTS -----------------
+with open("example.txt", "w", encoding="utf-8") as f:
+    f.write("hello")
+    f.flush()
 
-# ----------------- Modules -----------------
-# .__name__, __file__, __dict__, __package__, __loader__, __path__
+# ----------------- FUNCTIONS -----------------
+def f(x: int) -> int:
+    return x * 2
 
-# ----------------- Exceptions -----------------
-# args, with_traceback(), add_note()
+f.__name__
+f.__annotations__
+
+# ----------------- CLASSES -----------------
+class C:
+    def __init__(self, x: int) -> None:
+        self.x = x
+
+    def __repr__(self) -> str:
+        return f"C(x={self.x})"
+
+C(1)
+
+# ----------------- MODULES -----------------
+import math
+math.__name__
+
+# ----------------- EXCEPTIONS -----------------
+try:
+    1 / 0
+except ZeroDivisionError as e:
+    e.add_note("Check your denominator")
 `;
 
 const METHOD_CHEAT_SHEET_FR = `# ===================== Aide-mémoire ultime des méthodes Python =====================
 
-# ----------------- Chaînes -----------------
-str.capitalize()       # Première lettre en majuscule
-str.casefold()         # Minuscules pour comparaison sans casse
-str.center(w)          # Centrer dans une largeur
-str.count(sub)         # Compter les occurrences
-str.encode()           # Encoder en bytes
-str.endswith(s)        # Se termine par ?
-str.expandtabs(n)      # Développer les tabulations
-str.find(s)            # Trouver la sous-chaîne
-str.format(...)        # Formater la chaîne
-str.format_map(d)      # Formater avec un dict
-str.index(s)           # Index de la sous-chaîne
-str.isalnum()          # Alphanumérique ?
-str.isalpha()          # Alphabétique ?
-str.isascii()          # ASCII ?
-str.isdecimal()        # Décimal ?
-str.isdigit()          # Chiffre ?
-str.isidentifier()     # Identifiant valide ?
-str.islower()          # Minuscules ?
-str.isnumeric()        # Numérique ?
-str.isprintable()      # Imprimable ?
-str.isspace()          # Espace blanc ?
-str.istitle()          # Titre (titlecase) ?
-str.isupper()          # Majuscules ?
-str.join(iter)         # Joindre l'itérable
-str.ljust(w)           # Justifier à gauche
-str.lower()            # Minuscules
-str.lstrip()           # Supprimer à gauche
-str.partition(s)       # Découper en 3 parties
-str.replace(a,b)       # Remplacer la sous-chaîne
-str.rfind(s)           # Dernière occurrence
-str.rindex(s)          # Dernier index
-str.rjust(w)           # Justifier à droite
-str.rpartition(s)      # Découper depuis la droite
-str.rsplit(s)          # Découper depuis la droite
-str.rstrip()           # Supprimer à droite
-str.split(s)           # Découper la chaîne
-str.splitlines()       # Découper les lignes
-str.startswith(p)      # Commence par le préfixe ?
-str.strip()            # Supprimer les deux extrémités
-str.swapcase()         # Inverser la casse
-str.title()            # Titre (titlecase)
-str.translate(t)       # Traduire les caractères
-str.upper()            # Majuscules
-str.zfill(w)           # Remplir à gauche avec des zéros
+# COMMENT LIRE CETTE LISTE
+# - Méthode d’instance (le plus courant) : obj.methode(args)
+# - Forme équivalente (rare) : Type.methode(obj, args)
+# - Types immuables (str/tuple/bytes) : renvoient une NOUVELLE valeur
+# - Types mutables (list/dict/set) : modifient souvent SUR PLACE et renvoient None
+#   Exemples : list.sort(), list.reverse(), dict.update(), set.update()
+#
+# Astuces :
+# - dir(obj) montre les attributs (dont les méthodes)
+# - help(obj.methode) explique les arguments et le comportement
 
-# ----------------- Listes -----------------
-list.append(x)         # Ajouter un élément
-list.extend(it)        # Ajouter plusieurs
-list.insert(i,x)       # Insérer à l'index
-list.remove(x)         # Supprimer l'élément
-list.pop(i=-1)         # Supprimer et renvoyer
-list.clear()           # Vider la liste
-list.index(x)          # Index de l'élément
-list.count(x)          # Compter les occurrences
-list.sort(key=None, reverse=False) # Trier la liste
-list.reverse()        # Inverser la liste
-list.copy()            # Copie superficielle
+# ----------------- CHAÎNES (str) -----------------
+s = "python"
+s.capitalize()          # 'Python'
+s.casefold()            # 'python'
+s.center(10, ".")       # '..python..'
+s.count("o")            # 1
+s.encode("utf-8")       # b'python'
+s.endswith("on")        # True
+s.expandtabs(4)         # Tabulations -> espaces
+s.find("th")            # 2 (ou -1 si absent)
+s.format()              # Pour chaînes de format uniquement (voir aussi f-strings)
+s.format_map({"x": 1})  # Formater avec un mapping
+s.index("th")           # 2 (ValueError si absent)
+s.isalnum()             # Lettres/chiffres uniquement ?
+s.isalpha()             # Lettres uniquement ?
+s.isascii()             # ASCII uniquement ?
+s.isdecimal()           # Chiffres décimaux (strict)
+s.isdigit()             # Chiffres (inclut certains Unicode)
+s.isidentifier()        # Nom de variable valide ?
+s.islower()             # Minuscules ?
+s.isnumeric()           # Numérique ?
+s.isprintable()         # Imprimable ?
+s.isspace()             # Espaces blancs uniquement ?
+s.istitle()             # Titre (titlecase) ?
+s.isupper()             # Majuscules ?
+"-".join(["a", "b"])    # 'a-b' (join s’appelle sur le séparateur)
+s.ljust(10, ".")        # 'python....'
+s.lower()               # 'python'
+s.lstrip()              # Supprimer à gauche (espaces)
+s.partition("th")       # ('py', 'th', 'on')
+s.removeprefix("py")    # 'thon' (Py 3.9+)
+s.removesuffix("on")    # 'pyth' (Py 3.9+)
+s.replace("py", "MY")   # 'MYthon'
+s.rfind("o")            # 4
+s.rindex("o")           # 4
+s.rjust(10, ".")        # '....python'
+s.rpartition("th")      # ('py', 'th', 'on')
+s.rsplit("t")           # ['py', 'hon']
+s.rstrip()              # Supprimer à droite (espaces)
+s.split("t")            # ['py', 'hon']
+s.splitlines()          # Découper sur les retours à la ligne
+s.startswith("py")      # True
+s.strip()               # Supprimer aux deux extrémités
+s.swapcase()            # Inverser la casse
+s.title()               # 'Python'
+s.translate(str.maketrans({"p": "P"}))  # Traduction via table
+s.upper()               # 'PYTHON'
+s.zfill(10)             # '0000python'
 
-# ----------------- Dictionnaires -----------------
-dict.clear()             # Supprimer tous les éléments
-dict.copy()              # Copie superficielle
-dict.fromkeys(seq,val)   # Créer un dict à partir des clés
-dict.get(k,default=None) # Obtenir la valeur, défaut si absent
-dict.items()             # Renvoyer (clé, valeur)
-dict.keys()              # Vue des clés
-dict.values()            # Vue des valeurs
-dict.pop(k,default=None) # Supprimer la clé
-dict.popitem()           # Supprimer le dernier (clé, valeur)
-dict.setdefault(k,v=None)# Obtenir ou définir la valeur par défaut
-dict.update(other)       # Mettre à jour le dict
+# ----------------- LISTES (list) -----------------
+xs = [3, 1, 2]
+xs.append(4)            # sur place, renvoie None
+xs.extend([5, 6])       # sur place, renvoie None
+xs.insert(0, 99)        # sur place, renvoie None
+xs.remove(99)           # sur place, renvoie None (ValueError si absent)
+xs.pop()                # renvoie l’élément supprimé
+xs.clear()              # sur place, renvoie None
+xs.index(2)             # index de la première occurrence (ValueError si absent)
+xs.count(2)             # compter les occurrences
+xs.sort()               # sur place, renvoie None (utiliser sorted(xs) pour une nouvelle liste)
+xs.reverse()            # sur place, renvoie None (utiliser reversed(xs) pour un itérateur)
+xs.copy()               # copie superficielle
 
-# ----------------- Tuples -----------------
-tuple.count(x)           # Compter les occurrences
-tuple.index(x)           # Index de l'élément
+# ----------------- DICTIONNAIRES (dict) -----------------
+d = {"a": 1, "b": 2}
+d.clear()
+d.copy()
+dict.fromkeys(["x", "y"], 0)
+d.get("x", 0)
+d.items()
+d.keys()
+d.values()
+d.pop("a", None)
+d.popitem()
+d.setdefault("k", 123)
+d.update({"z": 9})      # sur place, renvoie None
 
-# ----------------- Ensembles -----------------
-set.add(e)                     # Ajouter un élément
-set.clear()                    # Vider l'ensemble
-set.copy()                     # Copie superficielle
-set.difference(*o)             # Renvoyer la différence
-set.difference_update(*o)      # Supprimer les différences
-set.discard(e)                 # Supprimer si présent
-set.intersection(*o)           # Intersection
-set.intersection_update(*o)    # Garder l'intersection
-set.isdisjoint(o)              # Aucun élément en commun ?
-set.issubset(o)                # Est un sous-ensemble ?
-set.issuperset(o)              # Est un sur-ensemble ?
-set.pop()                      # Supprimer un élément arbitraire
-set.remove(e)                  # Supprimer l'élément
-set.symmetric_difference(o)     # Éléments dans l'un ou l'autre, pas les deux
-set.symmetric_difference_update(o)# Mettre à jour avec la différence symétrique
-set.union(*o)                  # Union des ensembles
-set.update(*o)                 # Ajouter des éléments
+# ----------------- TUPLES (tuple) -----------------
+t = (1, 2, 2, 3)
+t.count(2)
+t.index(3)
 
-# ----------------- Frozenset -----------------
-# méthodes frozenset = comme set, mais immuable (pas de add/remove/update)
+# ----------------- ENSEMBLES (set) -----------------
+s1 = {1, 2, 3}
+s1.add(4)
+s1.clear()
+s1.copy()
+s1.difference({2})
+s1.difference_update({2})
+s1.discard(999)         # pas d’erreur si absent
+s1.intersection({1, 2})
+s1.intersection_update({1, 2})
+s1.isdisjoint({10})
+s1.issubset({1, 2, 3, 4})
+s1.issuperset({1})
+s1.pop()
+s1.remove(1)            # KeyError si absent
+s1.symmetric_difference({1, 9})
+s1.symmetric_difference_update({1, 9})
+s1.union({9})
+s1.update({10, 11})
 
-# ----------------- Bytes & Bytearray -----------------
-# b''.capitalize(), b''.casefold(), b''.decode(), b''.endswith(), b''.find(),
-# b''.hex(), b''.isalnum(), b''.isalpha(), b''.isdigit(), b''.join(),
-# b''.replace(), b''.split(), b''.startswith(), b''.strip(), b''.upper(), b''.lower()
-# bytearray a des méthodes mutables en plus : append(), extend(), insert(), pop(), remove(), clear()
+# ----------------- FROZENSET -----------------
+fs = frozenset({1, 2, 3})
+fs2 = fs.union({4})
+fs3 = fs.intersection({2, 3})
 
-# ----------------- Memoryview -----------------
-# memoryview(obj).tobytes(), .tolist(), .cast(format, shape)
+# ----------------- BYTES & BYTEARRAY -----------------
+data = b"hello"
+data.decode("utf-8")
+data.hex()
 
-# ----------------- Range -----------------
-# range(start, stop, step) # Itérable
-# len(range), range[i], range.index(val), range.count(val)
+buf = bytearray(b"abc")
+buf.append(100)         # ajouter un octet
+buf.extend(b"ef")       # ajouter plusieurs octets
 
-# ----------------- Nombres -----------------
-# méthodes int, float, complex :
-# abs(), as_integer_ratio(), bit_length(), conjugate(), from_bytes(), to_bytes()
-# float : is_integer(), hex(), fromhex()
-# complex : real, imag, conjugate()
+# ----------------- MEMORYVIEW -----------------
+view = memoryview(b"hello")
+view.tobytes()
+view.tolist()
 
-# ----------------- Booléen -----------------
-# bool hérite de int ; pas de méthodes supplémentaires
+# ----------------- RANGE -----------------
+r = range(1, 10, 2)
+len(r)
+r[0]
+3 in r
 
-# ----------------- Objets fichier -----------------
-# f.read(), f.readline(), f.readlines(), f.write(), f.writelines(),
-# f.close(), f.flush(), f.seek(), f.tell()
+# ----------------- NOMBRES -----------------
+n = 42
+n.bit_length()
+(3.5).is_integer()
+(3+4j).conjugate()
 
-# ----------------- Fonctions -----------------
-# f.__call__(), __name__, __defaults__, __code__, __annotations__, __closure__
+# ----------------- BOOLÉEN -----------------
+flag = bool(1)          # True, bool hérite de int
 
-# ----------------- Classes -----------------
-# .__init__(), __new__(), __str__(), __repr__(), __class__, __dict__, __mro__, __bases__
+# ----------------- OBJETS FICHIER -----------------
+with open("exemple.txt", "w", encoding="utf-8") as f:
+    f.write("bonjour")
+    f.flush()
 
-# ----------------- Modules -----------------
-# .__name__, __file__, __dict__, __package__, __loader__, __path__
+# ----------------- FONCTIONS -----------------
+def f(x: int) -> int:
+    return x * 2
 
-# ----------------- Exceptions -----------------
-# args, with_traceback(), add_note()
+f.__name__
+f.__annotations__
+
+# ----------------- CLASSES -----------------
+class C:
+    def __init__(self, x: int) -> None:
+        self.x = x
+
+    def __repr__(self) -> str:
+        return f"C(x={self.x})"
+
+C(1)
+
+# ----------------- MODULES -----------------
+import math
+math.__name__
+
+# ----------------- EXCEPTIONS -----------------
+try:
+    1 / 0
+except ZeroDivisionError as e:
+    e.add_note("Vérifiez votre dénominateur")
 `;
 
 export const MethodsView: React.FC<MethodsViewProps> = ({ onBack }) => {
   const { t, language } = useLanguage();
   const cheatSheet = language === 'fr' ? METHOD_CHEAT_SHEET_FR : METHOD_CHEAT_SHEET_EN;
+  const methodTheme: any = {
+    ...oneDark,
+    'pre[class*="language-"]': {
+      ...(oneDark as any)['pre[class*="language-"]'],
+      background: 'transparent',
+    },
+    'code[class*="language-"]': {
+      ...(oneDark as any)['code[class*="language-"]'],
+      background: 'transparent',
+      color: '#e5e7eb', // slate-200
+      textShadow: 'none',
+    },
+    comment: {
+      color: '#94a3b8', // slate-400 (more readable than default "greyed out")
+      fontStyle: 'italic',
+    },
+    keyword: { color: '#fbbf24' },     // amber-400
+    builtin: { color: '#93c5fd' },     // blue-300
+    function: { color: '#f59e0b' },    // amber-500
+    string: { color: '#fde68a' },      // amber-200
+    number: { color: '#fca5a5' },      // red-300
+    punctuation: { color: '#cbd5e1' }, // slate-300
+  };
 
   return (
     <div className="relative min-h-[400px] animate-in slide-in-from-left duration-300 pb-12">
@@ -309,7 +418,7 @@ export const MethodsView: React.FC<MethodsViewProps> = ({ onBack }) => {
       <div className="rounded-2xl border border-white/10 overflow-hidden bg-slate-900/50 max-h-[70vh] overflow-y-auto">
         <SyntaxHighlighter
           language="python"
-          style={oneDark}
+          style={methodTheme}
           customStyle={{
             padding: '1rem 1.25rem',
             margin: 0,
@@ -328,6 +437,7 @@ export const MethodsView: React.FC<MethodsViewProps> = ({ onBack }) => {
           }}
           PreTag="div"
           showLineNumbers={false}
+          wrapLongLines
         >
           {cheatSheet.trim()}
         </SyntaxHighlighter>

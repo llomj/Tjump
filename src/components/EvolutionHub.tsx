@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserStats, PersonaStage } from '../types';
-import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsFromAccuracy, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
+import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsForLevel, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
 import { PersonaIcon } from './PersonaIcon';
 import { ProgressBar } from './ProgressBar';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -29,9 +29,9 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
     ? Math.round((stats.lastSessionScore / stats.lastSessionTotal) * 100)
     : null;
 
-  // 5-star rating from accuracy (correct/total) for current level; Random mode uses stricter thresholds
+  // 5-star rating: level = correct out of 300 (full level); Random mode uses stricter thresholds
   const correct = stats.levelCorrect?.[stats.currentLevel] ?? 0;
-  const earnedStars = getStarsFromAccuracy(correct, progress);
+  const earnedStars = getStarsForLevel(correct);
   const randomEarnedStars = getStarsFromAccuracyRandom(rm.totalCorrect, rm.totalAnswered);
 
   // Star tier for labels (level mode only): 1-2 = Beginner, 3-4 = Intermediate, 4-5 = Expert

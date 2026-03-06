@@ -1,5 +1,5 @@
 import React from 'react';
-import { LEVELS, getStarsFromAccuracy } from '../constants';
+import { LEVELS, getStarsForLevel } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
 import { formatTranslation } from '../translations';
 import { PersonaIcon } from './PersonaIcon';
@@ -68,8 +68,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
             const isCurrent = levelInfo.level === currentLevel;
             const isUnlocked = levelInfo.level <= highestUnlockedLevel;
             const correct = levelCorrect[levelInfo.level] ?? 0;
-            const progress = levelProgress[levelInfo.level] ?? 0;
-            const stars = getStarsFromAccuracy(correct, progress);
+            const stars = getStarsForLevel(correct);
 
             return (
               <button

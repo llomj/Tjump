@@ -18,7 +18,11 @@ interface SettingsMenuProps {
   onShowFlow?: () => void;
   onShowLevelSelector?: () => void;
   onToggleLanguage?: () => void;
-  onPreviewStarSound?: () => void;
+  soundEnabled?: boolean;
+  hapticEnabled?: boolean;
+  onToggleSound?: () => void;
+  onToggleHaptic?: () => void;
+  triggerHaptic?: () => void;
   onRefreshApp?: () => void;
   onResetApp?: () => void;
 }
@@ -39,13 +43,22 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onShowFlow,
   onShowLevelSelector,
   onToggleLanguage,
-  onPreviewStarSound,
+  soundEnabled = true,
+  hapticEnabled = true,
+  onToggleSound,
+  onToggleHaptic,
+  triggerHaptic,
   onRefreshApp,
   onResetApp
 }) => {
   const { t, language } = useLanguage();
   const [rulesExpanded, setRulesExpanded] = useState(false);
   useEffect(() => { if (!isOpen) setRulesExpanded(false); }, [isOpen]);
+
+  const withHaptic = (fn?: () => void) => () => {
+    triggerHaptic?.();
+    fn?.();
+  };
 
   if (!isOpen) return null;
 
@@ -59,141 +72,68 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
     children?: Array<{ icon: string; label: string; onClick: () => void }>;
   }> = [];
 
-  // Hub view items: Random Mode on top, Select Level under it, then Methods, Flow, then rest
-  if (view === 'hub') {
-    if (onToggleRandomMode) {
-      menuItems.push({
-        icon: 'fa-shuffle',
-        label: randomMode ? t('settings.switchToLevelMode') : t('settings.switchToRandomMode'),
-        onClick: () => {
-          onToggleRandomMode();
-          onClose();
-        }
-      });
-    }
-    if (onShowLevelSelector) {
-      menuItems.push({
-        icon: 'fa-layer-group',
-        label: t('settings.selectLevel'),
-        onClick: () => {
-          onShowLevelSelector();
-          onClose();
-        }
-      });
-    }
-    // Rules (under Select Level): expandable — Flow, Glossary, Methods, Operations & Math (alphabetical)
-    if (onShowMethods || onShowFlow || onShowOperations || onShowGlossary) {
-      const rulesChildren: Array<{ icon: string; label: string; onClick: () => void }> = [];
-      if (onShowFlow) rulesChildren.push({ icon: 'fa-diagram-project', label: t('app.flow'), onClick: () => { onShowFlow(); onClose(); } });
-      if (onShowGlossary) rulesChildren.push({ icon: 'fa-circle-info', label: t('app.glossary'), onClick: () => { onShowGlossary(); onClose(); } });
-      if (onShowMethods) rulesChildren.push({ icon: 'fa-code', label: t('app.methods'), onClick: () => { onShowMethods(); onClose(); } });
-      if (onShowOperations) rulesChildren.push({ icon: 'fa-calculator', label: t('app.operations'), onClick: () => { onShowOperations(); onClose(); } });
-      rulesChildren.sort((a, b) => a.label.localeCompare(b.label));
-      menuItems.push({ icon: 'fa-book', label: t('levelSelector.rules'), type: 'expandable', children: rulesChildren });
-    }
-    if (onShowIdSearch) {
-      menuItems.push({
-        icon: 'fa-hashtag',
-        label: t('settings.searchById'),
-        onClick: () => {
-          onShowIdSearch();
-          onClose();
-        }
-      });
-    }
-    if (onShowIdLog) {
-      menuItems.push({
-        icon: 'fa-list',
-        label: t('settings.idLog'),
-        onClick: () => {
-          onShowIdLog();
-          onClose();
-        }
-      });
-    }
-    if (onShowLearningLog) {
-      menuItems.push({
-        icon: 'fa-book-open',
-        label: t('app.learningLog'),
-        onClick: () => {
-          onShowLearningLog();
-          onClose();
-        }
-      });
-    }
+  // Core items: Random Mode on top, Select Level under it, then Rules, then logs.
+  if (onToggleRandomMode) {
+    menuItems.push({
+      icon: 'fa-shuffle',
+      label: randomMode ? t('settings.switchToLevelMode') : t('settings.switchToRandomMode'),
+      onClick: () => {
+        onToggleRandomMode();
+        onClose();
+      }
+    });
   }
 
-  // Quiz view items: same as hub so settings are always identical
-  if (view === 'quiz') {
-    if (onToggleRandomMode) {
-      menuItems.push({
-        icon: 'fa-shuffle',
-        label: randomMode ? t('settings.switchToLevelMode') : t('settings.switchToRandomMode'),
-        onClick: () => {
-          onToggleRandomMode();
-          onClose();
-        }
-      });
-    }
-    if (onShowLevelSelector) {
-      menuItems.push({
-        icon: 'fa-layer-group',
-        label: t('settings.selectLevel'),
-        onClick: () => {
-          onShowLevelSelector();
-          onClose();
-        }
-      });
-    }
-    // Rules (under Select Level): expandable — Flow, Glossary, Methods, Operations & Math (alphabetical)
-    if (onShowMethods || onShowFlow || onShowOperations || onShowGlossary) {
-      const rulesChildren: Array<{ icon: string; label: string; onClick: () => void }> = [];
-      if (onShowFlow) rulesChildren.push({ icon: 'fa-diagram-project', label: t('app.flow'), onClick: () => { onShowFlow(); onClose(); } });
-      if (onShowGlossary) rulesChildren.push({ icon: 'fa-circle-info', label: t('app.glossary'), onClick: () => { onShowGlossary(); onClose(); } });
-      if (onShowMethods) rulesChildren.push({ icon: 'fa-code', label: t('app.methods'), onClick: () => { onShowMethods(); onClose(); } });
-      if (onShowOperations) rulesChildren.push({ icon: 'fa-calculator', label: t('app.operations'), onClick: () => { onShowOperations(); onClose(); } });
-      rulesChildren.sort((a, b) => a.label.localeCompare(b.label));
-      menuItems.push({ icon: 'fa-book', label: t('levelSelector.rules'), type: 'expandable', children: rulesChildren });
-    }
-    if (onShowIdSearch) {
-      menuItems.push({
-        icon: 'fa-hashtag',
-        label: t('settings.searchById'),
-        onClick: () => {
-          onShowIdSearch();
-          onClose();
-        }
-      });
-    }
-    if (onShowIdLog) {
-      menuItems.push({
-        icon: 'fa-list',
-        label: t('settings.idLog'),
-        onClick: () => {
-          onShowIdLog();
-          onClose();
-        }
-      });
-    }
-    if (onShowLearningLog) {
-      menuItems.push({
-        icon: 'fa-book-open',
-        label: t('app.learningLog'),
-        onClick: () => {
-          onShowLearningLog();
-          onClose();
-        }
-      });
-    }
-  }
-
-  // Common items (Glossary only inside Rules for hub/quiz)
-  if (onShowLevelSelector && view !== 'hub' && view !== 'quiz') {
+  if (onShowLevelSelector) {
     menuItems.push({
       icon: 'fa-layer-group',
       label: t('settings.selectLevel'),
       onClick: () => {
         onShowLevelSelector();
+        onClose();
+      }
+    });
+  }
+
+  // Rules (under Select Level): expandable — Flow, Glossary, Methods, Operations & Math (alphabetical)
+  if (onShowMethods || onShowFlow || onShowOperations || onShowGlossary) {
+    const rulesChildren: Array<{ icon: string; label: string; onClick: () => void }> = [];
+    if (onShowFlow) rulesChildren.push({ icon: 'fa-diagram-project', label: t('app.flow'), onClick: () => { onShowFlow(); onClose(); } });
+    if (onShowGlossary) rulesChildren.push({ icon: 'fa-circle-info', label: t('app.glossary'), onClick: () => { onShowGlossary(); onClose(); } });
+    if (onShowMethods) rulesChildren.push({ icon: 'fa-code', label: t('app.methods'), onClick: () => { onShowMethods(); onClose(); } });
+    if (onShowOperations) rulesChildren.push({ icon: 'fa-calculator', label: t('app.operations'), onClick: () => { onShowOperations(); onClose(); } });
+    rulesChildren.sort((a, b) => a.label.localeCompare(b.label));
+    menuItems.push({ icon: 'fa-book', label: t('levelSelector.rules'), type: 'expandable', children: rulesChildren });
+  }
+
+  if (onShowIdSearch) {
+    menuItems.push({
+      icon: 'fa-hashtag',
+      label: t('settings.searchById'),
+      onClick: () => {
+        onShowIdSearch();
+        onClose();
+      }
+    });
+  }
+
+  if (onShowIdLog) {
+    menuItems.push({
+      icon: 'fa-list',
+      label: t('settings.idLog'),
+      onClick: () => {
+        onShowIdLog();
+        onClose();
+      }
+    });
+  }
+
+  if (onShowLearningLog) {
+    menuItems.push({
+      icon: 'fa-book-open',
+      label: t('app.learningLog'),
+      onClick: () => {
+        onShowLearningLog();
         onClose();
       }
     });
@@ -205,16 +145,6 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
       label: language === 'en' ? 'Français' : 'English',
       onClick: () => {
         onToggleLanguage();
-        onClose();
-      }
-    });
-  }
-  if (onShowGlossary && view !== 'hub' && view !== 'quiz') {
-    menuItems.push({
-      icon: 'fa-circle-info',
-      label: t('app.glossary'),
-      onClick: () => {
-        onShowGlossary();
         onClose();
       }
     });
@@ -235,7 +165,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             item.type === 'expandable' && item.children ? (
               <div key={index} className="rounded-xl overflow-hidden">
                 <button
-                  onClick={() => setRulesExpanded(prev => !prev)}
+                  onClick={withHaptic(() => setRulesExpanded(prev => !prev))}
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
                 >
                   <i className={`fas ${item.icon} text-sm w-5 flex-shrink-0 text-indigo-400`}></i>
@@ -247,7 +177,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                     {item.children.map((child, i) => (
                       <button
                         key={i}
-                        onClick={child.onClick}
+                        onClick={withHaptic(child.onClick)}
                         className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-slate-400 hover:bg-white/10 hover:text-white transition-all text-sm"
                       >
                         <i className={`fas ${child.icon} text-xs w-4 flex-shrink-0`}></i>
@@ -268,7 +198,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             ) : (
               <button
                 key={index}
-                onClick={item.onClick}
+                onClick={withHaptic(item.onClick)}
                 className={`
                   w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left
                   ${item.active
@@ -285,17 +215,36 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             )
           )}
 
-          {/* Preview star celebration sound */}
-          {onPreviewStarSound && (
+          {/* Sound section: toggles only */}
+          {(onToggleSound != null || onToggleHaptic != null) && (
             <>
               <div className="my-2 border-t border-white/10" />
-              <button
-                onClick={onPreviewStarSound}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
-              >
-                <i className="fas fa-volume-high text-sm w-5 flex-shrink-0"></i>
-                <span className="text-sm font-medium">{t('settings.previewStarSound')}</span>
-              </button>
+              <div className="flex items-center gap-3 px-4 py-2">
+                <i className="fas fa-volume-high text-sm w-5 flex-shrink-0 text-indigo-400"></i>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('settings.soundSection')}</span>
+              </div>
+              {onToggleSound != null && (
+                <button
+                  onClick={withHaptic(onToggleSound)}
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
+                >
+                  <span className="text-sm font-medium">{t('settings.soundEffects')}</span>
+                  <span className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${soundEnabled ? 'bg-indigo-500' : 'bg-slate-600'}`}>
+                    <span className={`block w-5 h-5 mt-0.5 rounded-full bg-white shadow transition-transform ${soundEnabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                  </span>
+                </button>
+              )}
+              {onToggleHaptic != null && (
+                <button
+                  onClick={withHaptic(onToggleHaptic)}
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
+                >
+                  <span className="text-sm font-medium">{t('settings.hapticFeedback')}</span>
+                  <span className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${hapticEnabled ? 'bg-indigo-500' : 'bg-slate-600'}`}>
+                    <span className={`block w-5 h-5 mt-0.5 rounded-full bg-white shadow transition-transform ${hapticEnabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                  </span>
+                </button>
+              )}
             </>
           )}
 
@@ -304,10 +253,10 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             <>
               <div className="my-2 border-t border-white/10" />
               <button
-                onClick={() => {
-                  onRefreshApp();
+                onClick={withHaptic(() => {
+                  onRefreshApp!();
                   onClose();
-                }}
+                })}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
               >
                 <i className="fas fa-arrows-rotate text-sm w-5 flex-shrink-0"></i>
@@ -321,10 +270,10 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             <>
               <div className="my-2 border-t border-white/10" />
               <button
-                onClick={() => {
-                  onResetApp();
+                onClick={withHaptic(() => {
+                  onResetApp!();
                   onClose();
-                }}
+                })}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left text-amber-400 hover:bg-amber-500/10 hover:text-amber-300"
               >
                 <i className="fas fa-rotate-left text-sm w-5 flex-shrink-0"></i>
