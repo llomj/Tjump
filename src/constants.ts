@@ -6,11 +6,24 @@ export const SUBLEVELS_PER_LEVEL = 3;
 export const QUESTIONS_PER_LEVEL = QUESTIONS_PER_SUBLEVEL * SUBLEVELS_PER_LEVEL; // 300
 export const TOTAL_QUESTIONS = 3300; // 11 levels (0–10) × 300 questions
 
-/** Derive number of stars (0–3) from progress for a level. Used for migration and display. */
+/** Derive number of stars (0–3) from progress for a level. Legacy; sub-level display only. */
 export const getStarsFromProgress = (progress: number): number => {
   if (progress >= QUESTIONS_PER_SUBLEVEL * 3) return 3;
   if (progress >= QUESTIONS_PER_SUBLEVEL * 2) return 2;
   if (progress >= QUESTIONS_PER_SUBLEVEL) return 1;
+  return 0;
+};
+
+/** Accuracy thresholds for 5-star rating: 10%, 30%, 50%, 70%, 90%. */
+export const STAR_ACCURACY_THRESHOLDS = [0.1, 0.3, 0.5, 0.7, 0.9] as const;
+
+/** Derive number of stars (0–5) from accuracy (correct/total) for a level. */
+export const getStarsFromAccuracy = (correct: number, total: number): number => {
+  if (total === 0) return 0;
+  const pct = correct / total;
+  for (let i = STAR_ACCURACY_THRESHOLDS.length - 1; i >= 0; i--) {
+    if (pct >= STAR_ACCURACY_THRESHOLDS[i]) return i + 1;
+  }
   return 0;
 };
 

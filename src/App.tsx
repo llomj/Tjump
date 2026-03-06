@@ -4,7 +4,7 @@ import { EvolutionHub } from './components/EvolutionHub';
 import { PersonaIcon } from './components/PersonaIcon';
 import { SettingsMenu } from './components/SettingsMenu';
 import { IdLogEntry } from './types';
-import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsFromProgress, getRandomModeScore, getPersonaFromRandomScore } from './constants';
+import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsFromAccuracy, getRandomModeScore, getPersonaFromRandomScore } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
 import { formatTranslation } from './translations';
 
@@ -75,7 +75,7 @@ const INITIAL_STATS: UserStats = {
   completedQuestionIds: [],
   highestUnlockedLevel: 0,
   levelProgress: {},
-  acquiredStars: {},
+  levelCorrect: {},
   history: [],
   idLog: [],
   randomModeStats: { totalAnswered: 0, totalCorrect: 0 },
@@ -106,6 +106,7 @@ const App: React.FC = () => {
     score: number;
     total: number;
     starEarned: number | null;
+    levelAccuracyPercent?: number;
     randomMode?: boolean;
     prevScore?: number;
     newScore?: number;
@@ -141,18 +142,8 @@ const App: React.FC = () => {
         if (!parsed.completedQuestionIds) parsed.completedQuestionIds = [];
         if (!parsed.idLog) parsed.idLog = [];
         if (parsed.totalAttempts === undefined) parsed.totalAttempts = parsed.history.length || 0;
-        // Migration: derive acquiredStars from levelProgress when missing or partial
-        const levelProgress = parsed.levelProgress || {};
-        const existingStars = parsed.acquiredStars || {};
-        const migratedStars: Record<number, number> = { ...existingStars };
-        for (const level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
-          const progress = levelProgress[level] || 0;
-          const derivedStars = getStarsFromProgress(progress);
-          if (derivedStars > (existingStars[level] || 0)) {
-            migratedStars[level] = derivedStars;
-          }
-        }
-        parsed.acquiredStars = migratedStars;
+        // Migration: levelCorrect for 5-star accuracy (Option A: start at 0 so stars reflect actual accuracy)
+        if (!parsed.levelCorrect) parsed.levelCorrect = {};
         // Migration: Random mode stats for dual-mode progression
         if (!parsed.randomModeStats) {
           parsed.randomModeStats = { totalAnswered: 0, totalCorrect: 0 };
@@ -284,23 +275,25 @@ const App: React.FC = () => {
         newPersona: getPersonaFromRandomScore(newScore)
       });
     } else {
-      // Level mode: update levelProgress, stars, currentLevel
+      // Level mode: update levelProgress, levelCorrect, currentLevel; stars from accuracy (5-star)
+      const currentLevelProgress = stats.levelProgress[stats.currentLevel] || 0;
+      const currentLevelCorrect = stats.levelCorrect?.[stats.currentLevel] || 0;
+      const prevStars = getStarsFromAccuracy(currentLevelCorrect, currentLevelProgress);
+
       setStats(prev => {
         const newXp = prev.xp + xpGained;
-        const currentLevelProgress = prev.levelProgress[prev.currentLevel] || 0;
-        const newLevelProgress = Math.min(QUESTIONS_PER_LEVEL, currentLevelProgress + total);
+        const currProgress = prev.levelProgress[prev.currentLevel] || 0;
+        const newLevelProgress = Math.min(QUESTIONS_PER_LEVEL, currProgress + total);
+        const currCorrect = prev.levelCorrect?.[prev.currentLevel] || 0;
+        const newLevelCorrect = currCorrect + score;
 
         const updatedLevelProgress = {
           ...prev.levelProgress,
           [prev.currentLevel]: newLevelProgress
         };
-
-        const currentStars = prev.acquiredStars?.[prev.currentLevel] || 0;
-        const newStars = Math.max(currentStars, getStarsFromProgress(newLevelProgress));
-
-        const updatedAcquiredStars = {
-          ...(prev.acquiredStars || {}),
-          [prev.currentLevel]: Math.max(currentStars, newStars)
+        const updatedLevelCorrect = {
+          ...(prev.levelCorrect || {}),
+          [prev.currentLevel]: newLevelCorrect
         };
 
         let newLevel = prev.currentLevel;
@@ -314,19 +307,19 @@ const App: React.FC = () => {
           currentLevel: newLevel,
           highestUnlockedLevel: Math.max(prev.highestUnlockedLevel, newLevel),
           levelProgress: updatedLevelProgress,
-          acquiredStars: updatedAcquiredStars,
+          levelCorrect: updatedLevelCorrect,
           lastSessionScore: score,
           lastSessionTotal: total
         };
       });
 
-      const currentLevelProgress = stats.levelProgress[stats.currentLevel] || 0;
       const newLevelProgress = Math.min(QUESTIONS_PER_LEVEL, currentLevelProgress + total);
-      const currentStars = stats.acquiredStars?.[stats.currentLevel] || 0;
-      const newStars = Math.max(currentStars, getStarsFromProgress(newLevelProgress));
-      const starEarned = newStars > currentStars ? newStars : null;
+      const newLevelCorrect = currentLevelCorrect + score;
+      const newStars = getStarsFromAccuracy(newLevelCorrect, newLevelProgress);
+      const starEarned = newStars > prevStars ? newStars : null;
+      const levelAccuracyPercent = newLevelProgress > 0 ? Math.round((newLevelCorrect / newLevelProgress) * 100) : undefined;
 
-      setShowResult({ score, total, starEarned });
+      setShowResult({ score, total, starEarned, levelAccuracyPercent });
     }
 
     setView('hub');
@@ -419,6 +412,7 @@ const App: React.FC = () => {
               randomModeStats={stats.randomModeStats}
               onSaveToIdLog={saveToIdLog}
               savedIdLogIds={stats.idLog.map(entry => entry.id)}
+              earnedStars={getStarsFromAccuracy(stats.levelCorrect?.[stats.currentLevel] ?? 0, currentProgress)}
             />
           </Suspense>
         ) : view === 'log' ? (
@@ -463,12 +457,13 @@ const App: React.FC = () => {
                 <>
                   <h2 className="text-3xl font-black mb-2 text-amber-400 bg-clip-text">{t('subLevels.subLevelComplete')}</h2>
                   <p className="text-slate-300">
-                    {formatTranslation(t('subLevels.youEarnedStar'), {
-                      star: showResult.starEarned === 1 ? t('subLevels.beginner')
-                        : showResult.starEarned === 2 ? t('subLevels.intermediate')
-                          : t('subLevels.expert')
-                    })}
+                    {formatTranslation(t('result.youEarnedStars'), { count: showResult.starEarned })}
                   </p>
+                  {showResult.levelAccuracyPercent !== undefined && (
+                    <p className="text-slate-400 text-sm mt-1">
+                      {formatTranslation(t('result.levelAccuracy'), { percent: showResult.levelAccuracyPercent })}
+                    </p>
+                  )}
                 </>
               ) : (
                 <>
@@ -628,7 +623,8 @@ const App: React.FC = () => {
             highestUnlockedLevel={stats.highestUnlockedLevel}
             onSelectLevel={handleLevelChange}
             onClose={() => setShowLevelSelector(false)}
-            acquiredStars={stats.acquiredStars}
+            levelCorrect={stats.levelCorrect}
+            levelProgress={stats.levelProgress}
             randomMode={randomMode}
           />
         </Suspense>

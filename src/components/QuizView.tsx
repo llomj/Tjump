@@ -680,6 +680,7 @@ interface QuizViewProps {
   randomizeTrigger?: number; // Add trigger to force re-randomization
   randomMode?: boolean; // Random mode: questions from all levels
   randomModeStats?: { totalAnswered: number; totalCorrect: number }; // Base stats for live score display
+  earnedStars?: number; // 0-5 stars for current level (from accuracy); only in level mode
 }
 
 export const QuizView: React.FC<QuizViewProps> = ({
@@ -693,7 +694,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
   savedIdLogIds = [],
   randomizeTrigger,
   randomMode = false,
-  randomModeStats
+  randomModeStats,
+  earnedStars = 0
 }) => {
   const { t, tRaw, language } = useLanguage();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -875,22 +877,16 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 {currentQuestion.subLevel === 'Intermediate' && t('subLevels.intermediateCaps')}
                 {currentQuestion.subLevel === 'Expert' && t('subLevels.expertCaps')}
               </span>
-              <div className="flex gap-0.5">
-                {[1, 2, 3].map(starNum => {
-                  let isEarned = false;
-                  if (currentQuestion.subLevel === 'Beginner') isEarned = starNum <= 1;
-                  if (currentQuestion.subLevel === 'Intermediate') isEarned = starNum <= 2;
-                  if (currentQuestion.subLevel === 'Expert') isEarned = starNum <= 3;
-
-                  return (
+              {!randomMode && (
+                <div className="flex gap-0.5">
+                  {[1, 2, 3, 4, 5].map(starNum => (
                     <i
                       key={starNum}
-                      className={`fas fa-star text-[8px] ${isEarned ? 'text-amber-400' : 'text-slate-700'
-                        }`}
+                      className={`fas fa-star text-[8px] ${starNum <= earnedStars ? 'text-amber-400' : 'text-slate-700'}`}
                     ></i>
-                  );
-                })}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="flex gap-4 items-center flex-shrink-0">
               {liveEvolutionScore !== null && (

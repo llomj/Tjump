@@ -1,5 +1,5 @@
 import React from 'react';
-import { LEVELS } from '../constants';
+import { LEVELS, getStarsFromAccuracy } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
 import { formatTranslation } from '../translations';
 import { PersonaIcon } from './PersonaIcon';
@@ -9,7 +9,8 @@ interface LevelSelectorModalProps {
   highestUnlockedLevel: number;
   onSelectLevel: (level: number) => void;
   onClose: () => void;
-  acquiredStars?: Record<number, number>;
+  levelCorrect?: Record<number, number>;
+  levelProgress?: Record<number, number>;
   randomMode?: boolean;
 }
 
@@ -18,7 +19,8 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   highestUnlockedLevel,
   onSelectLevel,
   onClose,
-  acquiredStars = {},
+  levelCorrect = {},
+  levelProgress = {},
   randomMode = false
 }) => {
   const { t } = useLanguage();
@@ -50,7 +52,9 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
             const isLocked = levelInfo.level > highestUnlockedLevel;
             const isCurrent = levelInfo.level === currentLevel;
             const isUnlocked = levelInfo.level <= highestUnlockedLevel;
-            const stars = acquiredStars[levelInfo.level] || 0;
+            const correct = levelCorrect[levelInfo.level] ?? 0;
+            const progress = levelProgress[levelInfo.level] ?? 0;
+            const stars = getStarsFromAccuracy(correct, progress);
 
             return (
               <button
@@ -74,7 +78,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                 )}
                 {isUnlocked && (
                   <div className="absolute top-2 right-2 flex gap-0.5">
-                    {[1, 2, 3].map(starNum => (
+                    {[1, 2, 3, 4, 5].map(starNum => (
                       <i
                         key={starNum}
                         className={`fas fa-star text-[10px] ${starNum <= stars ? 'text-amber-400' : 'text-slate-700/50'

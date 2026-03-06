@@ -588,7 +588,7 @@ Reserve blocks for high-impact concepts:
 2. When `levelProgress[currentLevel] >= 300`, the user advances: `currentLevel` becomes 2, `highestUnlockedLevel` is updated.
 3. User can replay any unlocked level via Settings → Level Selector.
 
-**Stars**: Earn 1 star at 100, 2 at 200, 3 at 300 questions completed for that level. Stars are visual milestones; level unlock requires the full 300.
+**Stars (5-star accuracy system)**: Each level has 0–5 stars based on **accuracy** (% correct), not volume. `levelCorrect[level]` stores correct answers; stars = `getStarsFromAccuracy(levelCorrect[L], levelProgress[L])`. Thresholds: ≥10% = 1 star, ≥30% = 2, ≥50% = 3, ≥70% = 4, ≥90% = 5. Redoing a level can increase stars if accuracy improves. Level unlock still requires 300 questions attempted. Migration: if `levelCorrect` is missing, it is set to `{}` (stars start at 0 until user plays).
 
 ---
 

@@ -68,11 +68,12 @@ export interface UserStats {
   completedQuestionIds: number[];
   highestUnlockedLevel: number;
   levelProgress: Record<number, number>;
+  levelCorrect?: Record<number, number>; // total correct answers per level (level mode only), used for 5-star accuracy
   history: QuestionAttempt[];
   idLog: IdLogEntry[];
   lastSessionScore?: number;
   lastSessionTotal?: number;
-  acquiredStars?: Record<number, number>; // Maps level ID to number of stars (1 = Beginner, 2 = Intermediate, 3 = Expert)
+  acquiredStars?: Record<number, number>; // deprecated for level mode; stars computed from levelCorrect/levelProgress
   randomModeStats?: RandomModeStats;
   randomMode?: boolean; // Persisted preference: Level vs Random mode
 }

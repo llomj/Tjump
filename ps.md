@@ -74,6 +74,7 @@ Before moving to the next level:
 - Updated SW cache version for refresh
 - Random Mode: toggle in Settings (hub + quiz), point-based evolution, dual persistence (`randomModeStats`), questions from all levels
 - Implemented question display with syntax highlighting for code questions
+- **5-Star Accuracy Scoring**: Stars per level (0–5) are based on % correct (accuracy), not questions completed. Thresholds: ≥10% = 1 star, ≥30% = 2, ≥50% = 3, ≥70% = 4, ≥90% = 5. Stored as `levelCorrect` (correct count) + `levelProgress` (total answered); stars computed via `getStarsFromAccuracy()`. Level unlock still requires 300 questions attempted. Migration: existing users get `levelCorrect = {}` so stars start at 0 until they play (redo levels to earn stars).
 
 ---
 

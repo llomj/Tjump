@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserStats, PersonaStage } from '../types';
-import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsFromProgress, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
+import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsFromAccuracy, getRandomModeScore, getPersonaFromRandomScore, getNextRandomModeThreshold } from '../constants';
 import { PersonaIcon } from './PersonaIcon';
 import { ProgressBar } from './ProgressBar';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -29,15 +29,24 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
     ? Math.round((stats.lastSessionScore / stats.lastSessionTotal) * 100)
     : null;
 
-  // Calculate stars earned for current level (use acquiredStars, or derive from progress for migration)
-  const earnedStars = stats.acquiredStars?.[stats.currentLevel] ?? getStarsFromProgress(progress);
+  // 5-star rating from accuracy (correct/total) for current level
+  const correct = stats.levelCorrect?.[stats.currentLevel] ?? 0;
+  const earnedStars = getStarsFromAccuracy(correct, progress);
+
+  // Star tier for labels: 1-2 = Beginner, 3-4 = Intermediate, 4-5 = Expert (0 = Beginner)
+  const getStarTier = (stars: number): 'beginner' | 'intermediate' | 'expert' => {
+    if (stars >= 4) return 'expert';
+    if (stars >= 3) return 'intermediate';
+    return 'beginner';
+  };
+  const starTier = getStarTier(earnedStars);
 
   const displayPersona = randomMode ? randomPersona : currentLevelInfo.persona;
 
   const renderStars = () => {
     return (
       <div className="flex gap-2 justify-center mt-3">
-        {[1, 2, 3].map(starNum => (
+        {[1, 2, 3, 4, 5].map(starNum => (
           <div
             key={starNum}
             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500
@@ -135,12 +144,26 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
                 </div>
               </div>
               <div className="space-y-4 pt-6 border-t border-white/5">
+                {/* 5 stars: black until earned, then amber (accuracy-based) */}
+                <div className="flex gap-1.5 justify-center">
+                  {[1, 2, 3, 4, 5].map(starNum => (
+                    <div
+                      key={starNum}
+                      className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300
+                        ${starNum <= earnedStars
+                          ? 'bg-amber-400 text-amber-900 shadow-[0_0_10px_rgba(251,191,36,0.4)]'
+                          : 'bg-slate-800 text-slate-600 border border-white/5'
+                        }`}
+                    >
+                      <i className={`fas fa-star ${starNum <= earnedStars ? 'animate-pulse' : ''} text-[10px]`}></i>
+                    </div>
+                  ))}
+                </div>
                 <div className="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                   <span>
-                    {earnedStars === 0 && t('subLevels.beginnerProgress')}
-                    {earnedStars === 1 && t('subLevels.intermediateProgress')}
-                    {earnedStars === 2 && t('subLevels.expertProgress')}
-                    {earnedStars === 3 && t('subLevels.masteryProgress')}
+                    {starTier === 'beginner' && t('subLevels.beginnerProgress')}
+                    {starTier === 'intermediate' && t('subLevels.intermediateProgress')}
+                    {starTier === 'expert' && t('subLevels.expertProgress')}
                   </span>
                   <span>{progress} / {QUESTIONS_PER_LEVEL}</span>
                 </div>

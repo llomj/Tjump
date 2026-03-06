@@ -91,6 +91,8 @@ export const translations = {
       successRate: "Success Rate",
       evolutionScore: "Evolution Score",
       backToHub: "BACK TO HUB",
+      youEarnedStars: "You earned {count} star(s)!",
+      levelAccuracy: "Level accuracy: {percent}%",
     },
     
     // Random Mode Modal
@@ -373,6 +375,8 @@ export const translations = {
       successRate: "Taux de Réussite",
       evolutionScore: "Score d'Évolution",
       backToHub: "RETOUR AU HUB",
+      youEarnedStars: "Vous avez obtenu {count} étoile(s) !",
+      levelAccuracy: "Précision du niveau : {percent} %",
     },
     
     // Random Mode Modal
