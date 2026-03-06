@@ -12,6 +12,10 @@ interface LevelSelectorModalProps {
   levelCorrect?: Record<number, number>;
   levelProgress?: Record<number, number>;
   randomMode?: boolean;
+  onShowMethods?: () => void;
+  onShowFlow?: () => void;
+  onShowOperations?: () => void;
+  onShowGlossary?: () => void;
 }
 
 export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
@@ -21,9 +25,20 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   onClose,
   levelCorrect = {},
   levelProgress = {},
-  randomMode = false
+  randomMode = false,
+  onShowMethods,
+  onShowFlow,
+  onShowOperations,
+  onShowGlossary
 }) => {
   const { t } = useLanguage();
+  const rulesItems = [
+    onShowFlow && { icon: 'fa-diagram-project', label: t('app.flow'), onClick: onShowFlow },
+    onShowGlossary && { icon: 'fa-circle-info', label: t('app.glossary'), onClick: onShowGlossary },
+    onShowMethods && { icon: 'fa-code', label: t('app.methods'), onClick: onShowMethods },
+    onShowOperations && { icon: 'fa-calculator', label: t('app.operations'), onClick: onShowOperations },
+  ].filter(Boolean) as Array<{ icon: string; label: string; onClick: () => void }>;
+  rulesItems.sort((a, b) => a.label.localeCompare(b.label));
 
   const handleLevelSelect = (level: number) => {
     if (level <= highestUnlockedLevel) {
@@ -76,17 +91,6 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                     <i className="fas fa-lock text-slate-500 text-xs"></i>
                   </div>
                 )}
-                {isUnlocked && (
-                  <div className="absolute top-2 right-2 flex gap-0.5">
-                    {[1, 2, 3, 4, 5].map(starNum => (
-                      <i
-                        key={starNum}
-                        className={`fas fa-star text-[10px] ${starNum <= stars ? 'text-amber-400' : 'text-slate-700/50'
-                          }`}
-                      ></i>
-                    ))}
-                  </div>
-                )}
                 <div className="flex flex-col items-center gap-2">
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isCurrent
                     ? 'bg-indigo-500 text-white'
@@ -95,6 +99,16 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                       : 'bg-slate-800 text-slate-400'
                     } ${isLocked ? 'grayscale opacity-70' : ''}`}>
                     <PersonaIcon persona={levelInfo.persona} size="lg" muted={isLocked} />
+                  </div>
+                  {/* Stars under animal icon: earned = yellow, unearned = muted; redoing a level shows new best (e.g. 5 yellow) */}
+                  <div className="flex gap-0.5 justify-center">
+                    {[1, 2, 3, 4, 5].map(starNum => (
+                      <i
+                        key={starNum}
+                        className={`fas fa-star text-[10px] ${starNum <= stars ? 'text-amber-400' : 'text-slate-700/50'
+                          }`}
+                      ></i>
+                    ))}
                   </div>
                   <div className="text-center">
                     <div className={`text-sm font-black ${isCurrent ? 'text-indigo-400' : isUnlocked ? 'text-white' : 'text-slate-500'
@@ -111,6 +125,27 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
             );
           })}
         </div>
+
+        {/* Rules: Flow, Glossary, Methods, Operations & Math (alphabetical) */}
+        {rulesItems.length > 0 && (
+          <div className="pt-4 border-t border-white/10 space-y-3">
+            <h3 className="text-sm font-bold text-slate-400 flex items-center gap-2">
+              <i className="fas fa-book text-indigo-400"></i> {t('levelSelector.rules')}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {rulesItems.map((item, i) => (
+                <button
+                  key={i}
+                  onClick={() => { item.onClick(); onClose(); }}
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-slate-300 hover:text-white transition-all text-left"
+                >
+                  <i className={`fas ${item.icon} text-indigo-400`}></i>
+                  <span className="text-sm font-medium">{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="pt-4 border-t border-white/10 space-y-2">
           {randomMode && (

@@ -221,6 +221,7 @@ export const translations = {
     // Level Selector
     levelSelector: {
       selectLevel: "Select Level",
+      rules: "Rules",
       level: "Level {level}",
       currentLevel: "Current Level",
       highestUnlocked: "Highest Unlocked",
@@ -507,6 +508,7 @@ export const translations = {
     // Level Selector
     levelSelector: {
       selectLevel: "Sélectionner le Niveau",
+      rules: "Règles",
       level: "Niveau {level}",
       currentLevel: "Niveau Actuel",
       highestUnlocked: "Plus Haut Débloqué",

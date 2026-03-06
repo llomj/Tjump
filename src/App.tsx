@@ -246,6 +246,7 @@ const App: React.FC = () => {
   const [showLevelSelector, setShowLevelSelector] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
+  const [openSettingsOnBack, setOpenSettingsOnBack] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
@@ -521,14 +522,14 @@ const App: React.FC = () => {
         anchorBottom
         randomMode={randomMode}
         onToggleRandomMode={view === 'hub' || view === 'quiz' ? handleRandomModeToggle : undefined}
-        onShowGlossary={view === 'hub' ? () => setView('glossary') : undefined}
-        onShowIdSearch={view === 'hub' ? () => setShowIdSearch(true) : undefined}
-        onShowIdLog={view === 'hub' ? () => setShowIdLog(true) : undefined}
-        onShowLearningLog={view === 'hub' ? () => setView('log') : undefined}
-        onShowOperations={() => setShowOperations(true)}
-        onShowMethods={() => setView('methods')}
-        onShowFlow={() => setView('flow')}
+        onShowGlossary={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setView('glossary'); } : undefined}
+        onShowIdSearch={view === 'hub' || view === 'quiz' ? () => setShowIdSearch(true) : undefined}
+        onShowIdLog={view === 'hub' || view === 'quiz' ? () => setShowIdLog(true) : undefined}
+        onShowLearningLog={view === 'hub' || view === 'quiz' ? () => setView('log') : undefined}
         onShowLevelSelector={() => setShowLevelSelector(true)}
+        onShowMethods={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setView('methods'); } : undefined}
+        onShowFlow={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setView('flow'); } : undefined}
+        onShowOperations={view === 'hub' || view === 'quiz' ? () => { setOpenSettingsOnBack(true); setShowOperations(true); } : undefined}
         onToggleLanguage={toggleLanguage}
         onPreviewStarSound={playStarCelebrationSound}
         onRefreshApp={() => window.location.reload()}
@@ -566,15 +567,15 @@ const App: React.FC = () => {
           </Suspense>
         ) : view === 'glossary' ? (
           <Suspense fallback={<ViewLoading />}>
-            <GlossaryView onBack={() => setView('hub')} />
+            <GlossaryView onBack={() => { setView('hub'); if (openSettingsOnBack) { setShowSettingsMenu(true); setOpenSettingsOnBack(false); } }} />
           </Suspense>
         ) : view === 'methods' ? (
           <Suspense fallback={<ViewLoading />}>
-            <MethodsView onBack={() => setView('hub')} />
+            <MethodsView onBack={() => { setView('hub'); if (openSettingsOnBack) { setShowSettingsMenu(true); setOpenSettingsOnBack(false); } }} />
           </Suspense>
         ) : view === 'flow' ? (
           <Suspense fallback={<ViewLoading />}>
-            <FlowView onBack={() => setView('hub')} />
+            <FlowView onBack={() => { setView('hub'); if (openSettingsOnBack) { setShowSettingsMenu(true); setOpenSettingsOnBack(false); } }} />
           </Suspense>
         ) : showResult ? (
           <div className="max-w-md mx-auto p-10 glass rounded-3xl text-center space-y-6 animate-in zoom-in duration-500 shadow-2xl relative overflow-hidden">
@@ -666,7 +667,7 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-[100] bg-slate-950 overflow-y-auto">
           <div className="container mx-auto px-4 py-8 max-w-4xl">
             <Suspense fallback={<ViewLoading />}>
-              <OperationsView onBack={() => setShowOperations(false)} />
+              <OperationsView onBack={() => { setShowOperations(false); if (openSettingsOnBack) { setShowSettingsMenu(true); setOpenSettingsOnBack(false); } }} />
             </Suspense>
           </div>
         </div>
@@ -773,6 +774,10 @@ const App: React.FC = () => {
             levelCorrect={stats.levelCorrect}
             levelProgress={stats.levelProgress}
             randomMode={randomMode}
+            onShowMethods={() => { setShowLevelSelector(false); setOpenSettingsOnBack(true); setView('methods'); }}
+            onShowFlow={() => { setShowLevelSelector(false); setOpenSettingsOnBack(true); setView('flow'); }}
+            onShowOperations={() => { setShowLevelSelector(false); setOpenSettingsOnBack(true); setShowOperations(true); }}
+            onShowGlossary={() => { setShowLevelSelector(false); setOpenSettingsOnBack(true); setView('glossary'); }}
           />
         </Suspense>
       )}
