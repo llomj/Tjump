@@ -64,6 +64,7 @@ export interface RandomModeStats {
 export interface UserStats {
   currentLevel: number;
   xp: number;
+  xpRandom?: number; // XP earned in Random mode only (separate from level mode XP)
   totalAttempts?: number;
   completedQuestionIds: number[];
   highestUnlockedLevel: number;

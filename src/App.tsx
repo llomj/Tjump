@@ -330,6 +330,7 @@ const playWrongAnswerSound = (): void => {
 const INITIAL_STATS: UserStats = {
   currentLevel: 0,
   xp: 0,
+  xpRandom: 0,
   totalAttempts: 0,
   completedQuestionIds: [],
   highestUnlockedLevel: 0,
@@ -435,6 +436,7 @@ const App: React.FC = () => {
           parsed.randomModeStats = { totalAnswered: 0, totalCorrect: 0 };
         }
         if (parsed.randomMode === undefined) parsed.randomMode = false;
+        if (parsed.xpRandom === undefined) parsed.xpRandom = 0;
         setStats(parsed);
       } catch (e) {
         console.error("Corrupted state, resetting", e);
@@ -542,9 +544,9 @@ const App: React.FC = () => {
     const xpGained = score * XP_PER_QUESTION;
 
     if (randomMode) {
-      // Random mode: update randomModeStats only; levelProgress unchanged
+      // Random mode: update randomModeStats and xpRandom only; level xp unchanged
       setStats(prev => {
-        const newXp = prev.xp + xpGained;
+        const newXpRandom = (prev.xpRandom ?? 0) + xpGained;
         const rm = prev.randomModeStats ?? { totalAnswered: 0, totalCorrect: 0 };
         const newTotalAnswered = rm.totalAnswered + total;
         const newTotalCorrect = rm.totalCorrect + score;
@@ -559,7 +561,7 @@ const App: React.FC = () => {
         const newScore = getRandomModeScore(newRm);
         return {
           ...prev,
-          xp: newXp,
+          xpRandom: newXpRandom,
           randomModeStats: newRm,
           lastSessionScore: score,
           lastSessionTotal: total
@@ -672,7 +674,9 @@ const App: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <i className="fas fa-bolt text-amber-400 text-sm"></i>
-              <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
+              <span className="text-sm font-bold text-indigo-400">
+                {(randomMode ? (stats.xpRandom ?? 0) : stats.xp).toLocaleString()}
+              </span>
             </div>
           </div>
 
