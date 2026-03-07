@@ -383,6 +383,7 @@ const App: React.FC = () => {
   const [showLevelSelector, setShowLevelSelector] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
+  const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
   const [openSettingsOnBack, setOpenSettingsOnBack] = useState(false);
 
   const [soundEnabled, setSoundEnabled] = useState(() => {
@@ -511,6 +512,7 @@ const App: React.FC = () => {
     setStats(INITIAL_STATS);
     setView('hub');
     setShowResetModal(false);
+    setShowResetConfirmModal(false);
     setShowSettingsMenu(false);
     setShowResult(null);
     setRandomizeTrigger(prev => prev + 1);
@@ -891,10 +893,40 @@ const App: React.FC = () => {
                 {t('resetModal.cancel')}
               </button>
               <button
-                onClick={() => { playCutSoundIfEnabled(); confirmResetApp(); }}
+                onClick={() => { playCutSoundIfEnabled(); setShowResetModal(false); setShowResetConfirmModal(true); }}
                 className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 rounded-xl font-bold text-white transition-all shadow-xl shadow-amber-500/30"
               >
                 {t('resetModal.confirm')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset App Second Confirmation Modal */}
+      {showResetConfirmModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
+          <div className="glass rounded-3xl p-8 max-w-md w-full space-y-6 animate-in zoom-in duration-300 shadow-2xl border border-amber-500/30">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl bg-amber-500/20 text-amber-400">
+                <i className="fas fa-triangle-exclamation"></i>
+              </div>
+              <h2 className="text-xl font-black text-white">
+                {t('resetModal.confirmSure')}
+              </h2>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => { playCutSoundIfEnabled(); setShowResetConfirmModal(false); }}
+                className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-white transition-all border border-white/10"
+              >
+                {t('resetModal.cancel')}
+              </button>
+              <button
+                onClick={() => { playCutSoundIfEnabled(); confirmResetApp(); }}
+                className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 rounded-xl font-bold text-white transition-all shadow-xl shadow-amber-500/30"
+              >
+                {t('resetModal.confirmYes')}
               </button>
             </div>
           </div>

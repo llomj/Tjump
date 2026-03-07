@@ -229,6 +229,8 @@ export const translations = {
       warning: "This will erase all your progress (XP, levels, completed questions, learning log). You will start from zero. This cannot be undone.",
       cancel: "Cancel",
       confirm: "Reset Everything",
+      confirmSure: "Are you sure you want to reset everything back to zero?",
+      confirmYes: "Yes, Reset Everything",
     },
     
     // Level Selector
@@ -529,6 +531,8 @@ export const translations = {
       warning: "Toute votre progression sera effacée (XP, niveaux, questions complétées, journal). Vous repartirez de zéro. Cette action est irréversible.",
       cancel: "Annuler",
       confirm: "Tout Réinitialiser",
+      confirmSure: "Êtes-vous sûr de vouloir tout réinitialiser à zéro ?",
+      confirmYes: "Oui, Tout Réinitialiser",
     },
     
     // Level Selector
