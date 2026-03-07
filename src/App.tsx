@@ -7,6 +7,7 @@ import { SettingsMenu } from './components/SettingsMenu';
 import { IdLogEntry } from './types';
 import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsForLevel, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
+import { SoundProvider, playCutSoundIfEnabled } from './contexts/SoundContext';
 import { formatTranslation } from './translations';
 
 const LOCAL_STORAGE_KEY = 'python_exercises_learn_stats_v3_offline';
@@ -192,6 +193,71 @@ const playGameCompleteSound = (): void => {
   window.setTimeout(() => void ctx.close(), 8600);
 };
 
+/** Unique gaming congratulation melody for Random Mode God Mode (5 stars = 95% of 3300 correct). */
+const playGodModeSound = (): void => {
+  if (typeof window === 'undefined') return;
+  const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) return;
+
+  const ctx = new AudioContextClass();
+  if (ctx.state === 'suspended') void ctx.resume();
+
+  const now = ctx.currentTime;
+  const masterGain = ctx.createGain();
+  masterGain.connect(ctx.destination);
+  masterGain.gain.setValueAtTime(0.9, now);
+  masterGain.gain.linearRampToValueAtTime(0.01, now + 10);
+
+  const hit = (freq: number, start: number, dur: number, vol: number) => {
+    const sq = ctx.createOscillator();
+    const tri = ctx.createOscillator();
+    const g1 = ctx.createGain();
+    const g2 = ctx.createGain();
+    sq.type = 'square';
+    tri.type = 'triangle';
+    sq.frequency.setValueAtTime(freq, now + start);
+    tri.frequency.setValueAtTime(freq, now + start);
+    g1.gain.setValueAtTime(vol, now + start);
+    g1.gain.linearRampToValueAtTime(0.01, now + start + dur);
+    g2.gain.setValueAtTime(vol * 0.6, now + start);
+    g2.gain.linearRampToValueAtTime(0.01, now + start + dur);
+    sq.connect(g1);
+    tri.connect(g2);
+    g1.connect(masterGain);
+    g2.connect(masterGain);
+    sq.start(now + start);
+    tri.start(now + start);
+    sq.stop(now + start + dur + 0.02);
+    tri.stop(now + start + dur + 0.02);
+  };
+
+  const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392, A4 = 440;
+  const C5 = 523.25, D5 = 587.33, E5 = 659.25, G5 = 783.99, A5 = 880;
+  const C6 = 1046.5, E6 = 1318.51, G6 = 1567.98;
+
+  hit(C4, 0, 0.15, 0.35);
+  hit(E4, 0.15, 0.15, 0.35);
+  hit(G4, 0.3, 0.15, 0.4);
+  hit(C5, 0.45, 0.5, 0.5);
+  hit(C5, 1.1, 0.1, 0.45);
+  hit(D5, 1.25, 0.1, 0.45);
+  hit(E5, 1.4, 0.4, 0.5);
+  hit(G5, 1.9, 0.15, 0.45);
+  hit(A5, 2.1, 0.15, 0.45);
+  hit(C6, 2.3, 0.7, 0.55);
+  hit(E5, 3.2, 0.15, 0.4);
+  hit(G5, 3.4, 0.15, 0.4);
+  hit(C6, 3.6, 0.2, 0.5);
+  hit(E6, 3.9, 1.2, 0.55);
+  hit(G5, 5.3, 0.12, 0.4);
+  hit(C6, 5.5, 0.12, 0.4);
+  hit(E6, 5.7, 0.12, 0.4);
+  hit(G6, 5.95, 1.5, 0.55);
+  hit(C6, 7.6, 0.5, 0.5);
+
+  window.setTimeout(() => void ctx.close(), 9500);
+};
+
 const SOUND_PREF_KEY = 'python_exercises_sound_v1';
 const HAPTIC_PREF_KEY = 'python_exercises_haptic_v1';
 
@@ -305,6 +371,7 @@ const App: React.FC = () => {
     prevScore?: number;
     newScore?: number;
     newPersona?: PersonaStage;
+    godMode?: boolean;
   } | null>(null);
   const [randomizeTrigger, setRandomizeTrigger] = useState(0);
   const [showRandomModeModal, setShowRandomModeModal] = useState(false);
@@ -393,14 +460,16 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (!soundEnabled) return;
-    if (showResult?.starEarned === 5 && showResult?.allLevelsFiveStars) {
+    if (showResult?.godMode) {
+      playGodModeSound();
+    } else if (showResult?.starEarned === 5 && showResult?.allLevelsFiveStars) {
       playGameCompleteSound();
     } else if (showResult?.starEarned === 5) {
       playJackpotCelebrationSound();
     } else if (showResult?.starEarned) {
       playStarCelebrationSound();
     }
-  }, [soundEnabled, showResult?.starEarned, showResult?.allLevelsFiveStars]);
+  }, [soundEnabled, showResult?.starEarned, showResult?.allLevelsFiveStars, showResult?.godMode]);
 
   const currentLevelInfo = LEVELS.find(l => l.level === stats.currentLevel) || LEVELS[0];
   const currentPersona = (stats.randomMode && stats.randomModeStats)
@@ -499,18 +568,23 @@ const App: React.FC = () => {
 
       const rm = stats.randomModeStats ?? { totalAnswered: 0, totalCorrect: 0 };
       const prevScore = getRandomModeScore(rm);
+      const prevRandomStars = getStarsFromAccuracyRandom(rm.totalCorrect);
       const newTotalAnswered = rm.totalAnswered + total;
       const newTotalCorrect = rm.totalCorrect + score;
       const newScore = Math.floor(newTotalCorrect * (newTotalCorrect / newTotalAnswered));
+      const newRandomStars = getStarsFromAccuracyRandom(newTotalCorrect);
+      const starEarned = newRandomStars > prevRandomStars ? newRandomStars : null;
+      const godMode = starEarned === 5;
 
       setShowResult({
         score,
         total,
-        starEarned: null,
+        starEarned,
         randomMode: true,
         prevScore,
         newScore,
-        newPersona: getPersonaFromRandomScore(newScore)
+        newPersona: getPersonaFromRandomScore(newScore),
+        godMode: godMode || undefined
       });
     } else {
       // Level mode: update levelProgress, levelCorrect, currentLevel; stars from accuracy (5-star)
@@ -569,11 +643,14 @@ const App: React.FC = () => {
   };
 
   return (
+    <SoundProvider soundEnabled={soundEnabled}>
     <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-indigo-500/30 pb-28">
-      {showResult?.starEarned === 5 && <FallingStars count={showResult?.allLevelsFiveStars ? 120 : 50} />}
+      {(showResult?.starEarned === 5 || showResult?.godMode) && (
+        <FallingStars count={showResult?.godMode ? 250 : showResult?.allLevelsFiveStars ? 120 : 50} />
+      )}
       <nav className="pt-[env(safe-area-inset-top)] px-2 pb-1.5 flex items-center justify-between border-b border-white/5 sticky top-0 z-50 glass">
         <div className="flex w-full items-center gap-4">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setView('hub')}>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => { playCutSoundIfEnabled(); setView('hub'); }}>
             <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
               <i className="fas fa-terminal text-white text-xs"></i>
             </div>
@@ -613,7 +690,7 @@ const App: React.FC = () => {
       {/* Settings at bottom - pb lifts gear above iPhone home-indicator; min 2rem when env is 0 in PWA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pb-[max(2rem,env(safe-area-inset-bottom))] pt-2 bg-gradient-to-t from-slate-950 to-transparent">
         <button
-          onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+          onClick={() => { playCutSoundIfEnabled(); setShowSettingsMenu(!showSettingsMenu); }}
           className="w-16 h-16 flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-lg min-w-[64px] min-h-[64px]"
           title={t('settings.settings')}
         >
@@ -661,7 +738,7 @@ const App: React.FC = () => {
               onSaveToIdLog={saveToIdLog}
               savedIdLogIds={stats.idLog.map(entry => entry.id)}
               earnedStars={randomMode
-                ? getStarsFromAccuracyRandom(stats.randomModeStats?.totalCorrect ?? 0, stats.randomModeStats?.totalAnswered ?? 0)
+                ? getStarsFromAccuracyRandom(stats.randomModeStats?.totalCorrect ?? 0)
                 : getStarsForLevel(stats.levelCorrect?.[stats.currentLevel] ?? 0)}
               soundEnabled={soundEnabled}
               hapticEnabled={hapticEnabled}
@@ -713,15 +790,15 @@ const App: React.FC = () => {
             )}
 
             <div className="relative z-10">
-              {showResult.starEarned ? (
-                <>
-                  <h2 className="text-3xl font-black mb-2 text-amber-400 bg-clip-text">
-                    {showResult.allLevelsFiveStars ? t('result.gameComplete') : t('subLevels.subLevelComplete')}
+            {showResult.starEarned ? (
+              <>
+                  <h2 className={`text-3xl font-black mb-2 bg-clip-text ${showResult.godMode ? 'text-amber-300' : 'text-amber-400'}`}>
+                    {showResult.godMode ? t('result.godMode') : showResult.allLevelsFiveStars ? t('result.gameComplete') : t('subLevels.subLevelComplete')}
                   </h2>
                   <p className="text-slate-300">
-                    {showResult.allLevelsFiveStars ? t('result.gameCompleteSub') : formatTranslation(t('result.youEarnedStars'), { count: showResult.starEarned })}
+                    {showResult.godMode ? t('result.godModeSub') : showResult.allLevelsFiveStars ? t('result.gameCompleteSub') : formatTranslation(t('result.youEarnedStars'), { count: showResult.starEarned })}
                   </p>
-                  {!showResult.allLevelsFiveStars && showResult.levelAccuracyPercent !== undefined && (
+                  {!showResult.allLevelsFiveStars && !showResult.godMode && showResult.levelAccuracyPercent !== undefined && (
                     <p className="text-slate-400 text-sm mt-1">
                       {formatTranslation(t('result.levelAccuracy'), { percent: showResult.levelAccuracyPercent })}
                     </p>
@@ -755,7 +832,7 @@ const App: React.FC = () => {
             </div>
 
             <button
-              onClick={() => setShowResult(null)}
+              onClick={() => { playCutSoundIfEnabled(); setShowResult(null); }}
               className={`w-full py-4 rounded-2xl font-bold text-white transition-all transform active:scale-95 shadow-xl relative z-10 ${showResult.starEarned
                 ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/30 text-amber-950 text-lg'
                 : 'bg-indigo-500 hover:bg-indigo-600 shadow-indigo-500/30'
@@ -804,13 +881,13 @@ const App: React.FC = () => {
             </div>
             <div className="flex gap-3">
               <button
-                onClick={() => setShowResetModal(false)}
+                onClick={() => { playCutSoundIfEnabled(); setShowResetModal(false); }}
                 className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-white transition-all border border-white/10"
               >
                 {t('resetModal.cancel')}
               </button>
               <button
-                onClick={confirmResetApp}
+                onClick={() => { playCutSoundIfEnabled(); confirmResetApp(); }}
                 className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 rounded-xl font-bold text-white transition-all shadow-xl shadow-amber-500/30"
               >
                 {t('resetModal.confirm')}
@@ -838,13 +915,13 @@ const App: React.FC = () => {
             </div>
             <div className="flex gap-3">
               <button
-                onClick={() => setShowRandomModeModal(false)}
+                onClick={() => { playCutSoundIfEnabled(); setShowRandomModeModal(false); }}
                 className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-white transition-all border border-white/10"
               >
                 {t('randomMode.cancel')}
               </button>
               <button
-                onClick={randomMode ? confirmLevelMode : confirmRandomMode}
+                onClick={() => { playCutSoundIfEnabled(); (randomMode ? confirmLevelMode : confirmRandomMode)(); }}
                 className={`flex-1 py-3 rounded-xl font-bold text-white transition-all ${randomMode
                   ? 'bg-indigo-500 hover:bg-indigo-600 shadow-xl shadow-indigo-500/30'
                   : 'bg-green-500 hover:bg-green-600 shadow-xl shadow-green-500/30'
@@ -896,6 +973,7 @@ const App: React.FC = () => {
         </Suspense>
       )}
     </div>
+    </SoundProvider>
   );
 };
 

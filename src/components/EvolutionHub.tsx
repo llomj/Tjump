@@ -4,6 +4,7 @@ import { LEVELS, QUESTIONS_PER_LEVEL, TOTAL_QUESTIONS, getStarsForLevel, getStar
 import { PersonaIcon } from './PersonaIcon';
 import { ProgressBar } from './ProgressBar';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSound } from '../contexts/SoundContext';
 import { formatTranslation } from '../translations';
 
 interface EvolutionHubProps {
@@ -13,6 +14,7 @@ interface EvolutionHubProps {
 
 export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }) => {
   const { t } = useLanguage();
+  const { playCutSound } = useSound();
   const randomMode = stats.randomMode ?? false;
   const rm = stats.randomModeStats ?? { totalAnswered: 0, totalCorrect: 0 };
   const randomScore = getRandomModeScore(rm);
@@ -32,7 +34,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
   // 5-star rating: level = correct out of 300 (full level); Random mode uses stricter thresholds
   const correct = stats.levelCorrect?.[stats.currentLevel] ?? 0;
   const earnedStars = getStarsForLevel(correct);
-  const randomEarnedStars = getStarsFromAccuracyRandom(rm.totalCorrect, rm.totalAnswered);
+  const randomEarnedStars = getStarsFromAccuracyRandom(rm.totalCorrect);
 
   // Star tier for labels (level mode only): 1-2 = Beginner, 3-4 = Intermediate, 4-5 = Expert
   const getStarTier = (stars: number): 'beginner' | 'intermediate' | 'expert' => {
@@ -220,7 +222,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
           </div>
 
           <button
-            onClick={onStartQuiz}
+            onClick={() => { playCutSound(); onStartQuiz(); }}
             className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-black text-lg transition-all transform hover:scale-[1.02] active:scale-95 shadow-2xl shadow-indigo-500/40 flex items-center justify-center gap-3"
           >
             {t('hub.continueMutation')} <i className="fas fa-chevron-right text-sm"></i>
@@ -237,6 +239,9 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
           <div className="min-w-0">
             <h4 className="font-bold text-xs text-slate-200 truncate">{t('hub.globalProgress')}</h4>
             <p className="text-[10px] text-slate-500 truncate">{totalCompleted} / {totalPossible} {t('hub.conceptsText')}</p>
+            <p className="text-[9px] text-slate-600 mt-1 leading-tight" title={t('hub.starSystemExplanation')}>
+              {t('hub.starSystemExplanation')}
+            </p>
           </div>
         </div>
 

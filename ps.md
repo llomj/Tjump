@@ -75,6 +75,7 @@ Before moving to the next level:
 - Random Mode: toggle in Settings (hub + quiz), point-based evolution, dual persistence (`randomModeStats`), questions from all levels
 - Implemented question display with syntax highlighting for code questions
 - **5-Star Accuracy Scoring**: Stars per level (0–5) are based on % correct (accuracy), not questions completed. Thresholds: ≥10% = 1 star, ≥30% = 2, ≥50% = 3, ≥70% = 4, ≥90% = 5. Stored as `levelCorrect` (correct count) + `levelProgress` (total answered); stars computed via `getStarsFromAccuracy()`. Level unlock still requires 300 questions attempted. Migration: existing users get `levelCorrect = {}` so stars start at 0 until they play (redo levels to earn stars).
+- **Random Mode Stars (different system)**: Random mode stars are based on % of the **full 3300-question genome** answered correctly — much harder than level mode. Thresholds: 1★ ≥10% (330), 2★ ≥30% (990), 3★ ≥50% (1650), 4★ ≥70% (2310), 5★ ≥95% (3135). When user earns 5 stars in Random = **God Mode**: massive falling stars (250), unique gaming melody, "You have reached God mode" message. Global progress card explains: "Level stars: per-level accuracy (300). Random stars: % of 3300 correct — much harder."
 
 ---
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Question } from '../types';
 import { QUESTIONS_BANK } from '../questionsBank';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSound } from '../contexts/SoundContext';
 import { formatTranslation } from '../translations';
 import { getTranslatedDetailedExplanation } from '../data/detailedExplanationsTranslations';
 import { translateQuestionText } from '../utils/translateQuestion';
@@ -222,6 +223,7 @@ interface IdSearchModalProps {
 
 export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToLog }) => {
   const { t, language } = useLanguage();
+  const { playCutSound } = useSound();
   const [idInput, setIdInput] = useState('');
   const [question, setQuestion] = useState<Question | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -280,7 +282,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
             <i className="fas fa-hashtag text-indigo-400"></i> {t('idSearch.searchById')}
           </h2>
           <button
-            onClick={onClose}
+            onClick={() => { playCutSound(); onClose(); }}
             className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
           >
             <i className="fas fa-times"></i>
@@ -300,7 +302,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
               max="3300"
             />
             <button
-              onClick={handleSearch}
+              onClick={() => { playCutSound(); handleSearch(); }}
               className="px-6 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold transition-all"
             >
               <i className="fas fa-search mr-2"></i>{t('idSearch.search')}
@@ -326,7 +328,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                 </div>
                 <button
                   id="save-confirm"
-                  onClick={handleSave}
+                  onClick={() => { playCutSound(); handleSave(); }}
                   className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold transition-all flex items-center gap-2"
                 >
                   <i className="fas fa-bookmark"></i> {t('idSearch.saveToLog')}

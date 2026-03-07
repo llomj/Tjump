@@ -1,5 +1,8 @@
 import { PersonaStage, LevelInfo, RandomModeStats } from './types';
 
+/** App version (sync with package.json when releasing). */
+export const APP_VERSION = '1.0.1';
+
 export const XP_PER_QUESTION = 10;
 export const QUESTIONS_PER_SUBLEVEL = 100;
 export const SUBLEVELS_PER_LEVEL = 3;
@@ -17,8 +20,8 @@ export const getStarsFromProgress = (progress: number): number => {
 /** Accuracy thresholds for 5-star rating: 10%, 30%, 50%, 70%, 90%. */
 export const STAR_ACCURACY_THRESHOLDS = [0.1, 0.3, 0.5, 0.7, 0.9] as const;
 
-/** Stricter accuracy thresholds for Random mode stars (harder to achieve): 25%, 45%, 65%, 85%, 95%. */
-export const STAR_ACCURACY_THRESHOLDS_RANDOM = [0.25, 0.45, 0.65, 0.85, 0.95] as const;
+/** Random mode star thresholds: % of the 3300-question genome answered correctly. Harder than level mode (per-level 300). */
+export const STAR_GENOME_THRESHOLDS_RANDOM = [0.1, 0.3, 0.5, 0.7, 0.95] as const;
 
 /** Derive number of stars (0–5) from accuracy (correct/total). Use total = QUESTIONS_PER_LEVEL (300) for level stars so stars are based on % of the full level, not the current batch. */
 export const getStarsFromAccuracy = (correct: number, total: number): number => {
@@ -34,12 +37,13 @@ export const getStarsFromAccuracy = (correct: number, total: number): number => 
 export const getStarsForLevel = (correct: number): number =>
   getStarsFromAccuracy(correct, QUESTIONS_PER_LEVEL);
 
-/** Derive stars (0–5) from average accuracy in Random mode; uses stricter thresholds. */
-export const getStarsFromAccuracyRandom = (correct: number, total: number): number => {
-  if (total === 0) return 0;
-  const pct = correct / total;
-  for (let i = STAR_ACCURACY_THRESHOLDS_RANDOM.length - 1; i >= 0; i--) {
-    if (pct >= STAR_ACCURACY_THRESHOLDS_RANDOM[i]) return i + 1;
+/** Derive stars (0–5) in Random mode from % of the 3300-question genome answered correctly.
+ * Much harder than level mode: 1★ ≥10%, 2★ ≥30%, 3★ ≥50%, 4★ ≥70%, 5★ ≥95% of 3300.
+ * 5★ = God Mode. */
+export const getStarsFromAccuracyRandom = (correct: number): number => {
+  const pct = correct / TOTAL_QUESTIONS;
+  for (let i = STAR_GENOME_THRESHOLDS_RANDOM.length - 1; i >= 0; i--) {
+    if (pct >= STAR_GENOME_THRESHOLDS_RANDOM[i]) return i + 1;
   }
   return 0;
 };

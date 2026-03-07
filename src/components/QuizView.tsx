@@ -6,6 +6,7 @@ import { LEVELS, getRandomModeScore, getStarsFromAccuracyRandom } from '../const
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSound } from '../contexts/SoundContext';
 import { formatTranslation } from '../translations';
 import { getTranslatedDetailedExplanation } from '../data/detailedExplanationsTranslations';
 import { translateQuestionText } from '../utils/translateQuestion';
@@ -708,6 +709,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
   triggerHaptic
 }) => {
   const { t, tRaw, language } = useLanguage();
+  const { playCutSound } = useSound();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -859,7 +861,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
     <div className="text-center p-12 glass rounded-3xl">
       <p className="text-rose-400 font-bold mb-4">{t('quiz.sequenceError')}</p>
       <p className="text-slate-400 text-sm mb-6">{t('quiz.couldNotRetrieve')}</p>
-      <button onClick={onExit} className="px-6 py-2 bg-indigo-500 rounded-xl font-bold">{t('quiz.returnToHub')}</button>
+      <button onClick={() => { playCutSound(); onExit(); }} className="px-6 py-2 bg-indigo-500 rounded-xl font-bold">{t('quiz.returnToHub')}</button>
     </div>
   );
 
@@ -881,13 +883,13 @@ export const QuizView: React.FC<QuizViewProps> = ({
   const liveEvolutionScore = liveRandomStats ? getRandomModeScore(liveRandomStats) : null;
   // In random mode, stars are based on live average accuracy (stricter thresholds)
   const displayStars = randomMode && liveRandomStats
-    ? getStarsFromAccuracyRandom(liveRandomStats.totalCorrect, liveRandomStats.totalAnswered)
+    ? getStarsFromAccuracyRandom(liveRandomStats.totalCorrect)
     : earnedStars;
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
-        <button onClick={onExit} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors border border-white/5">
+        <button onClick={() => { playCutSound(); onExit(); }} className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors border border-white/5">
           <i className="fas fa-times"></i>
         </button>
           <div className="flex-1 min-w-0 px-6 overflow-x-auto">
@@ -942,7 +944,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             {currentQuestion.concept}
           </div>
           <button
-            onClick={handleSaveCurrentId}
+            onClick={() => { playCutSound(); handleSaveCurrentId(); }}
             className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border transition-colors ${
               isIdSaved
                 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
@@ -1059,7 +1061,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             <div className="p-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20">
               {currentQuestion.detailedExplanation ? (
                 <button
-                  onClick={() => setShowDetailedExplanation(!showDetailedExplanation)}
+                  onClick={() => { playCutSound(); setShowDetailedExplanation(!showDetailedExplanation); }}
                   className="w-full flex items-center justify-between gap-2 mb-3 text-indigo-400 hover:text-indigo-300 transition-colors group cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
@@ -1189,7 +1191,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             </div>
 
             <button
-              onClick={handleNext}
+              onClick={() => { playCutSound(); handleNext(); }}
               className="w-full py-5 bg-indigo-500 hover:bg-indigo-600 rounded-2xl font-black text-lg text-white transition-all transform active:scale-95 shadow-2xl shadow-indigo-500/30 flex items-center justify-center gap-3"
             >
               {currentIndex === questions.length - 1 ? t('quiz.finishEvolution') : t('hub.continueMutation')}

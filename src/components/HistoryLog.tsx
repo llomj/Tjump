@@ -1,6 +1,7 @@
 import React from 'react';
 import { QuestionAttempt } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSound } from '../contexts/SoundContext';
 import { formatCodeSnippet, splitQuestion } from '../utils/questionDisplay';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -14,6 +15,7 @@ interface HistoryLogProps {
 
 export const HistoryLog: React.FC<HistoryLogProps> = ({ history, onBack, onSaveToIdLog, savedIdLogIds = [] }) => {
   const { t, language } = useLanguage();
+  const { playCutSound } = useSound();
   const sortedHistory = [...history].sort((a, b) => b.timestamp - a.timestamp);
 
   return (
@@ -23,7 +25,7 @@ export const HistoryLog: React.FC<HistoryLogProps> = ({ history, onBack, onSaveT
           <i className="fas fa-book-open text-indigo-400"></i> {t('history.learningLog')}
         </h2>
         <button 
-          onClick={onBack}
+          onClick={() => { playCutSound(); onBack(); }}
           className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-bold transition-colors"
         >
           {t('history.backToHub')}
@@ -56,12 +58,12 @@ export const HistoryLog: React.FC<HistoryLogProps> = ({ history, onBack, onSaveT
                   {onSaveToIdLog && (
                     <button
                       type="button"
-                      onClick={() => onSaveToIdLog({
+                      onClick={() => { playCutSound(); onSaveToIdLog({
                         id: attempt.id,
                         question: attempt.question,
                         correctAnswer: attempt.correctOption,
                         explanation: attempt.explanation
-                      })}
+                      }); }}
                       className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-colors ${
                         savedIdLogIds.includes(attempt.id)
                           ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'

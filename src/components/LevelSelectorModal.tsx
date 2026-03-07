@@ -1,6 +1,7 @@
 import React from 'react';
 import { LEVELS, getStarsForLevel } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSound } from '../contexts/SoundContext';
 import { formatTranslation } from '../translations';
 import { PersonaIcon } from './PersonaIcon';
 
@@ -32,6 +33,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   onShowGlossary
 }) => {
   const { t } = useLanguage();
+  const { playCutSound } = useSound();
   const rulesItems = [
     onShowFlow && { icon: 'fa-diagram-project', label: t('app.flow'), onClick: onShowFlow },
     onShowGlossary && { icon: 'fa-circle-info', label: t('app.glossary'), onClick: onShowGlossary },
@@ -41,6 +43,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   rulesItems.sort((a, b) => a.label.localeCompare(b.label));
 
   const handleLevelSelect = (level: number) => {
+    playCutSound();
     if (level <= highestUnlockedLevel) {
       onSelectLevel(level);
       onClose();
@@ -55,7 +58,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
             <i className="fas fa-layer-group text-indigo-400"></i> {t('levelSelector.selectLevel')}
           </h2>
           <button
-            onClick={onClose}
+            onClick={() => { playCutSound(); onClose(); }}
             className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
           >
             <i className="fas fa-times"></i>
@@ -135,7 +138,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
               {rulesItems.map((item, i) => (
                 <button
                   key={i}
-                  onClick={() => { item.onClick(); onClose(); }}
+                  onClick={() => { playCutSound(); item.onClick(); onClose(); }}
                   className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-slate-300 hover:text-white transition-all text-left"
                 >
                   <i className={`fas ${item.icon} text-indigo-400`}></i>

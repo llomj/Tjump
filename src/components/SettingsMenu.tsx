@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { PersonaStage } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { formatTranslation } from '../translations';
+import { APP_VERSION } from '../constants';
+import { useSound } from '../contexts/SoundContext';
 
 interface SettingsMenuProps {
   isOpen: boolean;
@@ -52,10 +55,12 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onResetApp
 }) => {
   const { t, language } = useLanguage();
+  const { playCutSound } = useSound();
   const [rulesExpanded, setRulesExpanded] = useState(false);
   useEffect(() => { if (!isOpen) setRulesExpanded(false); }, [isOpen]);
 
   const withHaptic = (fn?: () => void) => () => {
+    playCutSound();
     triggerHaptic?.();
     fn?.();
   };
@@ -155,7 +160,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
       {/* Backdrop */}
       <div
         className="fixed inset-0 z-40"
-        onClick={onClose}
+        onClick={() => { playCutSound(); onClose(); }}
       />
 
       {/* Menu - near top-right on mobile, below trigger on desktop */}
@@ -257,10 +262,15 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                   onRefreshApp!();
                   onClose();
                 })}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
+                className="w-full flex flex-col items-start gap-0.5 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
               >
-                <i className="fas fa-arrows-rotate text-sm w-5 flex-shrink-0"></i>
-                <span className="text-sm font-medium">{t('settings.refreshApp')}</span>
+                <span className="flex items-center gap-3 w-full">
+                  <i className="fas fa-arrows-rotate text-sm w-5 flex-shrink-0"></i>
+                  <span className="text-sm font-medium">{t('settings.refreshApp')}</span>
+                </span>
+                <span className="text-[10px] text-slate-500 pl-8">
+                  {formatTranslation(t('settings.appVersion'), { version: APP_VERSION })}
+                </span>
               </button>
             </>
           )}

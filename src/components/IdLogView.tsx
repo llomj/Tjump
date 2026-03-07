@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IdLogEntry } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSound } from '../contexts/SoundContext';
 import { getTranslatedShortExplanation } from '../data/shortExplanationsTranslations';
 import { QUESTIONS_BANK } from '../questionsBank';
 import { translateQuestionText } from '../utils/translateQuestion';
@@ -16,10 +17,12 @@ interface IdLogViewProps {
 
 export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
   const { t, language } = useLanguage();
+  const { playCutSound } = useSound();
   const [expandedEntries, setExpandedEntries] = useState<Set<string>>(new Set());
   const sortedEntries = [...entries].sort((a, b) => b.timestamp - a.timestamp);
 
   const toggleCodonExplanation = (entryKey: string) => {
+    playCutSound();
     setExpandedEntries(prev => {
       const newSet = new Set(prev);
       if (newSet.has(entryKey)) {
@@ -44,7 +47,7 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
             <i className="fas fa-list text-indigo-400"></i> {t('idSearch.idLog')}
           </h2>
           <button
-            onClick={onClose}
+            onClick={() => { playCutSound(); onClose(); }}
             className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
           >
             <i className="fas fa-times"></i>

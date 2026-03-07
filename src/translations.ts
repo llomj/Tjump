@@ -37,6 +37,7 @@ export const translations = {
       pointsToNext: "{points} points to {persona}",
       randomModeAbsorbText: "Absorb 15 random questions from all levels to earn evolution points.",
       randomModeDescription: "Questions from all levels. Earn points to evolve through the same 10 personas.",
+      starSystemExplanation: "Level stars: per-level accuracy (300 questions). Random stars: % of 3300 correct — much harder.",
     },
     
     // Quiz View
@@ -95,6 +96,8 @@ export const translations = {
       levelAccuracy: "Level accuracy: {percent}%",
       gameComplete: "CONGRATULATIONS!",
       gameCompleteSub: "You finished the whole game with 5 stars on every level. Incredible!",
+      godMode: "YOU HAVE REACHED GOD MODE",
+      godModeSub: "95% of 3300 questions correct. You have conquered the entire Python genome!",
     },
     
     // Random Mode Modal
@@ -216,6 +219,7 @@ export const translations = {
       previewCorrectSound: "Preview correct answer",
       previewWrongSound: "Preview wrong answer",
       refreshApp: "Refresh App",
+      appVersion: "v{version}",
       resetApp: "Reset App",
     },
     
@@ -333,6 +337,7 @@ export const translations = {
       pointsToNext: "{points} points vers {persona}",
       randomModeAbsorbText: "Absorbez 15 questions aléatoires de tous les niveaux pour gagner des points d'évolution.",
       randomModeDescription: "Questions de tous les niveaux. Gagnez des points pour évoluer à travers les mêmes 10 personas.",
+      starSystemExplanation: "Étoiles niveau : précision par niveau (300 questions). Étoiles aléatoire : % de 3300 correct — beaucoup plus difficile.",
     },
 
     // Quiz View
@@ -391,6 +396,8 @@ export const translations = {
       levelAccuracy: "Précision du niveau : {percent} %",
       gameComplete: "FÉLICITATIONS !",
       gameCompleteSub: "Vous avez terminé tout le jeu avec 5 étoiles à chaque niveau. Incroyable !",
+      godMode: "VOUS AVEZ ATTEINT LE MODE DIEU",
+      godModeSub: "95 % des 3300 questions correctes. Vous avez conquis tout le génome Python !",
     },
     
     // Random Mode Modal
@@ -512,6 +519,7 @@ export const translations = {
       previewCorrectSound: "Écouter le son bonne réponse",
       previewWrongSound: "Écouter le son mauvaise réponse",
       refreshApp: "Actualiser l'App",
+      appVersion: "v{version}",
       resetApp: "Réinitialiser l'App",
     },
     

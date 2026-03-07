@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GlossaryItem } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useSound } from '../contexts/SoundContext';
 import { formatTranslation } from '../translations';
 import { useTranslatedGlossary } from '../hooks/useTranslatedData';
 
@@ -10,6 +11,7 @@ interface GlossaryViewProps {
 
 export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
   const { t } = useLanguage();
+  const { playCutSound } = useSound();
   const GLOSSARY = useTranslatedGlossary();
   const [search, setSearch] = useState('');
   const [selectedTerm, setSelectedTerm] = useState<GlossaryItem | null>(null);
@@ -41,13 +43,13 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
           {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-slate-950/85 backdrop-blur-md transition-opacity" 
-            onClick={() => setSelectedTerm(null)}
+            onClick={() => { playCutSound(); setSelectedTerm(null); }}
           ></div>
           
           {/* Content Box */}
           <div className="glass w-full max-w-2xl my-4 sm:my-8 rounded-3xl p-6 sm:p-10 shadow-2xl relative z-10 border-indigo-500/30 animate-in fade-in zoom-in duration-300">
             <button 
-              onClick={() => setSelectedTerm(null)}
+              onClick={() => { playCutSound(); setSelectedTerm(null); }}
               className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800 text-slate-400 hover:text-white transition-colors border border-white/10"
             >
               <i className="fas fa-times"></i>
@@ -91,7 +93,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
               {/* Added more bottom padding/margin to ensure scroll clearance */}
               <div className="pt-4 pb-2">
                 <button 
-                  onClick={() => setSelectedTerm(null)}
+                  onClick={() => { playCutSound(); setSelectedTerm(null); }}
                   className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-black transition-all shadow-xl shadow-indigo-500/20 active:scale-95"
                 >
                   {t('operations.gotIt')}
@@ -107,7 +109,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
           <i className="fas fa-circle-info text-indigo-400"></i> PYTHON GLOSSARY
         </h2>
         <button 
-          onClick={onBack}
+          onClick={() => { playCutSound(); onBack(); }}
           className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-bold transition-colors"
         >
           {t('history.backToHub')}
@@ -141,7 +143,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
                   {items.map(item => (
                     <div 
                       key={item.term} 
-                      onClick={() => setSelectedTerm(item)}
+                      onClick={() => { playCutSound(); setSelectedTerm(item); }}
                       className="glass p-5 rounded-2xl space-y-2 hover:border-indigo-500/40 hover:bg-slate-800/80 transition-all cursor-pointer group active:scale-[0.98]"
                     >
                       <div className="flex justify-between items-start">
@@ -161,7 +163,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
           {filteredGlossary.map(item => (
             <div 
               key={item.term} 
-              onClick={() => setSelectedTerm(item)}
+              onClick={() => { playCutSound(); setSelectedTerm(item); }}
               className="glass p-5 rounded-2xl space-y-2 animate-in fade-in duration-300 hover:border-indigo-500/40 cursor-pointer group active:scale-[0.98]"
             >
               <div className="flex justify-between items-start">
