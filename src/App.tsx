@@ -651,7 +651,7 @@ const App: React.FC = () => {
       {(showResult?.starEarned === 5 || showResult?.godMode) && (
         <FallingStars count={showResult?.godMode ? 250 : showResult?.allLevelsFiveStars ? 120 : 50} />
       )}
-      <nav className="fixed-nav-app pt-[env(safe-area-inset-top)] px-2 pb-1.5 flex items-center justify-between border-b border-white/5 fixed top-0 left-0 right-0 z-50 glass">
+      <nav className="pt-[env(safe-area-inset-top)] px-2 pb-1.5 flex items-center justify-between border-b border-white/5 sticky top-0 z-50 glass">
         <div className="flex w-full items-center gap-4">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => { playCutSoundIfEnabled(); setView('hub'); }}>
             <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
@@ -691,11 +691,6 @@ const App: React.FC = () => {
         </div>
 
       </nav>
-
-      {/* Spacer to push content down behind the fixed nav */}
-      <div className="nav-spacer pt-[env(safe-area-inset-top)] px-2 pb-1.5 invisible pointer-events-none" aria-hidden="true">
-        <div className="h-8"></div>
-      </div>
 
       {/* Settings at bottom - pb lifts gear above iPhone home-indicator; min 2rem when env is 0 in PWA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pb-[max(2rem,env(safe-area-inset-bottom))] pt-2 bg-gradient-to-t from-slate-950 to-transparent">

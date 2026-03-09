@@ -48,8 +48,8 @@
         }
         /* iOS PWA: env(safe-area-inset-top) often 0 - force padding so nav clears status bar (4rem for Dynamic Island) */
         @media (display-mode: standalone), (display-mode: minimal-ui) {
-            .fixed-nav-app, .nav-spacer {
-                padding-top: max(4rem, env(safe-area-inset-top, 4rem)) !important;
+            body {
+                padding-top: max(4rem, env(safe-area-inset-top, 4rem));
             }
         }
         .code-font {
