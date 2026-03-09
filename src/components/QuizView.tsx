@@ -509,10 +509,10 @@ const translateText = (text: string, language: string, questionId?: number): str
 
 // Function to split question into prefix and code
 // Keeps all question text (like "What is", "Result of", "Value of", etc.) together at the top
-const splitQuestion = (text: string, language: string = 'en') => {
+const splitQuestion = (text: string, language: string = 'en', questionId?: number) => {
   try {
     // First translate if needed
-    const translatedText = translateText(text, language);
+    const translatedText = translateText(text, language, questionId);
     // Then enhance vague method calls
     const enhancedText = enhanceVagueMethodCalls(translatedText);
     // Check for multi-line code blocks (has newlines and indentation)
@@ -963,7 +963,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
         <div className="space-y-4 pt-8">
           <div className="max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
             {(() => {
-              const { prefix, code } = splitQuestion(currentQuestion.question, language);
+              const { prefix, code } = splitQuestion(currentQuestion.question, language, currentQuestion.id);
               // If we detected code, show prefix at top and code below
               if (code) {
                 return (

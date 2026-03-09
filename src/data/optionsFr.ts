@@ -5,29 +5,540 @@
  */
 
 export const OPTIONS_FR: Record<number, Record<string, string>> = {
+  301: {
+    "<class 'int'>": "<class 'int'>",
+    "<class 'float'>": "<class 'float'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  302: {
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  303: {
+    "<class 'str'>": "<class 'str'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'list'>": "<class 'list'>",
+  },
+  304: {
+    "<class 'bool'>": "<class 'bool'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  305: {
+    "<class 'NoneType'>": "<class 'NoneType'>",
+    "<class 'null'>": "<class 'null'>",
+    "<class 'void'>": "<class 'void'>",
+  },
+  306: {
+    "<class 'list'>": "<class 'list'>",
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'dict'>": "<class 'dict'>",
+  },
+  307: {
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'dict'>": "<class 'dict'>",
+  },
+  308: {
+    "<class 'dict'>": "<class 'dict'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'set'>": "<class 'set'>",
+  },
+  309: {
+    "<class 'set'>": "<class 'set'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'dict'>": "<class 'dict'>",
+  },
+  310: {
+    "<class 'bytes'>": "<class 'bytes'>",
+    "<class 'str'>": "<class 'str'>",
+    "<class 'list'>": "<class 'list'>",
+  },
+  311: {
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in classes": "Uniquement en classe",
+  },
+  312: {
+    "Only in functions": "Uniquement dans les fonctions",
+  },
+  313: {
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in classes": "Uniquement en classe",
+  },
+  314: {
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in modules": "Uniquement dans les modules",
+  },
+  315: {
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in modules": "Uniquement dans les modules",
+  },
+  316: {
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in modules": "Uniquement dans les modules",
+  },
+  317: {
+    "Only if lowercase": "Uniquement en minuscules",
+    "Only in classes": "Uniquement en classe",
+  },
+  318: {
+    "Only in classes": "Uniquement en classe",
+  },
+  319: {
+    "Only in classes": "Uniquement en classe",
+  },
+  320: {
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in functions": "Uniquement dans les fonctions",
+  },
+  322: {
+    "Hello World": "Bonjour le monde",
+  },
+  332: {
+    "'''String'''": "'''Chaîne'''",
+    "'String'": "'Chaîne'",
+    "/String/": "/Chaîne/",
+  },
+  333: {
+    "Document code": "Code du document",
+    "Execute code": "Exécuter le code",
+    "Create variables": "Créer des variables",
+    "Import modules": "Modules d'importation",
+  },
+  334: {
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in functions": "Uniquement dans les fonctions",
+  },
+  335: {
+    "Multi-line string": "Chaîne multiligne",
+  },
+  336: {
+    "String delimiter": "Délimiteur de chaîne",
+  },
+  337: {
+    "No, they create strings": "Non, ils créent des chaînes de caractères.",
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in classes": "Uniquement en classe",
+  },
+  338: {
+    "Ignored by Python": "Ignoré par Python",
+    "Creates error": "Crée une erreur",
+    "Creates variable": "Crée une variable",
+  },
   339: {
     "Yes, with different quote types": "Oui, avec différents types de citations",
+    "Only in Python 2": "Uniquement en Python 2",
+    "Only in functions": "Uniquement dans les fonctions",
+  },
+  340: {
+    "No difference": "Aucune différence",
+    "Single is shorter": "Célibataire est plus court",
+    "Double is faster": "Double est plus rapide",
+    "Single is deprecated": "Le single est obsolète",
+  },
+  355: {
+    "Negative five": "Moins cinq",
+  },
+  356: {
+    "Positive five": "Cinq positifs",
+  },
+  361: {
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  362: {
+    "A single character string": "Une chaîne de caractères unique",
+    "An integer": "Un entier",
+    "A list": "Une liste",
+    "A char type": "Un type de caractère",
+  },
+  363: {
+    "type(variable)": "type(variable)",
+    "what(variable)": "quoi(variable)",
+    "kind(variable)": "type(variable)",
+    "check(variable)": "vérifier(variable)",
+  },
+  364: {
+    "Both ' and \\": "Les deux ' et \\",
+    "Only `": "Seulement `",
+  },
+  384: {
+    "a-b-c": "abc",
+    "a b c": "a b c",
+  },
+  385: {
+    "a b c": "a b c",
+  },
+  386: {
+    "'hello' (no padding)": "'bonjour' (sans remplissage)",
+  },
+  387: {
+    "'hello' (no padding)": "'bonjour' (sans remplissage)",
+  },
+  388: {
+    "'hello' (no padding)": "'bonjour' (sans remplissage)",
+  },
+  389: {
+    "'hello' (no padding)": "'bonjour' (sans remplissage)",
+  },
+  390: {
+    "Value: 5": "Valeur : 5",
+  },
+  422: {
+    "s becomes 'Hello'": "s devient « Bonjour »",
+    "s becomes 'H'": "s devient 'H'",
+  },
+  424: {
+    "'hello'": "'Bonjour'",
+  },
+  427: {
+    "'hello'.upper()": "'bonjour'.majuscule()",
+  },
+  434: {
+    "****hi****": "****Salut****",
+    "**hi**": "**Salut**",
+    "hi********": "Salut********",
+    "********hi": "********Salut",
+  },
+  438: {
+    "1.234500e+03": "1,234500e+03",
+  },
+  443: {
+    "'hello'": "'Bonjour'",
+  },
+  444: {
+    "len('abc')": "longueur('abc')",
+  },
+  446: {
+    "a b": "un b",
+    "a, b": "a, b",
+  },
+  447: {
+    "b a": "b a",
+    "a b": "un b",
+  },
+  448: {
+    "Alice is 30": "Alice a 30 ans",
+    "{name} is {age}": "{nom} est {âge}",
+    "Alice is age": "Alice a l'âge",
+  },
+  450: {
+    "age is 25": "son âge est de 25 ans",
+    "%s is %d": "%s est %d",
+    "age is 25.0": "l'âge est de 25 ans.",
+  },
+  461: {
+    "age: 25": "âge : 25 ans",
+    "age: ": "âge: ",
+    "age: str(25)": "âge : str(25)",
+  },
+  462: {
+    "age: 25": "âge : 25 ans",
+    "age: ": "âge: ",
+  },
+  463: {
+    "-hi": "-Salut",
+  },
+  492: {
+    "{ {1: 2} }": "{ {1: 2} }",
+  },
+  493: {
+    "Name: Alice": "Nom : Alice",
+    "Name: %(name)s": "Nom : %(nom)s",
+    "Name: name": "Nom : nom",
+  },
+  494: {
+    "Hello, Bob!": "Bonjour Bob !",
+    "Hello, {name}!": "Bonjour, {name} !",
+    "Hello, name!": "Bonjour, nom !",
+  },
+  496: {
+    "'hello'": "'Bonjour'",
+  },
+  501: {
+    "<class 'bytes'>": "<class 'bytes'>",
+    "<class 'str'>": "<class 'str'>",
+    "<class 'bytearray'>": "<class 'bytearray'>",
+    "<class 'list'>": "<class 'list'>",
+  },
+  502: {
+    "<class 'bytearray'>": "<class 'bytearray'>",
+    "<class 'bytes'>": "<class 'bytes'>",
+    "<class 'str'>": "<class 'str'>",
+    "<class 'list'>": "<class 'list'>",
+  },
+  503: {
+    "b'h'": "b'h'",
+  },
+  504: {
+    "b'e'": "être'",
+  },
+  507: {
+    "b'hello world'": "b'bonjour monde'",
+    "'hello world'": "'Bonjour le monde'",
+    "b'helloworld'": "b'helloworld'",
+  },
+  508: {
+    "b'ababab'": "b'ababab'",
+    "b'ab3'": "b'ab3'",
+    "b'aabbab'": "b'aabbab'",
+  },
+  509: {
+    "b'el'": "bel'",
+    "b'ell'": "cloche'",
+  },
+  510: {
+    "b'Hello'": "b'Bonjour'",
+  },
+  511: {
+    "bytearray(b'Abc')": "tableau d'octets(b'Abc')",
+    "bytearray(b'abc')": "tableau d'octets(b'abc')",
+    "b'Abc'": "b'Abc'",
+  },
+  512: {
+    "'hello'": "'Bonjour'",
+    "b'hello'": "b'bonjour'",
+  },
+  513: {
+    "b'hello'": "b'bonjour'",
+    "'hello'": "'Bonjour'",
+  },
+  514: {
+    "b'HELLO'": "b'BONJOUR'",
+    "'HELLO'": "'BONJOUR'",
+    "b'Hello'": "b'Bonjour'",
+  },
+  517: {
+    "'68656c6c6f'": "'68656c6c6f'",
+    "b'68656c6c6f'": "b'68656c6c6f'",
+    "'hello'": "'Bonjour'",
+  },
+  518: {
+    "b'hello'": "b'bonjour'",
+    "'hello'": "'Bonjour'",
+  },
+  520: {
+    "'abcdef'": "'abcdef'",
+    "b'abcdef'": "b'abcdef'",
+    "'abc' + 'def'": "'abc' + 'def'",
+  },
+  521: {
+    "b'caf\\\\xc3\\\\xa9'": "b'caf\\\\xc3\\\\xa9'",
+    "b'café'": "b'café'",
+    "b'cafe'": "b'café",
+  },
+  524: {
+    "b'hello'": "b'bonjour'",
+    "'hello'": "'Bonjour'",
+    "b'\\\\x68\\\\x65\\\\x6c\\\\x6c\\\\x6f'": "b'\\\\x68\\\\x65\\\\x6c\\\\x6c\\\\x6f'",
+  },
+  525: {
+    "b'cafe'": "b'café",
+    "b'café'": "b'café'",
+    "b'caf'": "b'café",
+  },
+  526: {
+    "'hello'": "'Bonjour'",
+    "b'hello'": "b'bonjour'",
+  },
+  536: {
+    "<class 'NoneType'>": "<class 'NoneType'>",
+    "<class 'None'>": "<class 'Aucun'>",
+    "<class 'null'>": "<class 'null'>",
+    "<class 'void'>": "<class 'void'>",
+  },
+  545: {
+    "<class 'NoneType'>": "<class 'NoneType'>",
+    "<class 'None'>": "<class 'Aucun'>",
+    "<class 'function'>": "<class 'function'>",
+  },
+  548: {
+    "'None'": "'Aucun'",
+  },
+  549: {
+    "'None'": "'Aucun'",
   },
   564: {
     "A unique integer identifier": "Un identifiant numérique unique",
     "The object's size in bytes": "La taille de l'objet en octets",
+    "The object's value": "La valeur de l'objet",
+    "The object's type": "Le type de l'objet",
+  },
+  571: {
+    "-inf": "-inf",
+  },
+  600: {
+    "<class 'complex'>": "<class 'complexe'>",
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+  },
+  648: {
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  649: {
+    "<class 'int'>": "<class 'int'>",
+    "<class 'float'>": "<class 'float'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  650: {
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  651: {
+    "No, it is '11'": "Non, c'est '11'.",
+  },
+  655: {
+    "'helloworld'": "'Bonjour le monde'",
+    "'hello world'": "'Bonjour le monde'",
+  },
+  658: {
+    "'abc'": "'abc'",
+  },
+  659: {
+    "'abc'": "'abc'",
+    "'abcabc'": "'abcabc'",
+  },
+  660: {
+    "'abcabcabc'": "'abcabcabc'",
+    "'abc3'": "'abc3'",
+  },
+  702: {
+    "Float approximation": "approximation flottante",
+    "Exact value": "Valeur exacte",
+    "Returns a Fraction": "Renvoie une fraction",
+    "Returns an integer": "Renvoie un entier",
+  },
+  709: {
+    "Yes, both return 3": "Oui, les deux renvoient 3",
+    "No, floor returns 3.0": "Non, retours de plancher 3.0",
+    "No, int returns 4": "Non, int renvoie 4",
   },
   710: {
     "int gives -3, floor gives -4": "int donne -3, floor donne -4",
     "int gives -4, floor gives -3": "int donne -4, floor donne -3",
+    "Both give -3": "Les deux donnent -3",
+    "Both give -4": "Les deux donnent -4",
   },
   739: {
     "Yes, fsum gives exactly 0.6": "Oui, fsum donne exactement 0,6",
     "No, both give the same result": "Non, les deux donnent le même résultat.",
+    "fsum raises an Error": "fsum génère une erreur",
+    "sum is more accurate": "la somme est plus précise",
+  },
+  743: {
+    "Yes, it returns ~1.4142": "Oui, il renvoie environ 1,4142",
+    "No, it raises an Error": "Non, cela génère une erreur.",
+    "No, it returns 1.0": "Non, il renvoie 1.0",
+    "No, it returns 2.0": "Non, il renvoie 2.0",
+  },
+  745: {
+    "Yes, both give ~1.4142": "Oui, les deux donnent environ 1,4142",
+    "No, ** is less accurate": "Non, ** est moins précis",
+    "No, sqrt returns int": "Non, la racine carrée renvoie un entier",
+    "Error with **": "Erreur avec **",
+  },
+  749: {
+    "Yes, it returns ~3.14159": "Oui, il renvoie environ 3,14159",
+    "No, it returns 180.0": "Non, il renvoie 180,0",
+    "No, it returns 1.0": "Non, il renvoie 1.0",
+  },
+  769: {
+    "1_000 + 2_000": "1_000 + 2_000",
+  },
+  775: {
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  802: {
+    "Decimal('0.3')": "Décimal('0,3')",
   },
   804: {
     "Decimal('0.3333333333333333333333333333')": "Décimal('0,3333333333333333333333333333')",
+    "Decimal('0.33')": "Décimal('0,33')",
+  },
+  805: {
+    "Decimal('10')": "Décimal('10')",
+    "Decimal('11')": "Décimal('11')",
+    "Decimal('10.5')": "Décimal('10,5')",
+  },
+  806: {
+    "Decimal('10.6')": "Décimal('10,6')",
+    "Decimal('10.5')": "Décimal('10,5')",
+    "Decimal('11')": "Décimal('11')",
+  },
+  807: {
+    "<class 'decimal.Decimal'>": "<class 'decimal.Decimal'>",
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  811: {
+    "Decimal('10')": "Décimal('10')",
   },
   812: {
     "Decimal('1.414213562373095048801688724')": "Décimal('1,414213562373095048801688724')",
+    "Decimal('1.41')": "Décimal('1,41')",
+  },
+  813: {
+    "Decimal('3.14')": "Décimal('3,14')",
+  },
+  815: {
+    "Decimal('4.14')": "Décimal('4,14')",
+  },
+  816: {
+    "Fraction(1, 3)": "Fraction(1, 3)",
+  },
+  817: {
+    "Fraction(1, 2)": "Fraction(1, 2)",
+    "Fraction(2, 9)": "Fraction(2, 9)",
+    "Fraction(1, 9)": "Fraction(1, 9)",
+  },
+  818: {
+    "Fraction(1, 2)": "Fraction(1, 2)",
+    "Fraction(2, 4)": "Fraction(2, 4)",
+  },
+  819: {
+    "Fraction(1, 3)": "Fraction(1, 3)",
+  },
+  820: {
+    "Fraction(1, 1)": "Fraction(1, 1)",
+    "Fraction(3, 3)": "Fraction(3, 3)",
+  },
+  822: {
+    "Fraction(1, 2)": "Fraction(1, 2)",
+    "Fraction(5, 10)": "Fraction(5, 10)",
   },
   823: {
     "Fraction(3602879701896397, 36028797018963968)": "Fraction(3602879701896397, 36028797018963968)",
+    "Fraction(1, 10)": "Fraction(1, 10)",
+    "Fraction(0, 1)": "Fraction(0, 1)",
+  },
+  824: {
+    "Fraction(1, 0)": "Fraction(1, 0)",
+    "Fraction(inf)": "Fraction(inf)",
+  },
+  825: {
+    "Fraction(1, 3)": "Fraction(1, 3)",
+    "Fraction(3, 10)": "Fraction(3, 10)",
+    "Fraction(0, 1)": "Fraction(0, 1)",
+  },
+  826: {
+    "<class 'complex'>": "<class 'complexe'>",
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'float'>": "<class 'float'>",
+    "<class 'int'>": "<class 'int'>",
+  },
+  832: {
+    "complex(3, 4)": "complexe(3, 4)",
+  },
+  845: {
+    "'0x0a'": "'0x0a'",
   },
   851: {
     "A tiny number close to 0 (not exactly 0)": "Un nombre minuscule proche de 0 (mais pas exactement égal à 0).",
@@ -36,35 +547,229 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Smallest float so that 1.0 + epsilon != 1.0": "Plus petite valeur flottante telle que 1,0 + epsilon != 1,0",
     "The smallest positive float": "Le plus petit flottement positif",
     "Float precision in decimal digits": "Précision des nombres flottants en chiffres décimaux",
+    "Maximum float value": "Valeur flottante maximale",
   },
   862: {
     "Yes, Python integers have unlimited precision": "Oui, les entiers Python ont une précision illimitée",
+    "No, it overflows": "Non, ça déborde.",
+    "It returns inf": "Il renvoie inf",
+    "It raises OverflowError": "Cela génère une erreur de dépassement de capacité",
+  },
+  863: {
+    "<class 'int'>": "<class 'int'>",
+    "<class 'float'>": "<class 'float'>",
+    "<class 'long'>": "<class 'long'>",
   },
   864: {
     "Returns 1e+308 (valid float)": "Renvoie 1e+308 (nombre flottant valide)",
+    "Returns inf": "Retourne inf",
+    "Raises OverflowError": "Lève une erreur de dépassement de capacité",
+    "Returns 0.0": "Retourne 0,0",
   },
   867: {
     "No, Python computes it exactly": "Non, Python le calcule exactement.",
+    "Yes, OverflowError": "Oui, erreur de dépassement de capacité",
+    "It returns inf": "Il renvoie inf",
+    "It returns 0": "Il renvoie 0",
+  },
+  874: {
+    "'0b11111111'": "'0b11111111'",
+    "'0b10000000'": "'0b10000000'",
+    "'11111111'": "'11111111'",
+  },
+  875: {
+    "'0xff'": "'0xff'",
+    "'0xf'": "'0xf'",
+    "'ff'": "'ff'",
+  },
+  882: {
+    "b'\\\\x00\\\\x0a'": "b'\\\\x00\\\\x0a'",
+    "b'\\\\x0a\\\\x00'": "b'\\\\x0a\\\\x00'",
+    "b'\\\\x0a'": "b'\\\\x0a'",
+  },
+  885: {
+    "b'\\\\x01\\\\x00'": "b'\\\\x01\\\\x00'",
+    "b'\\\\x00\\\\x01'": "b'\\\\x00\\\\x01'",
+    "b'\\\\x01'": "b'\\\\x01'",
+  },
+  886: {
+    "'0b101010'": "'0b101010'",
+  },
+  888: {
+    "'0x2a'": "'0x2a'",
+  },
+  889: {
+    "'0x2A'": "'0x2A'",
+  },
+  890: {
+    "'3.14000000'": "'3.14000000'",
+  },
+  891: {
+    "'1,234,567'": "'1 234 567'",
+    "'1.234.567'": "'1.234.567'",
+  },
+  892: {
+    "'50.000000%'": "'50,000000%'",
+  },
+  893: {
+    "'00101010'": "'00101010'",
+    "'0b101010'": "'0b101010'",
+  },
+  894: {
+    "'00ff'": "'00off'",
+    "'ff'": "'ff'",
+    "'0xff'": "'0xff'",
   },
   930: {
     "== compares values, is compares identity": "== compare les valeurs, is compare l'identité",
+    "No difference": "Aucune différence",
+    "is is for strings only": "« is » ne concerne que les chaînes de caractères",
+    "== is deprecated": "== est obsolète",
+  },
+  951: {
+    "Only in loops": "Uniquement dans les boucles",
+  },
+  952: {
+    "Only if positive": "Seulement si positif",
+  },
+  954: {
+    "Only if non-empty": "Uniquement si non vide",
+  },
+  955: {
+    "Only in functions": "Uniquement dans les fonctions",
+  },
+  956: {
+    "Only if non-empty": "Uniquement si non vide",
+  },
+  957: {
+    "Only in classes": "Uniquement en classe",
+  },
+  958: {
+    "Only if non-empty": "Uniquement si non vide",
+  },
+  959: {
+    "Only if non-empty": "Uniquement si non vide",
+  },
+  960: {
+    "Only if non-empty": "Uniquement si non vide",
+  },
+  962: {
+    "Only in functions": "Uniquement dans les fonctions",
+  },
+  963: {
+    "Only two": "Seulement deux",
+  },
+  964: {
+    "else block executes": "sinon le bloc s'exécute",
+    "Returns None": "Aucun retour",
+  },
+  965: {
+    "Nothing executes": "Rien ne s'exécute",
+    "Returns None": "Aucun retour",
+    "Executes if block": "S'exécute si le bloc",
+  },
+  968: {
+    "if condition:": "si la condition :",
+    "if (condition)": "si (condition)",
+    "if condition then": "si la condition alors",
+    "if condition {": "si condition {",
+  },
+  969: {
+    "else:": "autre:",
+    "else {": "autre {",
+    "else then": "sinon",
+    "else if": "sinon si",
+  },
+  970: {
+    "elif condition:": "condition elif :",
+    "elseif condition:": "condition elseif :",
+    "elif (condition)": "elif (condition)",
+    "elif condition then": "elif condition alors",
+  },
+  973: {
+    "'yes'": "'Oui'",
+    "'no'": "'Non'",
+  },
+  974: {
+    "'no'": "'Non'",
+    "'yes'": "'Oui'",
+  },
+  976: {
+    "'even'": "'même'",
+    "'odd'": "'impair'",
+  },
+  977: {
+    "'odd'": "'impair'",
+    "'even'": "'même'",
+  },
+  978: {
+    "'positive'": "'positif'",
+    "'non-positive'": "« non positif »",
+  },
+  979: {
+    "'non-positive'": "« non positif »",
+    "'positive'": "'positif'",
+  },
+  980: {
+    "'empty'": "'vide'",
+    "'not empty'": "« pas vide »",
+  },
+  989: {
+    "'hello'": "'Bonjour'",
+  },
+  990: {
+    "'world'": "'monde'",
+    "'hello'": "'Bonjour'",
   },
   1024: {
     "Returns early to avoid deep nesting": "Retourne tôt pour éviter les nids profonds",
+    "Catches exceptions": "Gère les exceptions",
+    "Loops until valid": "Boucle jusqu'à ce que valide",
+    "Imports modules": "Modules d'importation",
+  },
+  1025: {
+    "not both": "pas les deux",
+  },
+  1026: {
+    "not both": "pas les deux",
+  },
+  1102: {
+    "No match": "Aucun match",
+  },
+  1103: {
+    "No match": "Aucun match",
   },
   1105: {
     "Wildcard/default — matches anything": "Caractère générique/par défaut — correspond à n'importe quelle valeur",
     "Matches the underscore character": "Correspond au caractère de soulignement",
+    "Matches None": "Aucun résultat",
+    "Raises an error": "Lève une erreur",
+  },
+  1107: {
+    "tuple match": "correspondance de tuple",
+    "No match": "Aucun match",
   },
   1108: {
     "No match — lists can't be matched": "Aucune correspondance — les listes ne peuvent pas être appariées",
+    "list match": "liste de correspondance",
   },
   1109: {
     "Yes — case int() matches any integer": "Oui — le cas int() correspond à n'importe quel entier",
     "No — type matching is not supported": "Non, la correspondance de types n'est pas prise en charge.",
+    "Only with isinstance()": "Uniquement avec isinstance()",
+    "Only for str and int": "Uniquement pour str et int",
+  },
+  1110: {
+    "No match": "Aucun match",
+  },
+  1111: {
+    "No match": "Aucun match",
   },
   1112: {
     "Structural pattern matching": "Appariement de modèles structurels",
+    "== comparison only": "== comparaison uniquement",
+    "is comparison": "est une comparaison",
+    "hash comparison": "comparaison de hachage",
   },
   1113: {
     "No match — dicts can't be matched": "Aucune correspondance — les dictionnaires ne peuvent pas être appariés",
@@ -72,9 +777,26 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   1114: {
     "Yes — extra keys are ignored": "Oui, les touches supplémentaires sont ignorées.",
     "No — all keys must be present": "Non — toutes les clés doivent être présentes",
+    "Only with **rest": "Seulement avec **repos",
+    "Raises KeyError": "Lève une erreur KeyError",
+  },
+  1119: {
+    "r = (int, str)": "r = (int, str)",
+    "No match": "Aucun match",
+  },
+  1122: {
+    "No match": "Aucun match",
+  },
+  1124: {
+    "No match": "Aucun match",
   },
   1125: {
     "Nothing — execution continues past the match block": "Rien — l'exécution se poursuit au-delà du bloc de correspondance",
+    "MatchError is raised": "Une erreur MatchError est levée.",
+    "The program crashes": "Le programme plante.",
+  },
+  1126: {
+    "No match": "Aucun match",
   },
   1128: {
     "Yes — __match_args__ defines positional pattern fields": "Oui — __match_args__ définit des champs de modèle positionnel",
@@ -82,70 +804,395 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Yes — __init__ is used automatically": "Oui — __init__ est utilisé automatiquement",
     "Yes — __slots__ defines the fields": "Oui — __slots__ définit les champs",
   },
+  1129: {
+    "starts with 1": "commence par 1",
+    "Both cases match": "Les deux cas correspondent",
+  },
+  1130: {
+    "starts with 1": "commence par 1",
+    "No match": "Aucun match",
+  },
   1131: {
     "Assigns and returns a value in one expression": "Attribue et renvoie une valeur en une seule expression",
+    "Compares two values": "Compare deux valeurs",
+    "Checks type equality": "Vérifie l'égalité du type",
+    "Creates a constant": "Crée une constante",
+  },
+  1133: {
+    "r = True": "r = Vrai",
+  },
+  1136: {
+    "line = None": "ligne = Aucune",
+  },
+  1138: {
+    "True, n = 4": "Vrai, n = 4",
+    "True, n = 5": "Vrai, n = 5",
+    "False, n = 5": "Faux, n = 5",
+    "True, n = 1": "Vrai, n = 1",
+  },
+  1140: {
+    "True (n = 3)": "Vrai (n = 3)",
+    "False (n = 3)": "Faux (n = 3)",
+    "True (n = 2)": "Vrai (n = 2)",
   },
   1141: {
     "No — it raises SyntaxError": "Non, cela génère une erreur de syntaxe.",
     "Yes — but only with default args": "Oui, mais uniquement avec les arguments par défaut.",
+    "Yes — it works normally": "Oui, ça fonctionne normalement.",
+    "Yes — but only in the body": "Oui, mais seulement dans le corps",
   },
   1142: {
     "No — bare x := 5 is a SyntaxError": "Non — x nu := 5 est une erreur de syntaxe",
     "It works but is deprecated": "Cela fonctionne, mais c'est obsolète.",
+    "Yes — it works like x = 5": "Oui, ça fonctionne comme x = 5",
+    "Yes — but only in 3.10+": "Oui, mais seulement à partir de la version 3.10.",
+  },
+  1143: {
+    "r = None": "r = Aucun",
+  },
+  1144: {
+    "r = None": "r = Aucun",
+  },
+  1146: {
+    "Assignment expression": "Expression d'affectation",
+    "Walrus operator": "Opérateur de morse",
+    "Inline assignment": "Affectation en ligne",
+    "Bind operator": "Opérateur de liaison",
+  },
+  1149: {
+    "r = None": "r = Aucun",
+  },
+  1150: {
+    "a = 5, b = 5": "a = 5, b = 5",
+    "a = 5, b = None": "a = 5, b = Aucun",
+    "a = (b := 5), b = 5": "a = (b := 5), b = 5",
+  },
+  1170: {
+    "found!": "trouvé!",
+  },
+  1190: {
+    "{1: 1, 3: 9}": "{1: 1, 3: 9}",
+    "{0: 0, 1: 1, 4: 16}": "{0: 0, 1: 1, 4: 16}",
+    "{2: 4, 4: 16}": "{2: 4, 4: 16}",
+    "{1: 1, 2: 4, 3: 9, 4: 16}": "{1: 1, 2: 4, 3: 9, 4: 16}",
+  },
+  1206: {
+    "all odd": "tout est étrange",
+    "even found": "même trouvé",
+  },
+  1208: {
+    "Empty string": "Chaîne vide",
+  },
+  1209: {
+    "{3: 2, 2: 2, 1: 2}": "{3: 2, 2: 2, 1: 2}",
+    "{1: 1, 2: 1, 3: 1}": "{1: 1, 2: 1, 3: 1}",
+    "{112233: 1}": "{112233: 1}",
   },
   1212: {
-    "d becomes {'a':1,'b':2,'c':3}": "d devient {'a':1,'b':2,'c':3}",
+    "h e l l o": "Bonjour",
+  },
+  1213: {
+    "a b c": "a b c",
+  },
+  1217: {
+    "Hi there": "Salut",
+  },
+  1220: {
+    "{0: 'a', 1: 'b', 2: 'c', 3: 'd'}": "{0: 'a', 1: 'b', 2: 'c', 3: 'd'}",
+    "{'a': 0, 'b': 1, 'c': 2, 'd': 3}": "{'a': 0, 'b': 1, 'c': 2, 'd': 3}",
+  },
+  1222: {
+    "no break": "pas de pause",
   },
   1223: {
     "Iteration order is not guaranteed": "L'ordre des itérations n'est pas garanti.",
     "Elements appear in insertion order": "Les éléments apparaissent dans l'ordre d'insertion",
+    "Elements appear sorted": "Les éléments apparaissent triés",
+    "Sets cannot be iterated": "Les ensembles ne peuvent pas être itérés.",
+  },
+  1224: {
+    "An infinite loop": "Une boucle infinie",
+    "A syntax error": "Erreur de syntaxe",
+    "A loop that runs once": "Une boucle qui s'exécute une seule fois",
+  },
+  1225: {
+    "Loop that does nothing": "Boucle qui ne fait rien",
+    "Syntax error": "Erreur de syntaxe",
+    "Infinite loop": "Boucle infinie",
+  },
+  1226: {
+    "No, SyntaxError": "Non, erreur de syntaxe",
+    "Only in functions": "Uniquement dans les fonctions",
+    "Only in classes": "Uniquement en classe",
+  },
+  1227: {
+    "No, SyntaxError": "Non, erreur de syntaxe",
+    "Only in functions": "Uniquement dans les fonctions",
+    "Only in classes": "Uniquement en classe",
+  },
+  1228: {
+    "Breaks only inner loop": "Interrompt uniquement la boucle interne",
+    "Breaks all loops": "Interrompt toutes les boucles",
+    "Breaks outer loop": "Romp la boucle extérieure",
+  },
+  1229: {
+    "Continues only inner loop": "Continue uniquement la boucle interne",
+    "Continues all loops": "Continue toutes les boucles",
+    "Continues outer loop": "Continue la boucle extérieure",
+  },
+  1230: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+    "{1: 'a', 2: 'b'}": "{1: 'a', 2: 'b'}",
+  },
+  1231: {
+    "'Pto'": "'Pto'",
+    "'yhn'": "'yhn'",
+    "'Pyt'": "'Pyt'",
+    "'Python'": "'Python'",
+  },
+  1232: {
+    "'a', 'b', 'c'": "'a', 'b', 'c'",
+    "'abc'": "'abc'",
+  },
+  1233: {
+    "Only if numeric": "Uniquement si numérique",
+  },
+  1235: {
+    "Only keys": "Clés uniquement",
+  },
+  1236: {
+    "'a', 'b'": "'a', 'b'",
+  },
+  1237: {
+    "for loop": "boucle for",
+    "while loop": "boucle while",
+    "do-while": "faire pendant que",
+    "if loop": "boucle if",
+  },
+  1238: {
+    "while loop": "boucle while",
+    "for loop": "boucle for",
+    "do-while": "faire pendant que",
+    "if loop": "boucle if",
+  },
+  1239: {
+    "0\\\\n1\\\\n2": "0\\n1\\n2",
+    "1\\\\n2\\\\n3": "1\\n2\\n3",
+    "3\\\\n3\\\\n3": "3\\n3\\n3",
+  },
+  1240: {
+    "1\\\\n2\\\\n3": "1\\n2\\n3",
+    "0\\\\n1\\\\n2": "0\\n1\\n2",
+    "1\\\\n2\\\\n3\\\\n4": "1\\n2\\n3\\n4",
   },
   1241: {
     "Loop that runs once then breaks": "Boucle qui s'exécute une seule fois puis s'interrompt",
+    "Infinite loop": "Boucle infinie",
+    "Syntax error": "Erreur de syntaxe",
+  },
+  1242: {
+    "Loop that never runs": "Boucle qui ne s'exécute jamais",
+    "Infinite loop": "Boucle infinie",
+    "Syntax error": "Erreur de syntaxe",
+  },
+  1243: {
+    "Infinite loop": "Boucle infinie",
+  },
+  1244: {
+    "Infinite loop": "Boucle infinie",
+  },
+  1245: {
+    "{'a': 0, 'b': 1, 'c': 2}": "{'a': 0, 'b': 1, 'c': 2}",
+    "{0: 'a', 1: 'b', 2: 'c'}": "{0: 'a', 1: 'b', 2: 'c'}",
+  },
+  1246: {
+    "'hello-world'": "'Bonjour le monde'",
+    "'helloworld'": "'Bonjour le monde'",
+    "'hello - world'": "'Bonjour le monde'",
+    "'hello, world'": "'Bonjour le monde'",
+  },
+  1247: {
+    "Infinite loop": "Boucle infinie",
+    "Runs once": "S'exécute une fois",
+  },
+  1248: {
+    "Loop never runs": "La boucle ne s'exécute jamais.",
+    "Runs once": "S'exécute une fois",
+    "Infinite loop": "Boucle infinie",
   },
   1249: {
     "Yes, but it doesn't affect iteration": "Oui, mais cela n'affecte pas l'itération.",
+    "Only in Python 2": "Uniquement en Python 2",
+  },
+  1250: {
+    "Only in Python 2": "Uniquement en Python 2",
+  },
+  1258: {
+    "'Hello World'": "'Bonjour le monde'",
+    "'HELLO WORLD'": "'BONJOUR LE MONDE'",
+    "'hello world'": "'Bonjour le monde'",
+    "'hELLO wORLD'": "'Bonjour le monde'",
+  },
+  1259: {
+    "Only in Python 2": "Uniquement en Python 2",
+  },
+  1267: {
+    "{0: 0, 1: 1, 2: 4}": "{0: 0, 1: 1, 2: 4}",
+  },
+  1268: {
+    "{0: 0, 1: 1, 2: 4}": "{0: 0, 1: 1, 2: 4}",
+  },
+  1269: {
+    "{0: 0, 1: 2, 2: 4}": "{0: 0, 1: 2, 2: 4}",
+  },
+  1271: {
+    "{'a': 'a', 'b': 'b', 'c': 'c'}": "{'a': 'a', 'b': 'b', 'c': 'c'}",
+  },
+  1273: {
+    "{'a': 1, 'ab': 2, 'abc': 3}": "{'a': 1, 'ab': 2, 'abc': 3}",
+  },
+  1275: {
+    "{'a': 4, 'b': 2}": "{'a': 4, 'b': 2}",
+    "{'a': 3, 'b': 2}": "{'a': 3, 'b': 2}",
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1276: {
+    "{'a': 3, 'b': 2}": "{'a': 3, 'b': 2}",
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+    "{'b': 2, 'a': 3}": "{'b': 2, 'a': 3}",
+  },
+  1277: {
+    "generator object": "objet générateur",
+  },
+  1285: {
+    "'0:a-1:b-2:c'": "'0:a-1:b-2:c'",
+    "'a:0-b:1-c:2'": "'a:0-b:1-c:2'",
+    "'0-a-1-b-2-c'": "'0-a-1-b-2-c'",
+  },
+  1286: {
+    "'ac'": "'ac'",
+  },
+  1287: {
+    "'ABCDE'": "'ABCDE'",
+    "'abcde'": "'abcde'",
+    "'65666768'": "'65666768'",
+  },
+  1292: {
+    "list_iterator object": "objet list_iterator",
+  },
+  1296: {
+    "{'b': 2, 'c': 3}": "{'b': 2, 'c': 3}",
+    "{'a': 1, 'b': 2, 'c': 3}": "{'a': 1, 'b': 2, 'c': 3}",
   },
   1299: {
     "{'name': 'Alice', 'age': 30}": "{'name': 'Alice', 'age': 30}",
     "{'Alice': 'name', 30: 'age'}": "{'Alice': 'nom', 30: 'âge'}",
   },
+  1501: {
+    "A list": "Une liste",
+    "A tuple": "Un tuple",
+    "A dictionary": "Un dictionnaire",
+    "A set": "Un ensemble",
+  },
+  1503: {
+    "Empty list": "Liste vide",
+    "Empty tuple": "Tuple vide",
+  },
   1536: {
     "append adds one item, extend adds multiple": "append ajoute un élément, extend en ajoute plusieurs",
+    "No difference": "Aucune différence",
+    "extend is faster": "L'extension est plus rapide",
+    "append is deprecated": "La fonction append est obsolète.",
   },
   1537: {
     "+ creates new list, extend modifies": "+ crée une nouvelle liste, étend les modifications",
+    "No difference": "Aucune différence",
+    "extend creates new list": "l'extension crée une nouvelle liste",
+    "+ modifies": "+ modifie",
   },
   1546: {
     "pop uses index, remove uses value": "pop utilise l'index, remove utilise la valeur",
+    "No difference": "Aucune différence",
+    "pop is faster": "pop est plus rapide",
+    "remove is deprecated": "La fonction « supprimer » est obsolète.",
+  },
+  1547: {
+    "Returns None": "Aucun retour",
+  },
+  1548: {
+    "Returns None": "Aucun retour",
+    "No error": "Aucune erreur",
+  },
+  1556: {
+    "Returns -1": "Retourne -1",
+    "Returns None": "Aucun retour",
   },
   1565: {
     "sort() modifies in place, sorted() returns new list": "sort() modifie la liste sur place, sorted() renvoie une nouvelle liste",
+    "No difference": "Aucune différence",
+    "sorted() is faster": "sorted() est plus rapide",
+    "sort() is deprecated": "La fonction sort() est obsolète.",
   },
   1566: {
     "list_reverseiterator object": "objet list_reverseiterator",
   },
   1574: {
     "Shallow copies outer, deep copies nested": "Copies superficielles externes, copies profondes imbriquées",
+    "No difference": "Aucune différence",
+    "Deep is faster": "Deep est plus rapide",
+    "Shallow is deprecated": "Le terme « superficiel » est obsolète.",
+  },
+  1581: {
+    "a=1, b=2, c=3": "a=1, b=2, c=3",
+  },
+  1612: {
+    "{0: 0, 1: 1, 2: 4, 3: 9}": "{0: 0, 1: 1, 2: 4, 3: 9}",
+  },
+  1626: {
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'set'>": "<class 'set'>",
+    "<class 'dict'>": "<class 'dict'>",
   },
   1627: {
     "Yes, the trailing comma makes it a tuple": "Oui, la virgule finale en fait un tuple.",
     "Yes, the parentheses make it a tuple": "Oui, les parenthèses en font un tuple.",
+    "No, it's an integer": "Non, c'est un entier",
+    "No, it's a syntax error": "Non, c'est une erreur de syntaxe",
   },
   1628: {
     "No, it's just the integer 1 with grouping parentheses": "Non, c'est simplement l'entier 1 avec des parenthèses de regroupement.",
     "Yes, it's a tuple with one element": "Oui, c'est un tuple avec un seul élément",
+    "It's a syntax error": "C'est une erreur de syntaxe",
+    "It depends on the context": "Cela dépend du contexte",
+  },
+  1629: {
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'list'>": "<class 'list'>",
+  },
+  1630: {
+    "<class 'int'>": "<class 'int'>",
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'list'>": "<class 'list'>",
   },
   1642: {
     "Only if the tuple has one element": "Uniquement si le tuple contient un seul élément",
+    "No, tuples are immutable": "Non, les tuples sont immuables.",
+    "Yes, like a list": "Oui, comme une liste",
+    "Only with integers": "Uniquement avec des entiers",
   },
   1645: {
     "Swaps the values of a and b": "Échange les valeurs de a et b",
+    "Sets both to b's value": "Définit les deux à la valeur de b",
+    "Raises an error": "Lève une erreur",
+    "Sets both to a's value": "Définit les deux à la valeur de a",
   },
   1649: {
     "Yes, tuples of immutable elements are hashable": "Oui, les tuples d'éléments immuables sont hachables.",
     "No, tuples are not hashable": "Non, les tuples ne sont pas hachables.",
     "Only if the tuple has one element": "Uniquement si le tuple contient un seul élément",
+    "Only in Python 3.10+": "Uniquement à partir de Python 3.10",
   },
   1650: {
     "No, TypeError because the list inside is unhashable": "Non, TypeError car la liste interne n'est pas hachable.",
@@ -153,28 +1200,288 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Yes, tuples are always hashable": "Oui, les tuples sont toujours hachables.",
     "No, only single-element tuples are hashable": "Non, seuls les tuples à un seul élément sont hachables.",
   },
+  1654: {
+    "<class 'dict'>": "<class 'dict'>",
+    "<class 'set'>": "<class 'set'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'tuple'>": "<class 'tuple'>",
+  },
   1738: {
     "All elements are processed": "Tous les éléments sont traités",
     "Python raises RuntimeError": "Python génère une erreur d'exécution",
+    "Elements may be skipped": "Des éléments peuvent être ignorés.",
+    "The loop runs forever": "La boucle se répète indéfiniment.",
+  },
+  1762: {
+    "Only for string keys": "Uniquement pour les touches à cordes",
+    "Only for integer keys": "Uniquement pour les clés entières",
   },
   1786: {
     "<class 'list_reverseiterator'>": "<class 'list_reverseiterator'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'iterator'>": "<class 'iterator'>",
+  },
+  1795: {
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'int'>": "<class 'int'>",
+  },
+  1801: {
+    "A dictionary": "Un dictionnaire",
+    "A list": "Une liste",
+    "A tuple": "Un tuple",
+    "A set": "Un ensemble",
+  },
+  1802: {
+    "Empty dictionary": "Dictionnaire vide",
+    "Empty set": "Ensemble vide",
+  },
+  1804: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1805: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1808: {
+    "Returns None": "Aucun retour",
+    "Returns empty dict": "Renvoie un dictionnaire vide",
   },
   1817: {
     "setdefault() sets key if missing, get() doesn't": "La fonction `setdefault()` définit la clé si elle est manquante, contrairement à `get()`.",
     "setdefault() is deprecated": "La fonction setdefault() est obsolète.",
+    "No difference": "Aucune différence",
+    "get() is faster": "get() est plus rapide",
+  },
+  1831: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1833: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1834: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1836: {
+    "('b', 2) or ('a', 1)": "(« b », 2) ou (« a », 1)",
+  },
+  1839: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1841: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1842: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1843: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1845: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1847: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
   },
   1848: {
     "| creates new dict, |= modifies in place": "| crée un nouveau dictionnaire, |= modifie directement",
+    "No difference": "Aucune différence",
+    "|= is faster": "|= est plus rapide",
+    "| is deprecated": "| est obsolète",
+  },
+  1851: {
+    "{1: 2, 2: 4, 3: 6}": "{1: 2, 2: 4, 3: 6}",
+  },
+  1852: {
+    "{0: 0, 1: 1, 2: 4}": "{0: 0, 1: 1, 2: 4}",
+  },
+  1853: {
+    "{'a': 2, 'b': 4}": "{'a': 2, 'b': 4}",
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1854: {
+    "{2: 2, 3: 3}": "{2: 2, 3: 3}",
+    "{1: 1, 2: 2, 3: 3}": "{1: 1, 2: 2, 3: 3}",
+  },
+  1855: {
+    "{1: 'odd', 2: 'even', 3: 'odd'}": "{1: 'impair', 2: 'pair', 3: 'impair'}",
+    "{1: 1, 2: 2, 3: 3}": "{1: 1, 2: 2, 3: 3}",
+  },
+  1856: {
+    "{'1': 1, '2': 2, '3': 3}": "{'1': 1, '2': 2, '3': 3}",
+    "{1: 1, 2: 2, 3: 3}": "{1: 1, 2: 2, 3: 3}",
+  },
+  1857: {
+    "{(1, 3): 4, (1, 4): 5, (2, 3): 5, (2, 4): 6}": "{(1, 3): 4, (1, 4): 5, (2, 3): 5, (2, 4): 6}",
+    "{1: 1, 2: 2}": "{1: 1, 2: 2}",
+  },
+  1858: {
+    "{1: 3, 2: 4}": "{1: 3, 2: 4}",
+    "{1: 1, 2: 2}": "{1: 1, 2: 2}",
+  },
+  1860: {
+    "{1: 2, 2: 4}": "{1: 2, 2: 4}",
+    "{1: 1, 2: 2}": "{1: 1, 2: 2}",
+  },
+  1869: {
+    "{'a': 1, 'b': 2, 'c': 3}": "{'a': 1, 'b': 2, 'c': 3}",
+  },
+  1870: {
+    "{'a': 1, 'a': 1}": "{'a': 1, 'a': 1}",
+  },
+  1874: {
+    "Prints 'a' then 'b'": "Affiche 'a' puis 'b'",
+    "Prints 1 then 2": "Affiche 1 puis 2",
+  },
+  1875: {
+    "Prints 1 then 2": "Affiche 1 puis 2",
+    "Prints 'a' then 'b'": "Affiche 'a' puis 'b'",
+  },
+  1876: {
+    "Prints 'a' 1 then 'b' 2": "Affiche 'a' 1 puis 'b' 2",
+    "Prints 1 'a' then 2 'b'": "Affiche 1 'a' puis 2 'b'",
+  },
+  1881: {
+    "{'a': None, 'b': None}": "{'a': Aucun, 'b': Aucun}",
+  },
+  1882: {
+    "{'a': 0, 'b': 0}": "{'a': 0, 'b': 0}",
+    "{'a': None, 'b': None}": "{'a': Aucun, 'b': Aucun}",
+  },
+  1883: {
+    "{'c': None, 'd': None}": "{'c': Aucun, 'd': Aucun}",
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1894: {
+    "{'a': 1, 'b': 'b'}": "{'a': 1, 'b': 'b'}",
+  },
+  1897: {
+    "{1: 'a', 1.0: 'b'}": "{1: 'a', 1.0: 'b'}",
+  },
+  1898: {
+    "{1: 'a', 1.0: 'b'}": "{1: 'a', 1.0: 'b'}",
+  },
+  1899: {
+    "'default'": "'défaut'",
+  },
+  1900: {
+    "'default'": "'défaut'",
+  },
+  1902: {
+    "{'x': 1, 'y': 2}": "{'x': 1, 'y': 2}",
+  },
+  1903: {
+    "{'b': {'c': 3}}": "{'b': {'c': 3}}",
+  },
+  1904: {
+    "'Alice'": "'Alice'",
+    "'Bob'": "'Bob'",
+  },
+  1906: {
+    "{'a': {'x': 1}}": "{'a': {'x': 1}}",
+  },
+  1908: {
+    "{1: 'a', 2: 'b'}": "{1: 'a', 2: 'b'}",
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+    "{('a', 1): ('b', 2)}": "{('a', 1): ('b', 2)}",
+  },
+  1909: {
+    "{1: 'a', 1: 'b'}": "{1: 'a', 1: 'b'}",
+  },
+  1910: {
+    "{'a': 1, 'b': 2, 'c': 3}": "{'a': 1, 'b': 2, 'c': 3}",
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1911: {
+    "{'b': 2, 'c': 3}": "{'b': 2, 'c': 3}",
+    "{2: 'b', 3: 'c'}": "{2: 'b', 3: 'c'}",
+  },
+  1913: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+    "{'b': 2, 'a': 1}": "{'b': 2, 'a': 1}",
+  },
+  1914: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+    "{'b': 2, 'a': 1}": "{'b': 2, 'a': 1}",
+  },
+  1916: {
+    "{'a': 1, 'b': 3, 'c': 4}": "{'a': 1, 'b': 3, 'c': 4}",
+    "{'a': 1, 'b': 2, 'c': 4}": "{'a': 1, 'b': 2, 'c': 4}",
+    "{'b': 3, 'c': 4}": "{'b': 3, 'c': 4}",
+  },
+  1917: {
+    "{'a': 1, 'b': 2, 'c': 3}": "{'a': 1, 'b': 2, 'c': 3}",
+    "{'b': 2, 'c': 3}": "{'b': 2, 'c': 3}",
+  },
+  1918: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1922: {
+    "{'a': 0, 'b': 0, 'c': 0}": "{'a': 0, 'b': 0, 'c': 0}",
+    "{'abc': 0}": "{'abc': 0}",
+    "{0: 'abc'}": "{0: 'abc'}",
+  },
+  1931: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1932: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1933: {
+    "{'a': 1, 'a': 2}": "{'a': 1, 'a': 2}",
+  },
+  1934: {
+    "{'a': 1, 'b': 2, 'c': 3}": "{'a': 1, 'b': 2, 'c': 3}",
+  },
+  1936: {
+    "{'a': 1, 'c': 3}": "{'a': 1, 'c': 3}",
+    "{'a': 1, 'b': 2, 'c': 3}": "{'a': 1, 'b': 2, 'c': 3}",
+  },
+  1940: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1941: {
+    "'hello world'": "'Bonjour le monde'",
+    "'helloworld'": "'Bonjour le monde'",
+  },
+  1949: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+    "{'c': None}": "{'c': Aucun}",
+  },
+  1950: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
+  1986: {
+    "<class 'dict_keys'>": "<class 'dict_keys'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'set'>": "<class 'set'>",
+    "<class 'tuple'>": "<class 'tuple'>",
+  },
+  1987: {
+    "<class 'dict_items'>": "<class 'dict_items'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'set'>": "<class 'set'>",
+    "<class 'dict_keys'>": "<class 'dict_keys'>",
+  },
+  1990: {
+    "Name: Alice, Age: 30": "Nom : Alice, Âge : 30 ans",
+    "Name: name, Age: age": "Nom : nom, Âge : âge",
+  },
+  1991: {
+    "tuple key": "clé tuple",
+  },
+  1992: {
+    "fs key": "touche fs",
   },
   2001: {
     "Counter({'l': 2, 'h': 1, 'e': 1, 'o': 1})": "Compteur({'l': 2, 'h': 1, 'e': 1, 'o': 1})",
     "Counter({'h': 1, 'e': 1, 'l': 2, 'o': 1})": "Compteur({'h': 1, 'e': 1, 'l': 2, 'o': 1})",
+    "{'h': 1, 'e': 1, 'l': 2, 'o': 1}": "{'h' : 1, 'e' : 1, 'l' : 2, 'o' : 1}",
   },
   2005: {
     "All elements sorted by count descending": "Tous les éléments sont triés par nombre décroissant",
     "Only elements with count > 1": "Seuls les éléments dont le nombre est supérieur à 1",
     "The single most common element": "L'élément le plus courant",
+    "Error — argument required": "Erreur — argument requis",
   },
   2008: {
     "Counter({'b': 2, 'c': 2, 'a': 1, 'd': 1})": "Compteur({'b': 2, 'c': 2, 'a': 1, 'd': 1})",
@@ -182,46 +1489,145 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Counter({'a': 1, 'b': 2, 'c': 2, 'd': 1})": "Compteur({'a': 1, 'b': 2, 'c': 2, 'd': 1})",
   },
   2009: {
+    "Counter({'a': 1})": "Compteur({'a': 1})",
     "Counter({'a': 1, 'b': 0, 'c': 0})": "Compteur({'a': 1, 'b': 0, 'c': 0})",
     "Counter({'a': 1, 'b': -1})": "Compteur({'a': 1, 'b': -1})",
   },
   2010: {
+    "Counter({'b': 1, 'c': 1})": "Compteur({'b': 1, 'c': 1})",
     "Counter({'a': 1, 'b': 1, 'c': 1, 'd': 1})": "Compteur({'a': 1, 'b': 1, 'c': 1, 'd': 1})",
+    "Counter({'b': 2, 'c': 2})": "Compteur({'b': 2, 'c': 2})",
   },
   2011: {
     "Counter({'a': 2, 'c': 2, 'b': 1})": "Compteur({'a': 2, 'c': 2, 'b': 1})",
     "Counter({'a': 2, 'b': 2, 'c': 2})": "Compteur({'a': 2, 'b': 2, 'c': 2})",
     "Counter({'a': 2, 'b': 1, 'c': 2})": "Compteur({'a': 2, 'b': 1, 'c': 2})",
   },
+  2012: {
+    "{'a': 2, 'b': 1}": "{'a': 2, 'b': 1}",
+  },
+  2013: {
+    "{'a': 2, 'b': 1}": "{'a': 2, 'b': 1}",
+    "Counter({'a': 2, 'b': 1})": "Compteur({'a': 2, 'b': 1})",
+  },
   2017: {
+    "Counter({'a': 4, 'b': 2})": "Compteur({'a': 4, 'b': 2})",
     "Counter({'a': 4, 'b': 2, 'c': 0, 'd': -2})": "Compteur({'a': 4, 'b': 2, 'c': 0, 'd': -2})",
     "Counter({'a': 4, 'b': 2, 'c': 0})": "Compteur({'a': 4, 'b': 2, 'c': 0})",
   },
   2018: {
+    "Counter({'d': 2})": "Compteur({'d': 2})",
     "Counter({'a': -4, 'b': -2, 'd': 2})": "Compteur({'a': -4, 'b': -2, 'd': 2})",
+    "Counter({'a': 4, 'b': 2})": "Compteur({'a': 4, 'b': 2})",
   },
   2023: {
+    "Counter()": "Comptoir()",
     "Counter({'h': 0, 'e': 0, 'l': 0, 'o': 0})": "Compteur({'h': 0, 'e': 0, 'l': 0, 'o': 0})",
+  },
+  2028: {
+    "set()": "ensemble()",
+  },
+  2031: {
+    "N/A": "N / A",
+  },
+  2038: {
+    "<class 'int'>": "<class 'int'>",
   },
   2040: {
     "defaultdict(<class 'int'>, {})": "defaultdict(<class 'int'>, {})",
   },
+  2041: {
+    "Only in CPython": "Uniquement en CPython",
+    "Only with string keys": "Uniquement avec des touches à cordes",
+  },
+  2051: {
+    "No, integers are hashable": "Non, les entiers sont hachables",
+    "Yes, TypeError": "Oui, TypeError",
+    "No, but returns None": "Non, mais ne renvoie aucun",
+    "Depends on the value": "Cela dépend de la valeur",
+  },
+  2052: {
+    "No, strings are hashable": "Non, les chaînes de caractères sont hachables.",
+    "Yes, TypeError": "Oui, TypeError",
+    "Only for short strings": "Uniquement pour les cordes courtes",
+    "Returns None": "Aucun retour",
+  },
   2053: {
     "No, tuples of hashable elements are hashable": "Non, les tuples d'éléments hachables sont hachables.",
     "Only if the tuple has < 3 elements": "Uniquement si le tuple contient moins de 3 éléments",
+    "Yes, TypeError": "Oui, TypeError",
+    "Returns None": "Aucun retour",
   },
   2054: {
     "TypeError: unhashable type: 'list'": "TypeError : type impossible à hacher : « liste »",
+    "Returns a valid hash": "Renvoie un hachage valide",
+    "Returns None": "Aucun retour",
+    "Returns 0": "Retourne 0",
   },
   2055: {
     "No, frozensets are hashable": "Non, les ensembles gelés sont hachables",
+    "Yes, TypeError": "Oui, TypeError",
+    "Only for small frozensets": "Uniquement pour les petits ensembles congelés",
+    "Returns None": "Aucun retour",
+  },
+  2056: {
+    "No, None is hashable": "Non, aucun n'est hachable",
+    "Yes, TypeError": "Oui, TypeError",
+    "Returns 0": "Retourne 0",
+    "Returns None": "Aucun retour",
+  },
+  2059: {
+    "Depends on platform": "Cela dépend de la plateforme",
   },
   2064: {
     "No, instances are unhashable": "Non, les instances ne sont pas hachables.",
     "Only with __hash__ defined": "Uniquement avec __hash__ défini",
+    "Yes, using id() for hash": "Oui, en utilisant id() pour le hachage",
+    "Only immutable instances": "Seules les instances immuables",
+  },
+  2066: {
+    "__hash__ and __eq__": "__hash__ et __eq__",
+    "__hash__ and __str__": "__hash__ et __str__",
+    "__eq__ and __repr__": "__eq__ et __repr__",
+    "__hash__ and __lt__": "__hash__ et __lt__",
   },
   2067: {
     "TypeError: unhashable type": "TypeError : type non hachable",
+    "Returns 0": "Retourne 0",
+    "Returns id(a)": "Renvoie id(a)",
+    "Returns None": "Aucun retour",
+  },
+  2070: {
+    "set()": "ensemble()",
+  },
+  2071: {
+    "no b": "pas de b",
+  },
+  2075: {
+    "No, it uses __getitem__": "Non, il utilise __getitem__",
+    "No, it uses __init__": "Non, il utilise __init__",
+    "No, it modifies get()": "Non, cela modifie get()",
+  },
+  2077: {
+    "Adds 'b' to both p and d": "Ajoute 'b' à la fois à p et à d.",
+    "Adds 'b' only to p": "Ajoute 'b' uniquement à p",
+  },
+  2081: {
+    "<class 'dict'>": "<class 'dict'>",
+    "<class 'object'>": "<class 'object'>",
+    "<class 'mapping'>": "<class 'mapping'>",
+  },
+  2094: {
+    "JSON object": "objet JSON",
+  },
+  2101: {
+    "Defines a function": "Définit une fonction",
+    "Calls a function": "Appelle une fonction",
+    "Imports a module": "Importe un module",
+  },
+  2102: {
+    "Defines empty function": "Définit une fonction vide",
+    "Calls function": "Fonction d'appel",
   },
   2103: {
     "Defines function returning None": "Définit une fonction renvoyant None",
@@ -231,8 +1637,14 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Defines function returning tuple": "Définit une fonction renvoyant un tuple",
     "Defines function returning two values": "Définit une fonction renvoyant deux valeurs",
   },
+  2105: {
+    "Returns None": "Aucun retour",
+    "Returns 0": "Retourne 0",
+    "Returns empty string": "Renvoie une chaîne vide",
+  },
   2106: {
     "Defines function with two parameters": "Définit une fonction à deux paramètres",
+    "Calls function": "Fonction d'appel",
   },
   2111: {
     "Defines function with default parameter": "Définit une fonction avec un paramètre par défaut",
@@ -241,6 +1653,9 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   2113: {
     "Defines function with required and default parameter": "Définit une fonction avec des paramètres obligatoires et par défaut",
     "Defines function with two defaults": "Définit une fonction avec deux valeurs par défaut",
+  },
+  2115: {
+    "Valid function": "Fonction valide",
   },
   2116: {
     "Defines function with mutable default (problematic)": "Définit une fonction avec une valeur par défaut modifiable (problématique)",
@@ -266,9 +1681,20 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Defines function accepting variable keyword arguments": "Définit une fonction acceptant des arguments nommés variables",
     "Defines function with required kwargs": "Définit une fonction avec les arguments nommés requis",
   },
+  2127: {
+    "{'a': 1, 'b': 2}": "{'a': 1, 'b': 2}",
+  },
   2129: {
     "Defines function with all parameter types": "Définit une fonction avec tous les types de paramètres",
     "Defines function with only *args": "Définit une fonction avec uniquement des arguments *args",
+  },
+  2130: {
+    "(1, (2, 3), {'a': 4})": "(1, (2, 3), {'a': 4})",
+    "(1, 2, 3, {'a': 4})": "(1, 2, 3, {'a': 4})",
+  },
+  2131: {
+    "Anonymous function": "Fonction anonyme",
+    "Named function": "fonction nommée",
   },
   2133: {
     "Anonymous function with no parameters": "Fonction anonyme sans paramètres",
@@ -281,13 +1707,21 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   2140: {
     "def creates named function, lambda creates anonymous": "def crée une fonction nommée, lambda crée une fonction anonyme",
+    "No difference": "Aucune différence",
+    "lambda is faster": "lambda est plus rapide",
+    "def is deprecated": "def est obsolète",
   },
   2141: {
     "Defines function returning 1": "Définit une fonction renvoyant 1",
+    "Calls function": "Fonction d'appel",
   },
   2143: {
     "Defines function returning tuple (1, 2, 3)": "Définit une fonction renvoyant un tuple (1, 2, 3)",
     "Defines function returning three values": "Définit une fonction renvoyant trois valeurs",
+  },
+  2145: {
+    "a=1, b=2": "a=1, b=2",
+    "a=(1,2), b=None": "a=(1,2), b=Aucun",
   },
   2146: {
     "Defines function returning None": "Définit une fonction renvoyant None",
@@ -303,6 +1737,37 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   2166: {
     "RecursionError (infinite recursion)": "Erreur de récursion (récursion infinie)",
+    "Returns None": "Aucun retour",
+    "Returns 0": "Retourne 0",
+  },
+  2168: {
+    "'cba'": "'cba'",
+    "'abc'": "'abc'",
+  },
+  2174: {
+    "map object": "objet carte",
+  },
+  2176: {
+    "filter object": "objet filtre",
+  },
+  2181: {
+    "'func'": "'func'",
+  },
+  2182: {
+    "'doc'": "'doc'",
+  },
+  2183: {
+    "'func'": "'func'",
+  },
+  2185: {
+    "Code object": "Objet de code",
+  },
+  2188: {
+    "<class 'function'>": "<class 'function'>",
+    "<class 'type'>": "<class 'type'>",
+  },
+  2190: {
+    "'value'": "'valeur'",
   },
   2192: {
     "{'x': <class 'int'>, 'return': <class 'int'>}": "{'x': <class 'int'>, 'return': <class 'int'>}",
@@ -311,12 +1776,18 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Allows inner function to modify a variable from the enclosing scope": "Permet à une fonction interne de modifier une variable de la portée englobante",
     "Declares a global variable": "Déclare une variable globale",
     "Creates a new local variable": "Crée une nouvelle variable locale",
+    "Imports a module variable": "Importe une variable de module",
   },
   2207: {
     "Yes, it accesses the module-level variable": "Oui, elle accède à la variable de niveau module",
     "No, only nonlocal works in nested functions": "Non, seules les fonctions non locales fonctionnent dans les fonctions imbriquées.",
     "Yes, but it causes an error": "Oui, mais cela provoque une erreur",
     "No, nested functions cannot access any outer variables": "Non, les fonctions imbriquées ne peuvent pas accéder aux variables externes.",
+  },
+  2215: {
+    "Hello, Alice!": "Bonjour Alice !",
+    "Hello, name!": "Bonjour, nom !",
+    "Hello, !": "Bonjour, !",
   },
   2216: {
     "A function that remembers variables from its enclosing scope even after that scope has finished": "Une fonction qui conserve en mémoire les variables de sa portée englobante même après la fin de cette portée.",
@@ -328,26 +1799,67 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Yes, functions are first-class objects": "Oui, les fonctions sont des objets de première classe",
     "Only lambda functions can be stored": "Seules les fonctions lambda peuvent être stockées",
     "Only built-in functions can be stored": "Seules les fonctions intégrées peuvent être enregistrées",
+    "No, lists only hold data": "Non, les listes ne contiennent que des données",
+  },
+  2237: {
+    "Only lambdas": "Seulement les lambdas",
+    "Only built-in functions": "Fonctions intégrées uniquement",
   },
   2238: {
     "Only lambdas can be returned": "Seules les valeurs lambda peuvent être renvoyées.",
     "Only if using return keyword": "Uniquement si le mot-clé return est utilisé",
   },
+  2239: {
+    "<class 'function'>": "<class 'function'>",
+    "<class 'lambda'>": "<class 'lambda'>",
+    "<class 'NoneType'>": "<class 'NoneType'>",
+  },
   2240: {
     "<class 'builtin_function_or_method'>": "<class 'builtin_function_or_method'>",
+    "<class 'function'>": "<class 'function'>",
+    "<class 'str'>": "<class 'str'>",
+  },
+  2244: {
+    "{1: 1, 2: 2}": "{1: 1, 2: 2}",
+  },
+  2245: {
+    "set()": "ensemble()",
   },
   2249: {
     "The default object is created once and shared across all calls": "L'objet par défaut est créé une seule fois et partagé entre tous les appels.",
     "It makes the function slower": "Cela ralentit la fonction",
     "It prevents the function from being called": "Cela empêche l'appel de la fonction.",
+    "It causes a syntax error": "Cela provoque une erreur de syntaxe",
   },
   2250: {
     "Use None as default and create the object inside the function": "Utilisez None par défaut et créez l'objet à l'intérieur de la fonction",
     "Use a global variable instead": "Utilisez plutôt une variable globale",
     "Use a tuple instead of a list": "Utilisez un tuple au lieu d'une liste",
+    "Use a class attribute": "Utilisez un attribut de classe",
+  },
+  2265: {
+    "<class 'generator'>": "<class 'générateur'>",
+    "<class 'list'>": "<class 'list'>",
+    "<class 'tuple'>": "<class 'tuple'>",
+    "<class 'range'>": "<class 'range'>",
+  },
+  2287: {
+    "My function": "Ma fonction",
+  },
+  2293: {
+    "<lambda>": "<lambda>",
+  },
+  2294: {
+    "<class 'generator'>": "<class 'générateur'>",
+    "<class 'function'>": "<class 'function'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'NoneType'>": "<class 'NoneType'>",
   },
   2295: {
     "<class 'builtin_function_or_method'>": "<class 'builtin_function_or_method'>",
+    "<class 'function'>": "<class 'function'>",
+    "<class 'generator'>": "<class 'générateur'>",
+    "<class 'method'>": "<class 'méthode'>",
   },
   2301: {
     "A function that takes a function and returns a modified function": "Une fonction qui prend une fonction et renvoie une fonction modifiée",
@@ -358,11 +1870,14 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   2302: {
     "my_decorator = func(my_decorator)": "mon_décorateur = fonction(mon_décorateur)",
     "func.decorator = my_decorator": "fonction.décorateur = mon_décorateur",
+    "func = my_decorator(func)": "fonction = mon_décorateur(fonction)",
+    "my_decorator.apply(func)": "mon_décorateur.appliquer(fonction)",
   },
   2305: {
     "Prints function name before each call": "Affiche le nom de la fonction avant chaque appel",
     "Prints function name after each call": "Affiche le nom de la fonction après chaque appel",
     "Prevents the function from being called": "Empêche l'appel de la fonction",
+    "Renames the function": "Renomme la fonction",
   },
   2306: {
     "Yes, but adds extra behavior before/after": "Oui, mais cela ajoute un comportement supplémentaire avant/après",
@@ -382,12 +1897,23 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Yes, but only built-in decorators": "Oui, mais seulement les décorateurs intégrés",
     "Yes, but order doesn't matter": "Oui, mais l'ordre n'a pas d'importance.",
   },
+  2311: {
+    "dec2 (innermost first)": "déc2 (le plus intérieur en premier)",
+    "dec1 (outermost first)": "déc1 (le plus extérieur en premier)",
+    "Both at the same time": "Les deux en même temps",
+    "Neither — they cancel out": "Ni l'un ni l'autre — ils s'annulent",
+  },
   2313: {
     "3 (factory, decorator, wrapper)": "3 (usine, décorateur, emballage)",
     "4 (outer, factory, decorator, wrapper)": "4 (extérieur, usine, décorateur, emballage)",
+    "2 (decorator, wrapper)": "2 (décorateur, emballage)",
+    "1 (just the wrapper)": "1 (juste l'emballage)",
   },
   2314: {
     "Timing/profiling decorator": "décorateur de timing/profilage",
+    "Caching decorator": "décorateur de cache",
+    "Authorization decorator": "décorateur d'autorisation",
+    "Retry decorator": "Réessayer décorateur",
   },
   2315: {
     "Yes, any callable works (class with __call__)": "Oui, toute fonction appelable fonctionne (classe avec __call__).",
@@ -395,19 +1921,55 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Only if the class inherits from Decorator": "Uniquement si la classe hérite de Decorator",
     "Only for built-in decorators": "Uniquement pour les décorateurs intégrés",
   },
+  2316: {
+    "Dec object": "Objet Dec",
+  },
+  2318: {
+    "ValueError is raised": "Une erreur ValueError est levée.",
+    "Returns complex number": "Renvoie un nombre complexe",
+    "Returns None": "Aucun retour",
+    "Returns -1": "Retourne -1",
+  },
   2319: {
     "Yes, decorators can be applied to classes too": "Oui, on peut aussi appliquer des décorateurs aux classes.",
     "No, only functions can be decorated": "Non, seules les fonctions peuvent être décorées.",
     "Only @dataclass can decorate classes": "Seule l'annotation `@dataclass` peut décorer les classes.",
     "Only abstract decorators work on classes": "Seuls les décorateurs abstraits fonctionnent sur les classes",
   },
+  2320: {
+    "Built-in decorators": "Décorateurs intégrés",
+    "User-defined decorators": "Décorateurs définis par l'utilisateur",
+    "Class methods only": "Méthodes de classe uniquement",
+    "Abstract methods": "Méthodes abstraites",
+  },
   2321: {
     "Number of times function is called": "La fonction est appelée le nombre de fois.",
     "Arguments passed to function": "Arguments passés à la fonction",
+    "Time taken per call": "Temps passé par appel",
+    "Return values of function": "Valeurs de retour de la fonction",
+  },
+  2322: {
+    "Singleton pattern": "Modèle Singleton",
+    "Factory pattern": "Modèle d'usine",
+    "Observer pattern": "Modèle d'observateur",
+    "Strategy pattern": "Modèle de stratégie",
+  },
+  2323: {
+    "Memoization/caching": "Mémotisation/mise en cache",
+    "Retry logic": "logique de nouvelle tentative",
   },
   2324: {
     "Turns a method into a read-only attribute": "Transforme une méthode en un attribut en lecture seule",
     "Makes an attribute private": "Rend un attribut privé",
+    "Creates a class variable": "Crée une variable de classe",
+    "Deletes an attribute": "Supprime un attribut",
+  },
+  2325: {
+    "<bound method>": "<méthode liée>",
+  },
+  2326: {
+    "Error: missing self": "Erreur : auto manquant",
+    "C object": "Objet C",
   },
   2328: {
     "classmethod receives the class as first arg, staticmethod doesn't": "La méthode de classe reçoit la classe comme premier argument, contrairement à la méthode statique.",
@@ -415,26 +1977,47 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "classmethod can only be called on instances": "La méthode de classe ne peut être appelée que sur des instances",
     "staticmethod automatically creates instances": "staticmethod crée automatiquement des instances",
   },
+  2329: {
+    "Retry decorator": "Réessayer décorateur",
+    "Cache decorator": "Décorateur de cache",
+    "Timer decorator": "Décorateur de minuterie",
+    "Logging decorator": "décorateur de bûcheron",
+  },
+  2330: {
+    "Debug/logging decorator": "décorateur de débogage/journalisation",
+    "Retry decorator": "Réessayer décorateur",
+    "Caching decorator": "décorateur de cache",
+    "Authorization decorator": "décorateur d'autorisation",
+  },
   2331: {
     "Nothing — returns function unchanged (identity decorator)": "Rien — renvoie la fonction inchangée (décorateur d'identité)",
     "Wraps the function in a class": "Encapsule la fonction dans une classe",
     "Doubles the function's output": "Double le résultat de la fonction",
+    "Deletes the function": "Supprime la fonction",
   },
   2332: {
     "Yes, but calling the decorated name will fail since 42 is not callable": "Oui, mais l'appel du nom décoré échouera car 42 n'est pas appelable.",
     "No, decorators must return functions": "Non, les décorateurs doivent renvoyer des fonctions",
     "Yes, and calling it will return 42": "Oui, et l'appel renverra 42",
+    "Error at decoration time": "Erreur lors de la décoration",
   },
   2333: {
     "TypeError: 'int' object is not callable": "TypeError : l’objet « int » n’est pas appelable",
+    "Returns 42": "Retours 42",
+    "Returns None": "Aucun retour",
+    "No error": "Aucune erreur",
   },
   2334: {
     "Authorization/permission decorator": "décorateur d'autorisation/de permission",
+    "Logging decorator": "décorateur de bûcheron",
+    "Caching decorator": "décorateur de cache",
+    "Singleton decorator": "décorateur Singleton",
   },
   2335: {
     "Not easily; you'd need __wrapped__ if functools.wraps was used": "Pas facilement ; il faudrait utiliser __wrapped__ si functools.wraps était utilisé.",
     "Yes, just call undecorate(f)": "Oui, il suffit d'appeler undecorate(f)",
     "Decorators are always removable": "Les décorateurs sont toujours amovibles",
+    "Yes, use del @decorator": "Oui, utilisez del @decorator",
   },
   2337: {
     "No, @ syntax requires def, but you can manually: f = decorator(lambda: ...)": "Non, la syntaxe @ requiert def, mais vous pouvez le faire manuellement : f = decorator(lambda: ...)",
@@ -446,12 +2029,25 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "At decoration time (when @dec is applied), not when f() is called": "Au moment de la décoration (lorsque @dec est appliqué), et non lorsque f() est appelé",
     "When the module is imported AND when f() is called": "Lorsque le module est importé ET lorsque f() est appelé",
     "Never — print is inside dec but dec is never called": "Jamais — l'impression est à l'intérieur de déc mais déc n'est jamais appelé",
+    "When f() is called": "Lorsque f() est appelé",
   },
   2340: {
     "Yes, the wrapper can transform args before passing to original": "Oui, le wrapper peut transformer les arguments avant de les transmettre à l'original.",
     "No, arguments are always passed unchanged": "Non, les arguments sont toujours transmis sans modification.",
     "Only keyword arguments can be modified": "Seuls les arguments nommés peuvent être modifiés.",
     "Only if the function has *args": "Uniquement si la fonction a des *args",
+  },
+  2341: {
+    "Point(1, 2)": "Point(1, 2)",
+  },
+  2342: {
+    "__init__, __repr__, __eq__": "__init__, __repr__, __eq__",
+    "__init__ only": "__init__ uniquement",
+    "__init__, __repr__, __eq__, __lt__": "__init__, __repr__, __eq__, __lt__",
+    "__init__, __hash__, __repr__": "__init__, __hash__, __repr__",
+  },
+  2343: {
+    "C object": "Objet C",
   },
   2345: {
     "Traces function entry and exit with return value": "Trace l'entrée et la sortie de la fonction avec la valeur de retour",
@@ -469,12 +2065,31 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Auto-generates comparison methods from __eq__ and one of __lt__, __gt__, etc.": "Génère automatiquement des méthodes de comparaison à partir de __eq__ et de l'une des méthodes suivantes : __lt__, __gt__, etc.",
     "Sorts all instances automatically": "Trie automatiquement toutes les instances",
     "Adds __hash__ to the class": "Ajoute __hash__ à la classe",
+    "Makes the class immutable": "Rend la classe immuable",
   },
   2348: {
     "Via closure — the original function is captured in the wrapper's enclosing scope": "Par le biais d'une fermeture, la fonction d'origine est capturée dans la portée englobante du wrapper.",
+    "Via global variable": "Via une variable globale",
+    "Via the self parameter": "Via le paramètre self",
+    "Via import statement": "Déclaration d'importation via",
   },
   2349: {
     "A context manager (for use with 'with' statement)": "Un gestionnaire de contexte (à utiliser avec l'instruction 'with')",
+    "A regular function": "Une fonction régulière",
+    "An async generator": "Un générateur asynchrone",
+    "A class decorator": "Un décorateur de classe",
+  },
+  2350: {
+    "f = dec1(dec2(f))": "f = déc1(déc2(f))",
+    "f = dec2(dec1(f))": "f = déc2(déc1(f))",
+    "f = dec1(f) + dec2(f)": "f = déc1(f) + déc2(f)",
+    "f = dec1 and dec2(f)": "f = déc1 et déc2(f)",
+  },
+  2355: {
+    "hello world": "Bonjour le monde",
+  },
+  2364: {
+    "Hello World": "Bonjour le monde",
   },
   2367: {
     "Creates a new function with some arguments pre-filled": "Crée une nouvelle fonction avec certains arguments pré-remplis.",
@@ -489,35 +2104,53 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   2372: {
     "It caches previously computed results": "Il met en cache les résultats précédemment calculés",
     "It parallelizes the computation": "Il parallélise le calcul",
+    "It uses iteration instead": "Il utilise l'itération à la place",
+    "It reduces the call stack": "Cela réduit la pile d'appels.",
   },
   2373: {
     "Maximum number of cached results": "Nombre maximal de résultats mis en cache",
+    "Maximum recursion depth": "Profondeur de récursion maximale",
+    "Maximum argument size": "Taille maximale des arguments",
+    "Maximum execution time": "Durée d'exécution maximale",
   },
   2374: {
     "hits=1, misses=1, maxsize=128, currsize=1": "succès=1, échecs=1, taille maximale=128, taille actuelle=1",
     "hits=2, misses=0, maxsize=128, currsize=1": "succès=2, échecs=0, taille maximale=128, taille actuelle=1",
     "hits=0, misses=2, maxsize=128, currsize=2": "succès=0, échecs=2, taille maximale=128, taille actuelle=2",
   },
+  2375: {
+    "Clears all cached results": "Efface tous les résultats mis en cache",
+    "Removes the decorator": "Enlève le décorateur",
+    "Resets the function": "Réinitialise la fonction",
+    "Raises an error": "Lève une erreur",
+  },
   2376: {
     "No, arguments must be hashable": "Non, les arguments doivent être hachables.",
     "Yes, it works with any type": "Oui, cela fonctionne avec n'importe quel type",
     "Yes, but only with maxsize=None": "Oui, mais seulement avec maxsize=None",
+    "Only with tuples": "Uniquement avec des tuples",
   },
   2377: {
     "Unlimited cache size (caches everything)": "Taille du cache illimitée (tout est mis en cache)",
+    "No caching at all": "Aucune mise en cache du tout",
+    "Cache size of 0": "Taille du cache : 0",
   },
   2378: {
     "Same as lru_cache(maxsize=None)": "Identique à lru_cache(maxsize=None)",
     "A different caching mechanism": "Un mécanisme de mise en cache différent",
     "A cache decorator with maxsize=1": "Un décorateur de cache avec maxsize=1",
+    "A disk-based cache": "Un cache basé sur disque",
   },
   2379: {
     "Yes, different argument tuples are cached separately": "Oui, les différents tuples d'arguments sont mis en cache séparément.",
     "No, they return the same result so one entry": "Non, ils renvoient le même résultat, donc une seule entrée",
+    "Only if maxsize > 1": "Uniquement si maxsize > 1",
   },
   2380: {
     "Yes, but self is part of the cache key": "Oui, mais « self » fait partie de la clé de cache.",
     "No, it only works on module-level functions": "Non, cela ne fonctionne que sur les fonctions au niveau du module.",
+    "Yes, with no caveats": "Oui, sans aucune réserve.",
+    "Only on static methods": "Uniquement sur les méthodes statiques",
   },
   2381: {
     "Generic function dispatch based on the type of the first argument": "Dispatch de fonction générique basé sur le type du premier argument",
@@ -525,32 +2158,100 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "A method to dispatch events": "Une méthode pour déclencher des événements",
     "A decorator for class methods only": "Un décorateur uniquement pour les méthodes de classe",
   },
+  2384: {
+    "__eq__ and one of __lt__, __le__, __gt__, __ge__": "__eq__ et l'un des éléments suivants : __lt__, __le__, __gt__, __ge__",
+    "All comparison methods": "Toutes les méthodes de comparaison",
+    "Only __eq__": "Seulement __eq__",
+    "Only __lt__ and __gt__": "Seuls __lt__ et __gt__",
+  },
   2389: {
     "Gets object attributes by name": "Récupère les attributs d'un objet par leur nom",
     "Gets dictionary items by key": "Récupère les éléments du dictionnaire par clé",
     "Gets list elements by index": "Récupère les éléments de la liste par index",
+    "Gets class methods": "Obtient les méthodes de classe",
+  },
+  2392: {
+    "A map object (iterator)": "Un objet carte (itérateur)",
+    "A list": "Une liste",
+    "A tuple": "Un tuple",
+    "A generator": "Un générateur",
+  },
+  2394: {
+    "A function": "Une fonction",
   },
   2396: {
     "A dictionary of local variables": "Un dictionnaire de variables locales",
+    "A list of variable names": "Une liste de noms de variables",
+    "A tuple of values": "Un tuple de valeurs",
   },
   2397: {
     "A dictionary of global variables": "Un dictionnaire de variables globales",
     "A list of all defined functions": "Liste de toutes les fonctions définies",
+    "A tuple of module names": "Un tuple de noms de modules",
+  },
+  2401: {
+    "Defines a class": "Définit une classe",
+    "Creates an object": "Crée un objet",
+    "Defines a function": "Définit une fonction",
   },
   2402: {
     "Defines class with class attribute": "Définit une classe avec un attribut de classe",
+    "Creates object": "Crée un objet",
+    "Defines function": "Définit la fonction",
+  },
+  2403: {
+    "Valid class definition": "Définition de classe valide",
   },
   2404: {
     "Creates instance of MyClass": "Crée une instance de MyClass",
+    "Calls MyClass": "Appels MyClass",
   },
   2405: {
     "<class '__main__.MyClass'>": "<class '__main__.MyClass'>",
+    "<class 'type'>": "<class 'type'>",
+  },
+  2407: {
+    "'MyClass'": "'MaClasse'",
+  },
+  2408: {
+    "(<class 'object'>,)": "(<class 'object'>,)",
+  },
+  2409: {
+    "'__main__' or module name": "'__main__' ou nom du module",
+  },
+  2411: {
+    "Constructor method": "Méthode constructeur",
+    "Destructor method": "Méthode de destruction",
+    "Regular method": "Méthode régulière",
+  },
+  2413: {
+    "Creates instance": "Crée une instance",
+    "Returns None": "Aucun retour",
   },
   2414: {
     "Creates instance with x=1, y=2": "Crée une instance avec x=1, y=2",
+    "Returns None": "Aucun retour",
+  },
+  2415: {
+    "Creates instance with x=1": "Crée une instance avec x=1",
+    "Returns None": "Aucun retour",
+  },
+  2416: {
+    "Creates instance with x=5": "Crée une instance avec x=5",
+    "Returns None": "Aucun retour",
+  },
+  2421: {
+    "Reference to instance": "Référence à l'instance",
+    "Reference to class": "Référence à la classe",
+    "Variable name": "Nom de la variable",
+  },
+  2428: {
+    "<function MyClass.method>": "<function MyClass.method>",
+    "'instance'": "'exemple'",
   },
   2429: {
     "<bound method MyClass.method>": "<bound method MyClass.method>",
+    "'instance'": "'exemple'",
   },
   2441: {
     "<class '__main__.MyClass'>": "<class '__main__.MyClass'>",
@@ -560,9 +2261,49 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   2445: {
     "classmethod gets cls, staticmethod gets nothing": "La méthode de classe reçoit cls, la méthode statique ne reçoit rien",
+    "No difference": "Aucune différence",
+    "staticmethod is faster": "staticmethod est plus rapide",
+    "classmethod is deprecated": "classmethod est obsolète",
+  },
+  2447: {
+    "Creates instance": "Crée une instance",
+  },
+  2450: {
+    "'static'": "'statique'",
+    "'instance'": "'exemple'",
+  },
+  2451: {
+    "'str'": "'str'",
+    "'MyClass'": "'MaClasse'",
+  },
+  2452: {
+    "'repr'": "'repr'",
+    "'MyClass'": "'MaClasse'",
+  },
+  2460: {
+    "'called'": "'appelé'",
+    "'MyClass'": "'MaClasse'",
+  },
+  2467: {
+    "<property object>": "<propriété objet>",
+  },
+  2475: {
+    "List of attribute names": "Liste des noms d'attributs",
   },
   2480: {
     "Dict with class attributes": "Dictionnaire avec attributs de classe",
+  },
+  2487: {
+    "TypeError (unhashable)": "TypeError (non hachable)",
+  },
+  2488: {
+    "{MyClass instance: 1}": "{Instance de MyClass : 1}",
+  },
+  2489: {
+    "Unique integer id": "Identifiant numérique unique",
+  },
+  2491: {
+    "Works fine": "Fonctionne parfaitement",
   },
   2492: {
     "AttributeError (no __dict__)": "Erreur d'attribut (aucun __dict__)",
@@ -572,90 +2313,266 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   2496: {
     "<class '__main__.MyClass'>": "<class '__main__.MyClass'>",
+    "<class 'type'>": "<class 'type'>",
   },
   2497: {
     "<class '__main__.MyClass'>": "<class '__main__.MyClass'>",
+    "<class 'type'>": "<class 'type'>",
   },
   2500: {
     "Method Resolution Order list": "Liste de résolution des méthodes",
   },
   2505: {
     "Comparison with > operator": "Comparaison avec l'opérateur >",
+    "Greater-than assignment": "Devoir supérieur à",
+    "Type conversion": "Conversion de type",
+    "String formatting": "formatage de chaînes",
   },
   2514: {
     "Reflected add when left operand doesn't support +": "Addition réfléchie lorsque l'opérande de gauche ne prend pas en charge le +",
+    "Recursive addition": "addition récursive",
+    "Random addition": "Ajout aléatoire",
+    "Right-aligned addition": "addition alignée à droite",
+  },
+  2516: {
+    "<C object>": "<Objet C>",
+  },
+  2517: {
+    "I am C": "Je suis C",
+  },
+  2519: {
+    "formatted:xyz": "formaté:xyz",
+  },
+  2527: {
+    "__iter__ and __next__": "__iter__ et __next__",
+    "__iter__ and __getitem__": "__iter__ et __getitem__",
+    "__next__ and __len__": "__suivant__ et __len__",
+    "__start__ and __stop__": "__démarrer__ et __arrêter__",
   },
   2528: {
     "The iterator object itself (self)": "L'objet itérateur lui-même (self)",
+    "A list": "Une liste",
+    "A new iterator": "Un nouvel itérateur",
+  },
+  2529: {
+    "Raise StopIteration": "Augmenter StopIteration",
+    "Return None": "Retourner aucun",
+    "Return False": "Retourner faux",
+    "Raise ValueError": "Augmenter ValueError",
+  },
+  2535: {
+    "Only with __next__": "Uniquement avec __suivant__",
+    "Only with __getitem__": "Uniquement avec __getitem__",
+  },
+  2536: {
+    "A list_iterator object": "Un objet list_iterator",
+    "A list": "Une liste",
+    "A generator": "Un générateur",
+    "A tuple": "Un tuple",
   },
   2540: {
     "Iterable has __iter__; iterator has both __iter__ and __next__": "Iterable possède __iter__; iterator possède à la fois __iter__ et __next__",
     "Iterable has __next__; iterator has __iter__": "Itérable possède __next__; itérateur possède __iter__",
     "Iterable is a class; iterator is a function": "Iterable est une classe ; iterator est une fonction",
+    "They are the same thing": "C'est la même chose.",
+  },
+  2541: {
+    "__enter__ and __exit__": "__entrer__ et __sortir__",
+    "__init__ and __del__": "__init__ et __del__",
+    "__open__ and __close__": "__ouvrir__ et __fermer__",
+    "__start__ and __stop__": "__démarrer__ et __arrêter__",
+  },
+  2542: {
+    "CM object": "Objet CM",
   },
   2543: {
     "The value bound to the 'as' variable": "La valeur liée à la variable 'as'",
+    "The context manager class": "La classe de gestionnaire de contexte",
+    "A boolean": "Un booléen",
   },
   2544: {
     "Exception type, value, and traceback": "Type d'exception, valeur et trace d'exécution",
     "The return value of __enter__": "La valeur de retour de __enter__",
+    "No arguments": "Aucun argument",
+    "A boolean": "Un booléen",
+  },
+  2545: {
+    "Suppresses the exception": "Supprime l'exception",
+    "Raises the exception": "Lève l'exception",
+    "Logs the exception": "Consigne l'exception",
+    "Nothing special": "Rien de spécial",
   },
   2546: {
     "Yes, with a generator function": "Oui, avec une fonction génératrice",
+    "Only for file handling": "Uniquement pour la gestion des fichiers",
+    "Only in Python 2": "Uniquement en Python 2",
   },
   2547: {
     "A file object that is also a context manager": "Un objet fichier qui est également un gestionnaire de contexte",
+    "A string": "Une corde",
+    "A list of lines": "Une liste de lignes",
+    "A file descriptor integer": "Un entier descripteur de fichier",
   },
   2548: {
     "__exit__ is called with the exception info": "__exit__ est appelé avec les informations d'exception",
     "The program crashes immediately": "Le programme plante immédiatement",
+    "__exit__ is not called": "__exit__ n'est pas appelé",
+    "__enter__ is called again": "__enter__ est appelé à nouveau",
   },
   2549: {
     "Yes, both nesting and multiple items are supported": "Oui, l'imbrication et la gestion de plusieurs éléments sont prises en charge.",
     "Only nesting, not multiple items": "Uniquement des éléments imbriqués, pas plusieurs éléments",
+    "No, only one 'with' at a time": "Non, un seul « avec » à la fois",
+    "Only in Python 3.10+": "Uniquement à partir de Python 3.10",
   },
   2550: {
     "Ensure cleanup even if exceptions occur": "Assurez-vous d'effectuer le nettoyage même en cas d'exceptions.",
+    "Speed up code execution": "Accélérer l'exécution du code",
+    "Create global variables": "Créer des variables globales",
+    "Define class hierarchies": "Définir les hiérarchies de classes",
+  },
+  2551: {
+    "no xyz": "pas de xyz",
+  },
+  2558: {
+    "{'__class__': C}": "{'__class__': C}",
+  },
+  2564: {
+    "<class '__main__.C'>": "<class '__main__.C'>",
+  },
+  2565: {
+    "__main__.C": "__main__.C",
+  },
+  2586: {
+    "<C object>": "<Objet C>",
+  },
+  2596: {
+    "Subclass D": "Sous-classe D",
+    "Subclass C": "Sous-classe C",
+  },
+  2602: {
+    "__init__, __repr__, __eq__": "__init__, __repr__, __eq__",
+    "__init__ only": "__init__ uniquement",
+    "__init__, __repr__, __eq__, __hash__": "__init__, __repr__, __eq__, __hash__",
+    "__init__, __str__, __eq__": "__init__, __str__, __eq__",
+  },
+  2603: {
+    "P(x=1, y=2)": "P(x=1, y=2)",
+    "<P object>": "<Objet P>",
+    "{'x': 1, 'y': 2}": "{'x': 1, 'y': 2}",
+  },
+  2606: {
+    "P(x=0, y=0)": "P(x=0, y=0)",
+  },
+  2607: {
+    "P(x=1, y=0)": "P(x=1, y=0)",
+    "P(x=1)": "P(x=1)",
   },
   2608: {
     "TypeError — non-default field after default field": "TypeError — champ non par défaut après un champ par défaut",
+    "P works fine": "P fonctionne parfaitement",
+    "x becomes required": "x devient nécessaire",
   },
   2610: {
     "Mutable default would be shared across all instances": "La valeur par défaut modifiable serait partagée entre toutes les instances",
     "Lists cannot be type-annotated": "Les listes ne peuvent pas être annotées avec un type.",
   },
+  2611: {
+    "x becomes 3": "x devient 3",
+  },
   2612: {
     "Makes instances immutable — attributes cannot be changed": "Rend les instances immuables — les attributs ne peuvent pas être modifiés",
     "Freezes the class so no subclasses can be created": "Gele la classe afin qu'aucune sous-classe ne puisse être créée.",
     "Prevents the class from being imported": "Empêche l'importation de la classe",
+    "Makes all fields private": "Rend tous les champs privés",
   },
   2613: {
     "Yes — frozen dataclasses are hashable": "Oui, les classes de données figées sont hachables.",
     "No — dataclasses are never hashable": "Non — les classes de données ne sont jamais hachables",
     "Only if __hash__ is manually defined": "Uniquement si __hash__ est défini manuellement",
+    "Only with eq=False": "Uniquement avec eq=False",
+  },
+  2615: {
+    "__lt__, __le__, __gt__, __ge__": "__lt__, __le__, __gt__, __ge__",
+    "__lt__ only": "__lt__ seulement",
+    "__lt__, __gt__": "__lt__, __gt__",
+  },
+  2616: {
+    "{'x': 1, 'y': 2}": "{'x': 1, 'y': 2}",
+    "P(x=1, y=2)": "P(x=1, y=2)",
+  },
+  2617: {
+    "{'x': 1, 'y': 2}": "{'x': 1, 'y': 2}",
+    "P(x=1, y=2)": "P(x=1, y=2)",
   },
   2620: {
     "Yes, just like regular classes": "Oui, tout comme les cours réguliers",
     "Only if you disable __repr__": "Uniquement si vous désactivez __repr__",
+    "No, they only hold data": "Non, ils ne contiennent que des données",
+    "Only static methods": "Méthodes statiques uniquement",
   },
   2622: {
     "Called after __init__ for custom initialization logic": "Appelée après __init__ pour une logique d'initialisation personnalisée",
     "Replaces __init__ entirely": "Remplace entièrement __init__",
     "Only used for type checking": "Utilisé uniquement pour la vérification des types",
+    "Called before __init__": "Appelée avant __init__",
   },
   2624: {
     "Disables the auto-generated __repr__ method": "Désactive la méthode __repr__ générée automatiquement",
     "Makes the class invisible to print()": "Rend la classe invisible à print()",
     "Prevents instance creation": "Empêche la création d'instances",
+    "Hides all field values": "Masque toutes les valeurs de champ",
+  },
+  2625: {
+    "Child(x=1, y=2)": "Enfant(x=1, y=2)",
+    "Child(y=2)": "Enfant(y=2)",
+    "Base(x=1)": "Base(x=1)",
+  },
+  2626: {
+    "Color.RED": "Couleur : rouge",
+    "<Color.RED: 1>": "<Color.RED: 1>",
+  },
+  2627: {
+    "Color.RED": "Couleur : rouge",
+  },
+  2628: {
+    "Color.RED": "Couleur : rouge",
+  },
+  2629: {
+    "Color.RED": "Couleur : rouge",
+  },
+  2630: {
+    "Color.RED": "Couleur : rouge",
   },
   2637: {
     "AttributeError — can't modify enum values": "Erreur d'attribut : impossible de modifier les valeurs de l'énumération",
+    "RED becomes 2": "ROUGE devient 2",
+    "Creates a new member": "Crée un nouveau membre",
+  },
+  2639: {
+    "Dir.N": "Dir.N",
+  },
+  2640: {
+    "Only static methods": "Méthodes statiques uniquement",
+    "Only with IntEnum": "Uniquement avec IntEnum",
+  },
+  2643: {
+    "Point(x=10, y=2)": "Point(x=10, y=2)",
+    "Point(x=1, y=2)": "Point(x=1, y=2)",
   },
   2644: {
     "A new namedtuple with updated values (original unchanged)": "Un nouveau namedtuple avec des valeurs mises à jour (les valeurs originales restent inchangées)",
     "The same namedtuple, modified in place": "Le même tuple nommé, modifié sur place",
     "None — it modifies in place": "Aucun — il modifie sur place",
     "A dictionary of changed fields": "Un dictionnaire des champs modifiés",
+  },
+  2645: {
+    "{'x': 1, 'y': 2}": "{'x': 1, 'y': 2}",
+  },
+  2647: {
+    "Point(x=1, y=0)": "Point(x=1, y=0)",
+    "Point(x=0, y=1)": "Point(x=0, y=1)",
+    "Point(x=1)": "Point(x=1)",
   },
   2649: {
     "Namedtuples are immutable and are tuple subclasses": "Les tuples nommés sont immuables et sont des sous-classes de tuples.",
@@ -665,12 +2582,33 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   2651: {
     "An object defining __get__, __set__, or __delete__": "Un objet définissant __get__, __set__ ou __delete__",
+    "A decorator for classes": "Un décorateur pour les cours",
+    "A type of generator": "Un type de générateur",
+    "A built-in function": "Une fonction intégrée",
   },
   2652: {
     "__get__, __set__, __delete__": "__get__, __set__, __delete__",
+    "__init__, __new__, __del__": "__init__, __new__, __del__",
+    "__enter__, __exit__": "__entrer__, __sortir__",
+    "__iter__, __next__": "__iter__, __next__",
   },
   2653: {
     "Both __get__ and __set__ (or __delete__)": "Les deux __get__ et __set__ (ou __delete__)",
+    "Only __get__": "Seulement __obtenir__",
+    "Only __set__": "Seulement __ensemble__",
+    "__init__ and __del__": "__init__ et __del__",
+  },
+  2654: {
+    "Only __get__ (no __set__)": "Seulement __get__ (pas de __set__)",
+    "Both __get__ and __set__": "Les deux méthodes __get__ et __set__",
+    "Only __delete__": "Seulement __supprimer__",
+    "__init__ only": "__init__ uniquement",
+  },
+  2655: {
+    "Instance __dict__": "Instance __dict__",
+    "Class __dict__": "Classe __dict__",
+    "Module globals": "Variables globales du module",
+    "Built-in types": "Types intégrés",
   },
   2656: {
     "Lower than instance __dict__": "Inférieur à l'instance __dict__",
@@ -678,43 +2616,180 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Equal to instance __dict__": "Égal à l'instance __dict__",
     "Higher than data descriptors": "Supérieur aux descripteurs de données",
   },
+  2657: {
+    "Data descriptor": "descripteur de données",
+    "Non-data descriptor": "Descripteur non lié aux données",
+    "Meta descriptor": "Méta-descripteur",
+    "Class descriptor": "descripteur de classe",
+  },
+  2658: {
+    "Non-data descriptor": "Descripteur non lié aux données",
+    "Data descriptor": "descripteur de données",
+    "Class decorator": "décorateur de classe",
+    "Function wrapper": "enveloppe de fonction",
+  },
+  2659: {
+    "Non-data descriptor": "Descripteur non lié aux données",
+    "Data descriptor": "descripteur de données",
+    "Metaclass method": "Méthode de métaclasse",
+    "Instance method": "Méthode d'instance",
+  },
+  2660: {
+    "Desc object": "Objet Desc",
+  },
   2662: {
     "Called when descriptor is assigned to a class attribute": "Appelée lorsque le descripteur est affecté à un attribut de classe",
+    "Sets the instance name": "Définit le nom de l'instance",
+    "Renames the class": "Renomme la classe",
+    "Creates a new attribute": "Crée un nouvel attribut",
+  },
+  2663: {
+    "Type-checked attributes": "Attributs vérifiés par type",
+    "Singleton pattern": "Modèle Singleton",
+    "Factory pattern": "Modèle d'usine",
+    "Observer pattern": "Modèle d'observateur",
   },
   2664: {
     "Bind self to create bound methods": "Liez-vous pour créer des méthodes liées",
+    "Return the function name": "Renvoyer le nom de la fonction",
+    "Delete the function": "Supprimer la fonction",
+    "Create a new class": "Créer une nouvelle classe",
+  },
+  2665: {
+    "A function object": "Un objet fonction",
+    "A bound method": "Une méthode liée",
+    "A staticmethod": "Une méthode statique",
+  },
+  2666: {
+    "Creates Shape instance": "Crée une instance de forme",
   },
   2668: {
     "Implement the decorated method": "Implémentez la méthode décorée",
+    "Call super().__init__()": "Appeler super().__init__()",
+    "Define __init__": "Définir __init__",
+    "Use metaclass": "Utiliser la métaclasse",
+  },
+  2669: {
+    "Only static methods": "Méthodes statiques uniquement",
+    "Only class methods": "Méthodes de classe uniquement",
+  },
+  2670: {
+    "I'm a shape": "Je suis une forme",
   },
   2671: {
     "Yes: combine @property and @abstractmethod": "Oui : combinez @property et @abstractmethod",
     "No, properties can't be abstract": "Non, les propriétés ne peuvent pas être abstraites.",
+    "Only with metaclasses": "Uniquement avec des métaclasses",
+    "Only in Python 2": "Uniquement en Python 2",
+  },
+  2672: {
+    "Creates D instance": "Crée une instance D",
+  },
+  2674: {
+    "True and True": "Vrai et vrai",
+    "True and False": "Vrai et faux",
+    "False and True": "Faux et vrai",
+    "False and False": "Faux et faux",
   },
   2675: {
     "Automatic Base Constructor": "Constructeur de base automatique",
+    "Abstract Base Class": "Classe de base abstraite",
+    "Advanced Base Code": "Code de base avancé",
+    "Abstract Binary Class": "Classe binaire abstraite",
   },
   2680: {
     "A class to be considered a subclass without inheritance": "Une classe considérée comme une sous-classe sans héritage",
+    "Registering a new module": "Enregistrement d'un nouveau module",
+    "Creating a singleton": "Création d'un singleton",
+    "Adding methods at runtime": "Ajout de méthodes à l'exécution",
   },
   2681: {
     "A class whose instances are classes": "Une classe dont les instances sont des classes",
     "A class that can't be instantiated": "Une classe qui ne peut pas être instanciée",
+    "A class with no methods": "Une classe sans méthodes",
+    "A decorator for classes": "Un décorateur pour les cours",
+  },
+  2682: {
+    "All classes": "Toutes les classes",
+    "Only built-in classes": "Seules les classes intégrées",
+    "Only abstract classes": "classes abstraites uniquement",
+    "Only user-defined classes": "Seules les classes définies par l'utilisateur",
+  },
+  2683: {
+    "A new class dynamically": "Une nouvelle classe dynamique",
+    "A string 'MyClass'": "Une chaîne de caractères 'MyClass'",
+    "An instance of object": "Une instance d'objet",
+  },
+  2684: {
+    "<class 'Meta'>": "<class 'Meta'>",
+    "<class 'type'>": "<class 'type'>",
+    "<class 'C'>": "<class 'C'>",
+  },
+  2685: {
+    "When class C is defined": "Lorsque la classe C est définie",
+    "When C() is called": "Lorsque C() est appelé",
+    "When C is imported": "Lorsque C est importé",
+  },
+  2686: {
+    "decorators only": "décorateurs seulement",
+  },
+  2689: {
+    "No, they're just metadata": "Non, ce ne sont que des métadonnées",
+    "Yes, TypeError is raised": "Oui, une erreur TypeError est levée.",
+    "Only in strict mode": "Uniquement en mode strict",
+    "Only for built-in types": "Uniquement pour les types intégrés",
+  },
+  2690: {
+    "int | None": "entier | Aucun",
+    "int only": "entier uniquement",
+    "None only": "Aucun seulement",
+  },
+  2691: {
+    "A list of integers": "Une liste d'entiers",
+    "A single integer": "Un seul entier",
+    "A list of strings": "Une liste de chaînes de caractères",
+    "A tuple of integers": "Un tuple d'entiers",
   },
   2693: {
     "A dict with str keys and int values": "Un dictionnaire avec des clés de type chaîne de caractères et des valeurs de type entier.",
     "A dict with int keys and str values": "Un dictionnaire avec des clés de type int et des valeurs de type str",
+    "A list of dicts": "Une liste de dictionnaires",
+    "A set of strings": "Un ensemble de cordes",
   },
   2694: {
     "A tuple of exactly (int, str)": "Un tuple de exactement (int, str)",
+    "A tuple of any length": "Un tuple de longueur quelconque",
+    "A list with int and str": "Une liste contenant des entiers et des chaînes de caractères",
+    "Either int or str": "int ou str",
+  },
+  2695: {
+    "Either int or str": "int ou str",
+    "Both int and str": "int et str",
+    "A tuple of int and str": "Un tuple de int et str",
+    "int converted to str": "entier converti en chaîne de caractères",
+  },
+  2696: {
+    "int | str": "entier | chaîne",
+    "int & str": "entier et chaîne",
+    "int + str": "entier + chaîne",
+    "int, str": "entier, chaîne",
+  },
+  2697: {
+    "Any type is acceptable": "Tout type est acceptable",
+    "Only built-in types": "Types intégrés uniquement",
+    "No type allowed": "Aucun type autorisé",
+    "Unknown error type": "Type d'erreur inconnu",
   },
   2698: {
     "Structural subtyping (duck typing with type checking)": "Sous-typage structurel (typage canard avec vérification de type)",
     "A network protocol handler": "Un gestionnaire de protocole réseau",
+    "A metaclass for ABCs": "Une métaclasse pour les ABC",
+    "A decorator for methods": "Un décorateur pour les méthodes",
   },
   2701: {
     "Child class gets parent features": "La classe enfant hérite des fonctionnalités de la classe parente",
     "Parent class gets child features": "La classe parente obtient des fonctionnalités enfant",
+    "Classes are independent": "Les classes sont indépendantes",
   },
   2706: {
     "(<class '__main__.Parent'>,)": "(<class '__main__.Parent'>,)",
@@ -724,18 +2799,70 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Parent redefines child method": "Le parent redéfinit la méthode enfant",
     "Methods cannot be redefined": "Les méthodes ne peuvent pas être redéfinies",
   },
+  2717: {
+    "'parent'": "'mère'",
+    "'child'": "'enfant'",
+  },
+  2727: {
+    "'parent child'": "« parent enfant »",
+    "'parent'": "'mère'",
+  },
   2735: {
     "(<class '__main__.A'>, <class '__main__.B'>)": "(<class '__main__.A'>, <class '__main__.B'>)",
   },
   2741: {
     "Same interface, different behavior": "Même interface, comportement différent",
     "Same behavior, different interface": "Même comportement, interface différente",
+    "No interface": "Aucune interface",
+  },
+  2745: {
+    "'child'": "'enfant'",
+    "'parent'": "'mère'",
+  },
+  2747: {
+    "'bark'": "'aboyer'",
+    "'sound'": "'son'",
+  },
+  2771: {
+    "Creates instance": "Crée une instance",
+  },
+  2772: {
+    "Creates instance": "Crée une instance",
+  },
+  2774: {
+    "Creates instance": "Crée une instance",
+  },
+  2775: {
+    "frozenset({'method'})": "frozenset({'méthode'})",
+    "set()": "ensemble()",
+  },
+  2776: {
+    "frozenset()": "gelé",
+    "frozenset({'method'})": "frozenset({'méthode'})",
+  },
+  2777: {
+    "Creates instance": "Crée une instance",
+  },
+  2778: {
+    "Creates instance": "Crée une instance",
   },
   2780: {
     "TypeError (can't instantiate)": "TypeError (impossible d'instancier)",
   },
+  2795: {
+    "'Child'": "'Enfant'",
+    "'MyClass'": "'MaClasse'",
+  },
   2798: {
     "<class '__main__.MyClass'>": "<class '__main__.MyClass'>",
+    "<class '__main__.Child'>": "<class '__main__.Child'>",
+  },
+  2846: {
+    "is-a": "est-un",
+  },
+  2854: {
+    "HELLO!": "BONJOUR!",
+    "hello!": "Bonjour!",
   },
   2859: {
     "Immutable objects are set up in __new__ before __init__ runs": "Les objets immuables sont initialisés dans __new__ avant l'exécution de __init__.",
@@ -747,48 +2874,101 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "List of direct subclasses of A": "Liste des sous-classes directes de A",
     "List of all instances of A": "Liste de toutes les occurrences de A",
     "List of parent classes of A": "Liste des classes parentes de A",
+    "The MRO of A": "Le MRO de A",
+  },
+  2869: {
+    "set()": "ensemble()",
   },
   2871: {
     "When a class is subclassed (at class definition time)": "Lorsqu'une classe est sous-classée (au moment de la définition de la classe)",
     "When an instance is created": "Lorsqu'une instance est créée",
     "When the class is garbage collected": "Lorsque la classe est collectée par le ramasse-miettes",
+    "When a method is called": "Lorsqu'une méthode est appelée",
   },
   2878: {
     "Raises NotImplementedError": "Lève une erreur NotImplementedError",
+    "Returns None": "Aucun retour",
+    "Returns an empty string": "Renvoie une chaîne vide",
+    "Raises TypeError": "Lève une erreur TypeError",
   },
   2879: {
     "abstractmethod prevents instantiation; NotImplementedError allows it": "AbstractMethod empêche l'instanciation ; NotImplementedError l'autorise.",
     "NotImplementedError prevents instantiation": "L'erreur NotImplementedError empêche l'instanciation",
     "abstractmethod only works with functions, not methods": "abstractmethod ne fonctionne qu'avec les fonctions, pas avec les méthodes.",
+    "They are identical": "Ils sont identiques",
+  },
+  2880: {
+    "{'name': 'Bob'}": "{'name': 'Bob'}",
+  },
+  2888: {
+    "<B object>": "<Objet B>",
+  },
+  2889: {
+    "object()": "objet()",
+  },
+  2901: {
+    "Shape object": "Objet de forme",
+  },
+  2903: {
+    "Only static methods": "Méthodes statiques uniquement",
+    "Only class methods": "Méthodes de classe uniquement",
+  },
+  2904: {
+    "I am a shape": "Je suis une forme",
   },
   2905: {
     "Yes, subclasses can call it with super()": "Oui, les sous-classes peuvent l'appeler avec super()",
     "No, ABCs cannot have __init__": "Non, les ABC ne peuvent pas avoir d'initialisation.",
     "Only if __init__ is abstract": "Uniquement si __init__ est abstrait",
+    "Only with metaclass": "Uniquement avec la métaclasse",
+  },
+  2906: {
+    "B object": "Objet B",
   },
   2908: {
     "Yes, subclasses can call it via super()": "Oui, les sous-classes peuvent l'appeler via super()",
     "No, body is always ignored": "Non, le corps est toujours ignoré.",
+    "Only if it returns None": "Uniquement si elle ne renvoie aucun",
+    "Only with @staticmethod": "Uniquement avec @staticmethod",
+  },
+  2909: {
+    "base extended": "base étendue",
+  },
+  2910: {
+    "A object": "Un objet",
   },
   2911: {
     "@classmethod then @abstractmethod": "@classmethod puis @abstractmethod",
     "@abstractmethod then @classmethod": "@abstractmethod puis @classmethod",
     "@staticmethod then @abstractmethod": "@staticmethod puis @abstractmethod",
+    "@abstract_classmethod": "@abstract_classmethod",
   },
   2912: {
     "@staticmethod then @abstractmethod": "@staticmethod puis @abstractmethod",
     "@abstractmethod then @staticmethod": "@abstractmethod puis @staticmethod",
+    "@abstract_static": "@abstract_static",
+    "@static_abstractmethod": "@static_abstractmethod",
   },
   2913: {
     "Only if parent has no abstract methods": "Uniquement si le parent ne possède aucune méthode abstraite",
+    "Only with ABCMeta": "Uniquement avec ABCMeta",
   },
   2915: {
     "Equivalent to class Shape(ABC)": "Équivalent à la classe Shape(ABC)",
+    "Creates a regular class": "Crée une classe régulière",
+    "Creates a Protocol": "Crée un protocole",
+  },
+  2917: {
+    "Creates an A instance": "Crée une instance A",
+  },
+  2918: {
+    "frozenset({'f'})": "frozenset({'f'})",
   },
   2919: {
     "Makes list a virtual subclass of MyABC": "Fait de la liste une sous-classe virtuelle de MyABC",
     "Adds MyABC methods to list": "Ajoute les méthodes MyABC à la liste",
     "Makes MyABC inherit from list": "Permet à MyABC d'hériter de la liste",
+    "Raises TypeError": "Lève une erreur TypeError",
   },
   2921: {
     "They don't inherit methods": "Ils n'héritent pas des méthodes",
@@ -799,42 +2979,90 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   2926: {
     "Defines structural interfaces (duck typing with type checking)": "Définit les interfaces structurelles (typage canard avec vérification de type)",
     "Defines nominal interfaces": "Définit les interfaces nominales",
+    "Creates abstract classes": "Crée des classes abstraites",
+    "Defines metaclasses": "Définit les métaclasses",
+  },
+  2927: {
+    "Structural subtyping": "Sous-typage structurel",
+    "Nominal subtyping": "Sous-typage nominal",
+    "Dynamic subtyping": "sous-typage dynamique",
+    "Metaclass subtyping": "sous-typage de métaclasse",
+  },
+  2928: {
+    "Nominal subtyping": "Sous-typage nominal",
+    "Structural subtyping": "Sous-typage structurel",
+    "Dynamic subtyping": "sous-typage dynamique",
+    "Protocol subtyping": "sous-typage de protocole",
   },
   2929: {
     "Yes, structurally (has draw method)": "Oui, structurellement (méthode de dessin)",
     "No, doesn't inherit Drawable": "Non, n'hérite pas de Drawable",
+    "Only at runtime": "Uniquement à l'exécution",
+  },
+  2931: {
+    "Explicit inheritance": "Héritage explicite",
+    "Matching method names": "Noms de méthodes correspondants",
+    "Matching return types": "Types de retour correspondants",
+    "Method implementations": "Implémentations de méthodes",
   },
   2933: {
     "Use isinstance() checks at runtime": "Utilisez les vérifications isinstance() lors de l'exécution.",
     "Use Protocol without typing": "Utiliser le protocole sans saisir de texte",
+    "Make Protocol abstract": "Rendre le protocole abstrait",
+    "Enable dynamic dispatch": "Activer la répartition dynamique",
   },
   2935: {
     "Any class with __lt__ is Comparable": "Toute classe avec __lt__ est comparable",
     "All classes are Comparable": "Toutes les classes sont comparables",
+    "Only int is Comparable": "Seul l'entier est comparable.",
   },
   2936: {
     "If it walks like a duck and quacks like a duck, it's a duck": "Si ça marche comme un canard et que ça cancane comme un canard, c'est un canard.",
     "All objects must inherit from Duck": "Tous les objets doivent hériter de Duck",
     "Types must be declared explicitly": "Les types doivent être déclarés explicitement.",
+    "Only ducks can be typed": "Seuls les canards peuvent être dactylographiés",
   },
   2937: {
     "Duck typing for static type checkers": "Typage dynamique pour les vérificateurs de types statiques",
+    "Inheritance hierarchies": "hiérarchies d'héritage",
+    "Metaclass patterns": "Modèles de métaclasses",
+    "Decorator protocols": "Protocoles de décoration",
   },
   2938: {
     "Files, connections, sockets — anything with close()": "Fichiers, connexions, sockets — tout ce qui possède la méthode close()",
     "Nothing matches without inheritance": "Rien ne s'accorde sans héritage",
+    "Only file objects": "Seuls les objets de fichier",
+    "Only io.IOBase subclasses": "Seules les sous-classes de io.IOBase",
   },
   2939: {
     "Yes, but classes must explicitly inherit to use them": "Oui, mais les classes doivent explicitement hériter pour les utiliser",
     "Yes, all classes get them automatically": "Oui, toutes les classes les reçoivent automatiquement.",
     "Only with @runtime_checkable": "Uniquement avec @runtime_checkable",
+    "No, never": "Non, jamais",
+  },
+  2940: {
+    "structure; inheritance": "structure ; héritage",
+    "inheritance; structure": "héritage ; structure",
+    "types; values": "types; valeurs",
+    "runtime; compile-time": "exécution ; compilation",
+  },
+  2941: {
+    "__iter__ and __next__": "__iter__ et __next__",
+    "Only __next__": "Seulement __suivant__",
+    "Only __iter__": "Seulement __iter__",
+    "__getitem__ and __len__": "__getitem__ et __len__",
   },
   2942: {
     "Mixin methods: __contains__, __iter__, __reversed__, index, count": "Méthodes Mixin : __contains__, __iter__, __reversed__, index, count",
     "Only __getitem__ and __len__": "Seuls __getitem__ et __len__",
+    "Nothing extra": "Rien de plus",
+    "append and pop": "ajouter et supprimer",
   },
   2943: {
     "__setitem__, __delitem__, insert; plus append, clear, reverse, extend, pop": "__setitem__, __delitem__, insert; plus append, clear, reverse, extend, pop",
+    "Only __setitem__": "Seul __setitem__",
+    "Only append and pop": "Ajouter et supprimer uniquement",
+    "Nothing extra": "Rien de plus",
   },
   2949: {
     "Yes, just implement all required methods": "Oui, il suffit d'implémenter toutes les méthodes requises.",
@@ -845,29 +3073,58 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   2950: {
     "All objects (object has __str__)": "Tous les objets (l'objet possède __str__)",
     "Only objects with custom __str__": "Seuls les objets avec une chaîne de caractères personnalisée __str__",
+    "Only str objects": "Seuls les objets str",
+    "None without inheritance": "Nul sans héritage",
   },
   2963: {
     "Private by convention (still accessible)": "Privé par convention (toujours accessible)",
     "Truly private (not accessible)": "Vraiment privé (non accessible)",
+    "Name mangling applied": "Le nom a été déformé.",
+    "Syntax error": "Erreur de syntaxe",
+  },
+  2964: {
+    "Name mangling": "Déformation de noms",
+    "Syntax error": "Erreur de syntaxe",
+    "True privacy": "véritable confidentialité",
+    "Attribute deletion": "Suppression d'attribut",
   },
   2965: {
     "No, dunders are never mangled": "Non, les dunders ne sont jamais mutilés",
+    "Yes, they are mangled": "Oui, ils sont mutilés",
+    "Only in subclasses": "Uniquement dans les sous-classes",
+    "Only __init__ is exempt": "Seul __init__ est exempté",
+  },
+  2968: {
+    "Positive(8)": "Positif(8)",
   },
   2971: {
     "An algorithm skeleton with overridable steps": "Un squelette d'algorithme avec des étapes modifiables",
     "A list of required attributes": "Liste des attributs requis",
+    "A singleton instance": "Une instance singleton",
+    "A factory for objects": "Une usine pour objets",
+  },
+  2972: {
+    "generate()": "générer()",
+    "header()": "en-tête()",
+    "footer()": "pied de page()",
+    "__init__()": "__init__()",
   },
   2973: {
     "Composition over inheritance": "La composition plutôt que l'héritage",
     "Deep inheritance hierarchies": "hiérarchies d'héritage profondes",
+    "Global variables": "Variables globales",
   },
   2975: {
     "A method that creates and returns objects": "Une méthode qui crée et renvoie des objets",
+    "A way to delete objects": "Un moyen de supprimer des objets",
+    "A caching mechanism": "Un mécanisme de mise en cache",
+    "A thread-safe lock": "Un verrou de sécurité pour filetage",
   },
   2977: {
     "A list of dependents notified of state changes": "Liste des personnes à charge informées des changements d'état",
     "A fixed algorithm skeleton": "Un squelette d'algorithme fixe",
     "A pool of reusable objects": "Un ensemble d'objets réutilisables",
+    "A single global instance": "Une seule instance globale",
   },
   2979: {
     "Subclasses should be substitutable for base classes": "Les sous-classes doivent pouvoir remplacer les classes de base.",
@@ -878,6 +3135,8 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   2980: {
     "Yes, if w and h can be set independently": "Oui, si w et h peuvent être réglés indépendamment",
     "Only if area() is overridden": "Uniquement si la fonction area() est redéfinie",
+    "No, it always follows LSP": "Non, il suit toujours LSP",
+    "Only in Python 2": "Uniquement en Python 2",
   },
   2981: {
     "Open for extension, closed for modification": "Ouvert à la prolongation, fermé à la modification",
@@ -885,15 +3144,30 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Open for deletion, closed for creation": "Ouvert à la suppression, fermé à la création",
     "Open for reading, closed for writing": "Ouvert à la lecture, fermé à l'écriture",
   },
+  2982: {
+    "As many as needed": "Autant que nécessaire",
+  },
   2983: {
     "Many small, specific interfaces": "De nombreuses petites interfaces spécifiques",
     "One large comprehensive interface": "Une interface unique et complète",
+    "No interfaces at all": "Aucune interface du tout",
+    "Global functions": "Fonctions globales",
   },
   2984: {
     "Abstractions, not concrete implementations": "Des abstractions, et non des implémentations concrètes",
+    "Concrete classes only": "Cours de béton uniquement",
+    "Global state": "État mondial",
+    "The most derived class": "La classe la plus dérivée",
+  },
+  2985: {
+    "Dependency Inversion": "Inversion de dépendance",
+    "Single Responsibility": "Responsabilité unique",
+    "Don't Repeat Yourself": "Ne vous répétez pas",
   },
   2987: {
     "Prints 'Creating Foo' and returns Foo instance": "Affiche « Création de Foo » et renvoie une instance de Foo",
+    "Returns None": "Aucun retour",
+    "Prints nothing": "N'imprime rien",
   },
   2988: {
     "When combining behaviors from unrelated sources": "Lors de la combinaison de comportements provenant de sources non liées",
@@ -903,67 +3177,359 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   2989: {
     "Add reusable methods without deep hierarchies": "Ajouter des méthodes réutilisables sans hiérarchies profondes",
+    "Replace all base classes": "Remplacer toutes les classes de base",
+    "Prevent any inheritance": "Empêcher tout héritage",
+    "Delete class attributes": "Supprimer les attributs de classe",
   },
   2990: {
     "Always uses the first parent": "Utilise toujours le premier parent",
+    "C3 linearization (MRO)": "Linéarisation C3 (MRO)",
+    "Random selection": "Sélection aléatoire",
+    "Raises an error": "Lève une erreur",
   },
   2991: {
     "ValueError, TypeError, KeyError, etc.": "ValueError, TypeError, KeyError, etc.",
   },
   2992: {
     "No, must inherit BaseException": "Non, il faut hériter de BaseException",
+    "Yes, raises CustomError": "Oui, cela génère une erreur personnalisée.",
+    "No, syntax error": "Non, erreur de syntaxe",
+    "No, must define __init__": "Non, il faut définir __init__",
+  },
+  2995: {
+    "DBError is not caught": "L'erreur DBError n'a pas été interceptée.",
+  },
+  2996: {
+    "ValueError not caught": "ValueError non interceptée",
   },
   3000: {
     "So except Exception doesn't accidentally catch them": "Sauf si Exception les intercepte accidentellement",
     "Because they are not errors": "Parce que ce ne sont pas des erreurs",
     "Because Python 2 required it": "Parce que Python 2 l'exigeait",
+    "For performance reasons": "Pour des raisons de performance",
+  },
+  3001: {
+    "Exception handling": "Gestion des exceptions",
+    "Loop control": "Contrôle de boucle",
+    "Function definition": "Définition de fonction",
+  },
+  3002: {
+    "Catches all exceptions": "Gère toutes les exceptions",
+    "Raises exception": "Lève une exception",
+  },
+  3003: {
+    "Catches ZeroDivisionError": "Intercepte l'erreur ZeroDivisionError",
+    "Raises exception": "Lève une exception",
   },
   3004: {
     "<class 'ZeroDivisionError'>": "<class 'ZeroDivisionError'>",
+    "<class 'Exception'>": "<class 'Exception'>",
   },
   3005: {
     "Catches multiple exception types": "Intercepte plusieurs types d'exceptions",
+    "Raises exception": "Lève une exception",
+  },
+  3006: {
+    "Multiple except clauses": "Plusieurs clauses except",
   },
   3011: {
     "Raises ValueError exception": "Lève une exception ValueError",
+    "Returns error": "Renvoie une erreur",
   },
   3012: {
     "Raises ValueError without message": "Lève une exception ValueError sans message d'erreur.",
   },
+  3013: {
+    "Re-raises the exception": "Relance l'exception",
+    "Returns None": "Aucun retour",
+  },
+  3014: {
+    "Raises custom exception": "Lève une exception personnalisée",
+  },
+  3016: {
+    "'msg'": "'msg'",
+    "'ValueError'": "'ValueError'",
+  },
+  3017: {
+    "'msg'": "'msg'",
+  },
+  3018: {
+    "'ZeroDivisionError'": "'Erreur de division par zéro'",
+    "'Exception'": "'Exception'",
+  },
   3019: {
     "Catches ValueError (subclass)": "Intercepte ValueError (sous-classe)",
+    "Raises exception": "Lève une exception",
+  },
+  3020: {
+    "Catches ValueError": "Intercepte ValueError",
+    "Raises exception": "Lève une exception",
+  },
+  3021: {
+    "Context manager": "Gestionnaire de contexte",
+    "File opening": "Ouverture de fichier",
+    "Loop statement": "instruction de boucle",
+  },
+  3022: {
+    "Uses context manager": "Utilise le gestionnaire de contexte",
+    "Raises exception": "Lève une exception",
+  },
+  3024: {
+    "Suppresses exception": "Supprime l'exception",
+    "Raises exception": "Lève une exception",
+  },
+  3025: {
+    "MyContext instance": "instance MyContext",
+  },
+  3028: {
+    "Multiple context managers": "Gestionnaires de contexte multiples",
+  },
+  3029: {
+    "Suppresses ValueError": "Supprime ValueError",
+    "Raises exception": "Lève une exception",
+  },
+  3031: {
+    "Imports a module": "Importe un module",
+    "Exports a module": "Exporte un module",
+    "Creates a module": "Crée un module",
+  },
+  3032: {
+    "Imports name from module": "Importe le nom du module",
+    "Imports entire module": "Importe le module entier",
+  },
+  3033: {
+    "Imports with alias": "Importations avec alias",
+  },
+  3034: {
+    "Imports module with alias": "Module d'importation avec alias",
+  },
+  3035: {
+    "Imports all public names": "Importe tous les noms publics",
   },
   3036: {
     "Checks if script is run directly": "Vérifie si le script est exécuté directement",
+    "Checks if imported": "Vérifie si importé",
   },
   3037: {
     "Runs code only when script executed": "Exécute le code uniquement lorsque le script est exécuté.",
+    "Runs always": "Courent toujours",
   },
   3038: {
     "List of module search paths": "Liste des chemins de recherche des modules",
   },
+  3039: {
+    "Defines public API": "Définit l'API publique",
+  },
   3040: {
     "Path to current module file": "Chemin d'accès au fichier du module actuel",
+  },
+  3041: {
+    "<class 'generator'>": "<class 'générateur'>",
+    "<class 'function'>": "<class 'function'>",
   },
   3045: {
     "StopIteration with value 'done'": "Arrêter l'itération avec la valeur 'terminé'",
   },
+  3047: {
+    "Generator expression": "Expression génératrice",
+  },
+  3050: {
+    "<class '__main__.MyIter'>": "<class '__main__.MyIter'>",
+    "<class 'generator'>": "<class 'générateur'>",
+  },
+  3051: {
+    "<class 'function'>": "<class 'function'>",
+    "<class 'decorator'>": "<class 'décorateur'>",
+  },
+  3054: {
+    "'func'": "'func'",
+    "'wrapper'": "'emballage'",
+  },
+  3055: {
+    "Decorator with argument": "Décorateur avec argument",
+  },
+  3057: {
+    "Static method decorator": "décorateur de méthode statique",
+  },
+  3058: {
+    "Class method decorator": "décorateur de méthode de classe",
+  },
+  3059: {
+    "Property decorator": "décorateur immobilier",
+  },
+  3060: {
+    "Multiple decorators": "Plusieurs décorateurs",
+  },
+  3063: {
+    "Observer pattern": "Modèle d'observateur",
+  },
+  3064: {
+    "Strategy pattern": "Modèle de stratégie",
+  },
+  3065: {
+    "Adapter pattern": "Modèle d'adaptateur",
+  },
+  3066: {
+    "Builder pattern": "Modèle de constructeur",
+  },
+  3067: {
+    "Prototype pattern": "Modèle prototype",
+  },
+  3068: {
+    "Facade pattern": "Motif de façade",
+  },
+  3069: {
+    "Command pattern": "Modèle de commande",
+  },
+  3070: {
+    "Composite pattern": "Motif composite",
+  },
+  3071: {
+    "<class '__main__.Meta'>": "<class '__main__.Meta'>",
+    "<class 'type'>": "<class 'type'>",
+  },
+  3072: {
+    "Custom metaclass": "Métaclasse personnalisée",
+    "Regular class": "Cours régulier",
+  },
   3074: {
     "<class '__main__.MyClass'>": "<class '__main__.MyClass'>",
+    "<class '__main__.Meta'>": "<class '__main__.Meta'>",
+  },
+  3076: {
+    "Works fine": "Fonctionne parfaitement",
+  },
+  3079: {
+    "'Missing: x'": "«Disparu : x»",
+  },
+  3081: {
+    "Python style guide": "Guide de style Python",
+    "Python version": "Version Python",
+  },
+  3082: {
+    "Type hints": "Conseils de saisie",
+  },
+  3083: {
+    "Type hints with generics": "Indications de type avec génériques",
+  },
+  3084: {
+    "Type hints with defaults": "Indications de type avec valeurs par défaut",
   },
   3085: {
     "Forward reference (string)": "Référence anticipée (chaîne de caractères)",
   },
+  3086: {
+    "Optional type hint": "Indication de type facultative",
+  },
+  3087: {
+    "Union type hint": "Indication de type Union",
+  },
+  3088: {
+    "Callable type hint": "Indication de type appelable",
+  },
+  3089: {
+    "Data class instance": "instance de classe de données",
+  },
+  3090: {
+    "<Color.RED: 1>": "<Color.RED: 1>",
+  },
+  3091: {
+    "Command line arguments": "arguments de la ligne de commande",
+  },
   3092: {
     "Environment variables dict": "dictionnaire des variables d'environnement",
+  },
+  3095: {
+    "Bytes object": "Objet octets",
+  },
+  3097: {
+    "Point(x=1, y=2)": "Point(x=1, y=2)",
+  },
+  3099: {
+    "Counter({2: 3, 1: 2})": "Compteur({2: 3, 1: 2})",
+  },
+  3104: {
+    "'data'": "'données'",
+    "<coroutine object>": "<objet coroutine>",
+  },
+  3129: {
+    "2024-01-15": "15 janvier 2024",
+    "15-01-2024": "15-01-2024",
+    "01/15/2024": "15/01/2024",
+    "2024/01/15": "15/01/2024",
+  },
+  3130: {
+    "15/01/2024": "15/01/2024",
+    "2024-01-15": "15 janvier 2024",
+    "01/15/2024": "15/01/2024",
+    "2024/01/15": "15/01/2024",
+  },
+  3133: {
+    "2024-01-15": "15 janvier 2024",
+    "15/01/2024": "15/01/2024",
+    "Jan 15, 2024": "15 janvier 2024",
+  },
+  3146: {
+    "user@host": "utilisateur@hôte",
+  },
+  3147: {
+    "user@host": "utilisateur@hôte",
+  },
+  3148: {
+    "HELLO WORLD": "BONJOUR LE MONDE",
+    "hello world": "Bonjour le monde",
+    "Hello World": "Bonjour le monde",
   },
   3167: {
     "Pretty-prints with 2-space indentation": "Impression soignée avec un retrait de 2 espaces",
     "Adds 2 spaces before the key": "Ajoute 2 espaces avant la touche",
     "Indents only nested objects": "Indenter uniquement les objets imbriqués",
+    "Limits output to 2 lines": "Limite la sortie à 2 lignes",
   },
   3175: {
     "TypeError — sets are not JSON serializable": "TypeError — les ensembles ne sont pas sérialisables en JSON",
+    "'{1, 2, 3}'": "'{1, 2, 3}'",
+  },
+  3177: {
+    "a/b/c": "abc",
+  },
+  3178: {
+    ".txt": ".SMS",
+    "c.txt": "c.txt",
+  },
+  3179: {
+    "c.txt": "c.txt",
+  },
+  3180: {
+    "a/b/c.txt": "a/b/c.txt",
+    "a/bc.txt": "a/bc.txt",
+  },
+  3181: {
+    "a/b": "a/b",
+  },
+  3183: {
+    ".tar": ".goudron",
+    ".gz": ".gz",
+  },
+  3184: {
+    "a/b/c": "abc",
+    "a, b, c": "a, b, c",
+  },
+  3185: {
+    ".txt": ".SMS",
+  },
+  3186: {
+    "c.txt": "c.txt",
+    "/a/b": "/a/b",
+  },
+  3187: {
+    "/a/b": "/a/b",
+    "c.txt": "c.txt",
+    "/a/b/c": "/abc",
+  },
+  3189: {
+    "a.md": "a.md",
+    "a.txt.md": "a.txt.md",
   },
   3190: {
     "abcdefghijklmnopqrstuvwxyz": "abcdefghijklmnopqrstuvwxyz",
@@ -975,79 +3541,187 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   3193: {
     "Yes, it contains all ASCII punctuation": "Oui, il contient toute la ponctuation ASCII.",
+    "No, only some punctuation": "Non, seulement quelques signes de ponctuation.",
+    "Only '!'": "Seulement '!'",
   },
   3196: {
     "Space, tab, newline, and other whitespace": "Espace, tabulation, saut de ligne et autres espaces blancs",
+    "Only spaces": "Espaces seulement",
+    "Only space and tab": "Seuls l'espace et la tabulation sont autorisés.",
   },
   3197: {
     "Wraps text into lines of at most 10 characters each": "Regroupe le texte en lignes de 10 caractères maximum.",
     "Truncates to 10 characters": "Tronque à 10 caractères",
+    "Adds 10 spaces of padding": "Ajoute 10 espaces de marge intérieure",
+  },
+  3198: {
+    "hello\\\\nworld": "bonjour\\\\nmonde",
+    "  hello\\\\n  world": "bonjour monde",
+  },
+  3199: {
+    "Hello World": "Bonjour le monde",
+    "Hello $name": "Bonjour $name",
+    "Hello name": "Bonjour nom",
   },
   3208: {
     "Sets the root logger to show DEBUG and above": "Configure le journal système racine pour afficher les niveaux DEBUG et supérieurs.",
+    "Creates a new logger": "Crée un nouveau journaliseur",
+    "Disables logging": "Désactive la journalisation",
+    "Sets level to WARNING": "Définit le niveau sur AVERTISSEMENT",
   },
   3209: {
     "Sends log records to a destination": "Envoie les enregistrements de journal vers une destination",
+    "Formats the log message": "Formate le message de journalisation",
+    "Filters log records": "Les filtres enregistrent les journaux",
+    "Creates the logger": "Crée le journaliseur",
   },
   3210: {
     "Specifies the layout of log records": "Spécifie la mise en page des enregistrements de journal.",
     "Filters log records by level": "Filtre les enregistrements de journal par niveau",
+    "Sends logs to a file": "Envoie les journaux vers un fichier",
+    "Creates new loggers": "Crée de nouveaux enregistreurs de données",
   },
   3211: {
     "Creates a logger named after the module for hierarchical logging": "Crée un enregistreur de journalisation portant le nom du module pour la journalisation hiérarchique.",
+    "It runs faster": "Il court plus vite",
+    "It is required by Python": "Python l'exige.",
+    "It prevents errors": "Cela empêche les erreurs",
+  },
+  3212: {
+    "Only with basicConfig": "Uniquement avec basicConfig",
+    "Only two maximum": "Deux maximum",
   },
   3213: {
     "Includes traceback information": "Comprend des informations de traçabilité",
+    "Adds timestamp": "Ajoute un horodatage",
+    "Adds the module name": "Ajoute le nom du module",
+    "Nothing extra": "Rien de plus",
   },
   3214: {
     "Logging supports levels, formatting, handlers, and can be configured without code changes": "La journalisation prend en charge les niveaux, le formatage et les gestionnaires, et peut être configurée sans modification du code.",
     "logging only works in modules": "La journalisation ne fonctionne que dans les modules",
+    "There is no difference": "Il n'y a pas de différence",
+    "print is faster": "L'impression est plus rapide",
   },
   3215: {
     "A handler that writes log records to a file": "Un gestionnaire qui écrit les enregistrements de journal dans un fichier",
     "A new log file with default content": "Un nouveau fichier journal avec contenu par défaut",
     "A formatter for file output": "Un formateur pour la sortie de fichiers",
+    "A logger named app": "Un enregistreur de journalisation nommé app",
   },
   3216: {
     "That the values are the same object": "Que les valeurs sont le même objet",
     "That the first value is True": "Que la première valeur soit vraie",
     "That no exception is raised": "Qu'aucune exception ne soit soulevée",
+    "That two values are equal": "Ces deux valeurs sont égales",
+  },
+  3217: {
+    "That expr is True": "Cette expression est vraie.",
+    "That expr is False": "Cette expression est fausse.",
+    "That expr is not None": "Cette expression n'est pas None",
+    "That expr equals 1": "Cette expression est égale à 1",
+  },
+  3218: {
+    "That expr is False": "Cette expression est fausse.",
+    "That expr is True": "Cette expression est vraie.",
+    "That expr is None": "Cette expression est Aucune",
+    "That expr equals 0": "Cette expression est égale à 0",
   },
   3219: {
     "That a is b (same object identity)": "Que a est b (même identité d'objet)",
+    "That a == b (equality)": "Que a == b (égalité)",
+    "That a and b have the same type": "Que a et b ont le même type",
+    "That a is not None": "Que a n'est pas Aucun",
+  },
+  3220: {
+    "That x is None": "Ce x est Aucun",
+    "That x is False": "Ce x est faux",
+    "That x is 0": "Ce x est égal à 0",
+    "That x is empty": "Ce x est vide",
+  },
+  3221: {
+    "That a is in b": "Que a est dans b",
+    "That a equals b": "Que a est égal à b",
+    "That a is b": "Que a est b",
+    "That a is a subset of b": "Le fait que a soit un sous-ensemble de b",
   },
   3222: {
     "That a ValueError is raised": "Une erreur ValueError est levée.",
     "That ValueError is a class": "Cette ValueError est une classe",
+    "That no error occurs": "Qu'aucune erreur ne se produise",
+    "That the value is valid": "Que la valeur soit valide",
+  },
+  3223: {
+    "It raises ValueError": "Cela génère une erreur ValueError",
+    "It raises AssertionError": "Cela génère une erreur d'assertion",
+  },
+  3224: {
+    "Depends on the system": "Cela dépend du système",
   },
   3225: {
     "Runs before each test method": "S'exécute avant chaque méthode de test",
     "Runs once before all tests": "S'exécute une fois avant tous les tests",
     "Initializes the test runner": "Initialise le lanceur de tests",
+    "Runs after each test": "S'exécute après chaque test",
   },
   3226: {
     "Runs after each test method": "S'exécute après chaque méthode de test",
+    "Runs once after all tests": "S'exécute une seule fois après tous les tests",
+    "Runs before each test": "Exécutions avant chaque test",
+    "Destroys the test class": "Détruit la classe de test",
   },
   3227: {
     "Runs once before all tests in the class": "S'exécute une fois avant tous les tests de la classe",
+    "Runs before each test": "Exécutions avant chaque test",
+    "Runs after all tests": "S'exécute après tous les tests",
+    "Creates the test class": "Crée la classe de test",
   },
   3228: {
     "Fails the test with 'reason'": "Échoue au test avec la « raison »",
     "Runs the test but ignores failures": "Exécute le test mais ignore les échecs.",
+    "Skips the decorated test": "Évite le test décoré",
+    "Marks the test as passing": "Indique que le test est réussi.",
   },
   3229: {
     "Marks a test that is expected to fail": "Indique un test qui devrait échouer.",
     "Reruns the test on failure": "Relance le test en cas d'échec",
+    "Forces the test to fail": "Oblige à échouer le test",
+    "Skips the test": "Évite le test",
+  },
+  3230: {
+    "Yes, AssertionError": "Oui, AssertionError",
+    "Yes, ValueError": "Oui, ValueError",
+    "Yes, SyntaxError": "Oui, erreur de syntaxe",
+  },
+  3232: {
+    "In the AssertionError": "Dans l'erreur d'assertion",
+    "In stdout": "Dans stdout",
+    "In stderr only": "Dans stderr uniquement",
+    "It is ignored": "Il est ignoré",
   },
   3233: {
     "Yes, with import assert_off": "Oui, avec import assert_off",
+    "Yes, with python -O flag": "Oui, avec l'option -O de Python.",
+    "No, never": "Non, jamais",
+    "Yes, with a config file": "Oui, avec un fichier de configuration",
   },
   3234: {
     "Normal mode (False with -O flag)": "Mode normal (Faux avec l'option -O)",
+    "Optimized mode": "Mode optimisé",
+    "Debug mode only": "Mode débogage uniquement",
+    "It is always True": "C'est toujours vrai",
   },
   3235: {
     "A testing framework that extracts tests from docstrings": "Un framework de test qui extrait les tests des docstrings",
     "A tool for documenting tests": "Un outil pour documenter les tests",
+    "A type checker": "Un vérificateur de types",
+    "A debugger": "Un débogueur",
+  },
+  3237: {
+    "<class 'str'>": "<class 'str'>",
+    "<class 'ValueError'>": "<class 'ValueError'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'NoneType'>": "<class 'NoneType'>",
   },
   3239: {
     "Always, whether an exception occurred or not": "Toujours, qu'une exception se soit produite ou non",
@@ -1059,17 +3733,35 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Yes, all three can coexist": "Oui, les trois peuvent coexister.",
     "No, else and finally conflict": "Non, sinon et finalement conflit",
     "Only with specific exceptions": "Sauf exceptions particulières",
+    "No, only two at a time": "Non, seulement deux à la fois.",
+  },
+  3241: {
+    "Exception chaining": "chaînage d'exceptions",
+    "Exception nesting": "imbrication des exceptions",
+    "Exception forwarding": "Transfert d'exception",
+    "Exception wrapping": "Exception enveloppant",
+  },
+  3242: {
+    "The traceback object": "L'objet de traceback",
+    "The error message string": "La chaîne de message d'erreur",
+    "The exception class": "La classe d'exception",
   },
   3243: {
     "Formatted traceback string of the current exception": "Chaîne de trace d'exécution formatée de l'exception actuelle",
+    "The exception object": "L'objet d'exception",
+    "A list of frames": "Une liste de cadres",
   },
   3244: {
     "A (type, value, traceback) tuple": "Un tuple (type, valeur, traceback)",
     "The exception message string": "La chaîne de message d'exception",
+    "The exception object only": "L'objet exception uniquement",
+    "A list of error codes": "Liste des codes d'erreur",
   },
   3246: {
     "All exceptions including SystemExit and KeyboardInterrupt": "Toutes les exceptions, y compris SystemExit et KeyboardInterrupt, sont prises en compte.",
     "Only TypeError and ValueError": "Seules les erreurs de type et de valeur",
+    "Only standard exceptions": "Seules les exceptions standard",
+    "Only Exception subclasses": "Seules les sous-classes d'Exception",
   },
   3247: {
     "All exceptions except SystemExit, KeyboardInterrupt, GeneratorExit": "Toutes les exceptions sauf SystemExit, KeyboardInterrupt, GeneratorExit",
@@ -1082,24 +3774,98 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Exception Aware Function Protocol": "Protocole de fonction sensible aux exceptions",
     "Explicit Action For Processing": "Action explicite pour le traitement",
   },
+  3249: {
+    "Look Before You Leap": "Réfléchissez avant d'agir",
+    "Load Before You Launch": "Charger avant de lancer",
+    "Log Before You Leave": "Connectez-vous avant de partir",
+    "Lock Before You Loop": "Verrouillez avant de boucler",
+  },
+  3251: {
+    "4 spaces": "4 espaces",
+    "2 spaces": "2 espaces",
+    "1 tab": "1 onglet",
+    "8 spaces": "8 places",
+  },
+  3257: {
+    "Yes, always": "Oui, toujours",
+    "No, never": "Non, jamais",
+    "Only in classes": "Uniquement en classe",
+    "Only in functions": "Uniquement dans les fonctions",
+  },
+  3258: {
+    "No, no spaces": "Non, pas d'espaces",
+    "Yes, always": "Oui, toujours",
+    "Only for defaults": "Uniquement pour les valeurs par défaut",
+    "Depends on context": "Cela dépend du contexte",
+  },
+  3261: {
+    "One per line, at top of file": "Une par ligne, en haut du fichier",
+    "All on one line": "Tout sur une seule ligne",
+    "Inside functions": "Fonctions internes",
+    "After constants": "Après les constantes",
+  },
   3262: {
     "stdlib, third-party, local": "bibliothèque standard, tierce partie, locale",
     "local, third-party, stdlib": "local, tiers, bibliothèque standard",
+    "Alphabetical only": "Par ordre alphabétique uniquement",
+    "No specific order": "Pas d'ordre particulier",
+  },
+  3263: {
+    "x is None": "x est Aucun",
+    "x == None": "x == Aucun",
+    "x = None": "x = Aucun",
+    "not x": "pas x",
+  },
+  3264: {
+    "if x:": "si x :",
+    "if x == True:": "si x == Vrai :",
+    "if x is True:": "si x est vrai :",
+    "if bool(x):": "si booléen(x) :",
   },
   3265: {
     "A string literal as the first statement in a module/class/function": "Une chaîne littérale de caractères comme première instruction d'un module/classe/fonction",
     "A variable holding documentation": "Documentation de détention variable",
     "A .txt file describing code": "Un fichier .txt décrivant le code",
+    "A comment starting with #": "Un commentaire commençant par #",
+  },
+  3266: {
+    "Remove it": "Supprimez-le",
+    "Keep it for alignment": "Conservez-le pour l'alignement",
+    "Add one space always": "Ajoutez toujours un espace",
+    "It does not matter": "Ça ne fait rien",
+  },
+  3267: {
+    "A coroutine object": "Un objet coroutine",
+    "The integer 1": "L'entier 1",
+    "A generator": "Un générateur",
+    "A thread": "Un fil",
+  },
+  3268: {
+    "<class 'coroutine'>": "<class 'coroutine'>",
+    "<class 'int'>": "<class 'int'>",
+    "<class 'function'>": "<class 'function'>",
+    "<class 'generator'>": "<class 'générateur'>",
   },
   3269: {
     "Just call it like a function": "Appelez-la simplement comme une fonction",
+    "asyncio.run() or await": "asyncio.run() ou await",
+    "Use threading.start()": "Utilisez threading.start()",
+    "Use os.exec()": "Utilisez os.exec()",
   },
   3270: {
     "Runs the coroutine in an event loop and returns its result": "Exécute la coroutine dans une boucle d'événements et renvoie son résultat",
     "Converts coroutine to a generator": "Convertit une coroutine en générateur",
+    "Creates a new thread": "Crée une nouvelle discussion",
+    "Compiles the coroutine": "Compile la coroutine",
   },
   3271: {
     "Only inside an async function": "Uniquement à l'intérieur d'une fonction asynchrone",
+    "Anywhere in Python": "N'importe où en Python",
+    "Only in modules": "Uniquement dans les modules",
+    "Only at the top level": "Uniquement au plus haut niveau",
+  },
+  3272: {
+    "A coroutine": "Une coroutine",
   },
   3273: {
     "A coroutine that pauses for 1 second without blocking": "Une coroutine qui fait une pause d'une seconde sans blocage",
@@ -1111,6 +3877,7 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "time.sleep blocks the entire thread": "time.sleep bloque l'intégralité du thread",
     "asyncio.sleep blocks the thread": "asyncio.sleep bloque le thread",
     "time.sleep is non-blocking": "time.sleep n'est pas bloquant",
+    "They are identical": "Ils sont identiques",
   },
   3275: {
     "Runs multiple coroutines concurrently and returns all results": "Exécute plusieurs coroutines simultanément et renvoie tous les résultats",
@@ -1122,38 +3889,92 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
     "Iterating over asynchronous iterators": "Itération sur des itérateurs asynchrones",
     "Looping faster than regular for": "Boucle plus rapide que la boucle normale pour",
     "Iterating in a separate thread": "Itération dans un thread séparé",
+    "Parallel loop execution": "Exécution en boucle parallèle",
   },
   3277: {
     "Using asynchronous context managers": "Utilisation de gestionnaires de contexte asynchrones",
+    "Faster file operations": "Opérations sur les fichiers plus rapides",
+    "Parallel context managers": "Gestionnaires de contexte parallèles",
+    "Thread-safe locking": "Verrouillage sécurisé pour le filetage",
   },
   3278: {
     "The core that manages and schedules coroutines": "Le noyau qui gère et planifie les coroutines",
     "A for loop that handles events": "Une boucle for qui gère les événements",
+    "A GUI event handler": "Un gestionnaire d'événements d'interface graphique",
+    "A thread pool manager": "Un gestionnaire de pool de threads",
   },
   3279: {
     "Schedules the coroutine to run concurrently as a Task": "Planifie l'exécution de la coroutine en parallèle en tant que tâche",
     "Runs the coroutine immediately to completion": "Exécute la coroutine immédiatement jusqu'à son terme.",
     "Converts coroutine to a generator": "Convertit une coroutine en générateur",
+    "Creates a new thread": "Crée une nouvelle discussion",
   },
   3280: {
     "Yes, but sync calls inside async can block the event loop": "Oui, mais les appels synchrones à l'intérieur d'appels asynchrones peuvent bloquer la boucle d'événements",
     "No, they are completely incompatible": "Non, ils sont totalement incompatibles.",
+    "Yes, with no restrictions": "Oui, sans restrictions",
+    "Only with special imports": "Uniquement pour les importations spéciales",
   },
   3281: {
     "Efficient I/O-bound concurrency without threads": "Concurrence efficace limitée par les E/S sans threads",
     "Automatic parallelism on multiple cores": "Parallélisme automatique sur plusieurs cœurs",
+    "Faster CPU computations": "Calculs CPU plus rapides",
+    "Memory management": "Gestion de la mémoire",
+  },
+  3282: {
+    "a, b = b, a": "a, b = b, a",
+    "temp = a; a = b; b = temp": "temp = a; a = b; b = temp",
+    "a = b; b = a": "a = b; b = a",
+    "swap(a, b)": "échange(a, b)",
+  },
+  3283: {
+    "if not my_list:": "si ce n'est pas ma_liste :",
+    "if len(my_list) == 0:": "si la longueur de ma_liste est égale à 0 :",
+  },
+  3284: {
+    "s += part in a loop": "s += partie dans une boucle",
+    "str.concat(parts)": "str.concat(parties)",
+    "reduce(add, parts)": "réduire(ajouter, parties)",
+  },
+  3285: {
+    "isinstance(x, int)": "estinstance(x, int)",
+    "type(x) == int": "type(x) == int",
+    "x.type() == 'int'": "x.type() == 'int'",
+    "int(x) == x": "int(x) == x",
+  },
+  3286: {
+    "if x is None:": "si x est None :",
+    "if x == None:": "si x == None :",
+    "if not x:": "si ce n'est pas x :",
+    "if type(x) is None:": "si type(x) est None :",
+  },
+  3288: {
+    "for k, v in d.items():": "pour k, v dans d.items():",
+    "for i in range(len(d)):": "pour i dans la plage(len(d)):",
   },
   3289: {
     "for i, x in enumerate(lst):": "pour i, x dans enumerate(lst) :",
   },
+  3290: {
+    "for a, b in zip(xs, ys):": "pour a, b dans zip(xs, ys) :",
+  },
   3291: {
     "try: fh = open(f); finally: fh.close()": "essayer : fh = ouvrir(f); finalement : fh.fermer()",
+    "with open(f) as fh:": "avec open(f) comme fh :",
+    "fh = open(f); fh.close()": "fh = ouvrir(f); fh.fermer()",
+    "open(f).read()": "ouvrir(f).lire()",
   },
   3292: {
     ".format() and % formatting": ".format() et formatage en %",
+    "Only % formatting": "Formatage en % uniquement",
+    "Only .format()": "Seulement .format()",
+    "str() concatenation only": "concaténation de str() uniquement",
   },
   3293: {
     "Manually checking if a key exists before setting it": "Vérifier manuellement si une clé existe avant de la définir",
+    "Using a regular list": "En utilisant une liste régulière",
+    "Using a tuple": "Utiliser un tuple",
+    "Using a set": "En utilisant un ensemble",
   },
   3294: {
     "Avoid deep nesting; prefer flat structures and early returns": "Évitez les nids profonds ; privilégiez les structures plates et les retours précoces.",
@@ -1169,15 +3990,27 @@ export const OPTIONS_FR: Record<number, Record<string, string>> = {
   },
   3296: {
     "The Zen of Python (import this)": "Le Zen de Python (importez ceci)",
+    "PEP 8": "PEP 8",
+    "The Python Tutorial": "Le tutoriel Python",
+    "The Python Cookbook": "Le livre de recettes Python",
   },
   3297: {
     "The Zen of Python (PEP 20)": "Le Zen de Python (PEP 20)",
+    "A list of all modules": "Liste de tous les modules",
+    "The Python version": "La version Python",
+    "The help documentation": "La documentation d'aide",
   },
   3298: {
     "Easier to Ask Forgiveness than Permission": "Il est plus facile de demander pardon que la permission.",
     "Every Argument Follows Protocol": "Chaque argument suit un protocole",
     "Error And Fault Prevention": "Prévention des erreurs et des pannes",
     "Execute All Functions Promptly": "Exécutez toutes les fonctions rapidement",
+  },
+  3299: {
+    "Don't Repeat Yourself": "Ne vous répétez pas",
+    "Do Repeat Yourself": "Répétez-vous",
+    "Dynamic Runtime Yielding": "Exécution dynamique donnant lieu à",
+    "Data Representation Yield": "Rendement de la représentation des données",
   },
 };
 

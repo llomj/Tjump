@@ -84,7 +84,7 @@ export const HistoryLog: React.FC<HistoryLogProps> = ({ history, onBack, onSaveT
               <div className="mb-3">
                 <div className="max-h-[45vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
                   {(() => {
-                    const { prefix, code } = splitQuestion(attempt.question, language);
+                    const { prefix, code } = splitQuestion(attempt.question, language, attempt.id);
                     if (code) {
                       return (
                         <div className="flex flex-col">

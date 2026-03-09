@@ -15,6 +15,11 @@ export const translateQuestionText = (text: string, language: string, questionId
       // or just return the full translated question if it's not multi-line
       if (!text.includes('\n')) {
         return QUESTIONS_FR[questionId];
+      } else {
+        // Multi-line question: replace only the first line with the translation
+        const lines = text.split('\n');
+        lines[0] = QUESTIONS_FR[questionId];
+        return lines.join('\n');
       }
     }
   }

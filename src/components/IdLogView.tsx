@@ -99,7 +99,7 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
                 <div className="mb-4">
                   <div className="max-h-[45vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
                     {(() => {
-                      const { prefix, code } = splitQuestion(entry.question, language);
+                      const { prefix, code } = splitQuestion(entry.question, language, entry.id);
                       if (code) {
                         return (
                           <div className="flex flex-col">

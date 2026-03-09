@@ -81,9 +81,9 @@ const formatCodeSnippet = (text: string): string => {
   return formattedLines.join('\n');
 };
 
-const splitQuestion = (text: string, language: string = 'en') => {
+const splitQuestion = (text: string, language: string = 'en', questionId?: number) => {
   try {
-    const enhancedText = translateQuestionText(text, language);
+    const enhancedText = translateQuestionText(text, language, questionId);
 
     if (enhancedText.includes('\n')) {
       const lines = enhancedText.split('\n');
@@ -339,7 +339,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                 <div className="mb-4">
                   <div className="max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
                     {(() => {
-                      const { prefix, code } = splitQuestion(question.question, language);
+                      const { prefix, code } = splitQuestion(question.question, language, question.id);
                       if (code) {
                         return (
                           <div className="flex flex-col">

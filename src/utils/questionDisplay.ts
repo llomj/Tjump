@@ -75,9 +75,9 @@ export const formatCodeSnippet = (text: string): string => {
   return formattedLines.join('\n');
 };
 
-export const splitQuestion = (text: string, language: string = 'en'): { prefix: string; code: string } => {
+export const splitQuestion = (text: string, language: string = 'en', questionId?: number): { prefix: string; code: string } => {
   try {
-    const enhancedText = translateQuestionText(text, language);
+    const enhancedText = translateQuestionText(text, language, questionId);
 
     if (enhancedText.includes('\n')) {
       const lines = enhancedText.split('\n');

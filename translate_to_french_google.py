@@ -49,12 +49,35 @@ def extract_questions_from_file(filepath: str) -> List[Tuple[int, str, List[str]
     return results
 
 def needs_translation(text: str) -> bool:
-    if len(text) <= 25:
+    text = text.strip()
+    if not text:
         return False
-    if text in ['True', 'False', 'None', 'Error', 'TypeError', 'ValueError', 'SyntaxError']:
+    
+    # Do not translate simple booleans/keywords if they are exactly these
+    if text in ['True', 'False', 'None', 'Error', 'TypeError', 'ValueError', 'SyntaxError', 'Exception']:
         return False
-    if not re.search(r'[a-zA-Z]{5,}', text):
+        
+    # Do not translate pure numbers
+    if re.match(r'^-?\d+(?:\.\d+)?$', text):
         return False
+        
+    # Do not translate pure code variables/symbols (e.g. 'my_var', '__init__', 'x')
+    if re.match(r'^[\w_]+$', text):
+        return False
+        
+    # If it's a short string that's mostly special characters, it's probably code
+    if len(text) < 10 and len(re.findall(r'[a-zA-Z]', text)) < 2:
+        return False
+        
+    # If it contains brackets, it MIGHT be code, but could be "Call super().__init__()"
+    # Pure code like `[1, 2, 3]` or `{'a': 1}` or `func(1, 2)`
+    if re.match(r'^[\[\{\(].*[\]\}\)]$', text) and " " not in text.replace(", ", ""):
+        return False
+        
+    # If it looks like a simple list or tuple without real words
+    if re.match(r'^[\d\s\.,\[\]\(\)]+$', text):
+        return False
+
     return True
 
 def extract_all_questions() -> Tuple[Dict[int, str], Dict[int, List[str]]]:
@@ -125,48 +148,109 @@ def translate_all(api_key: str) -> Tuple[Dict[int, str], Dict[int, List[Tuple[st
     print(f"Found {len(questions_dict)} questions needing translation")
     print(f"Found {len(options_dict)} question IDs with options needing translation")
     
-    if not questions_dict and not options_dict:
-        return {}, {}
+    # Load existing translations
+    existing_questions_fr = {}
+    existing_options_fr = {}
     
-    questions_fr = {}
+    try:
+        if os.path.exists('src/data/questionsFr.ts'):
+            with open('src/data/questionsFr.ts', 'r', encoding='utf-8') as f:
+                content = f.read()
+                matches = re.finditer(r'^\s*(\d+):\s*`([^`]*)`,?\s*$', content, re.MULTILINE)
+                for m in matches:
+                    existing_questions_fr[int(m.group(1))] = m.group(2).replace('\\`', '`').replace('\\\\', '\\')
+    except Exception as e:
+        print(f"Warning loading questionsFr.ts: {e}")
+        
+    try:
+        if os.path.exists('src/data/optionsFr.ts'):
+            with open('src/data/optionsFr.ts', 'r', encoding='utf-8') as f:
+                content = f.read()
+                block_matches = re.finditer(r'^\s*(\d+):\s*\{([^}]*)\},?\s*$', content, re.MULTILINE)
+                for m in block_matches:
+                    qid = int(m.group(1))
+                    block = m.group(2)
+                    existing_options_fr[qid] = {}
+                    pair_matches = re.finditer(r'^\s*"((?:[^"\\]|\\.)*)":\s*"((?:[^"\\]|\\.)*)",?\s*$', block, re.MULTILINE)
+                    for pm in pair_matches:
+                        en_val = pm.group(1).replace('\\"', '"').replace('\\\\', '\\')
+                        fr_val = pm.group(2).replace('\\"', '"').replace('\\\\', '\\')
+                        existing_options_fr[qid][en_val] = fr_val
+    except Exception as e:
+        print(f"Warning loading optionsFr.ts: {e}")
+    
+    questions_fr = existing_questions_fr.copy()
     
     if questions_dict:
-        question_texts = list(questions_dict.values())
-        # Google Translate v2 API limits to 128 strings per request, we use 50 to be safe
-        for i in range(0, len(question_texts), 50):
-            batch = question_texts[i:i+50]
-            print(f"Translating questions batch {i//50 + 1}/{len(question_texts)//50 + 1}...")
-            
-            translation_map = translate_batch_google(api_key, batch)
-            
-            for qid, english_text in questions_dict.items():
-                if english_text in translation_map:
-                    questions_fr[qid] = translation_map[english_text]
+        # Find which questions actually need to be translated
+        questions_to_translate = []
+        for qid, text in questions_dict.items():
+            if qid not in questions_fr:
+                questions_to_translate.append((qid, text))
+                
+        print(f"Found {len(questions_to_translate)} NEW questions to translate")
+        
+        if questions_to_translate:
+            texts_only = [t for qid, t in questions_to_translate]
+            for i in range(0, len(texts_only), 50):
+                batch = texts_only[i:i+50]
+                print(f"Translating questions batch {i//50 + 1}/{len(texts_only)//50 + 1}...")
+                
+                translation_map = translate_batch_google(api_key, batch)
+                
+                for qid, text in questions_to_translate:
+                    if text in translation_map:
+                        questions_fr[qid] = translation_map[text]
     
     options_fr = {}
+    for qid in existing_options_fr:
+        options_fr[qid] = [(en, fr) for en, fr in existing_options_fr[qid].items()]
     
     if options_dict:
-        all_option_strings = set()
-        for qid, opt_list in options_dict.items():
-            all_option_strings.update(opt_list)
+        options_to_translate = []
         
-        all_option_strings_list = list(all_option_strings)
-        print(f"Translating {len(all_option_strings_list)} unique options...")
+        for qid, opt_list in options_dict.items():
+            for opt in opt_list:
+                # Check if already translated
+                if qid in existing_options_fr and opt in existing_options_fr[qid]:
+                    continue
+                options_to_translate.append(opt)
+                
+        # Unique them
+        options_to_translate = list(set(options_to_translate))
+        
+        print(f"Found {len(options_to_translate)} NEW unique options to translate")
         
         translation_map = {}
-        for i in range(0, len(all_option_strings_list), 50):
-            batch = all_option_strings_list[i:i+50]
-            print(f"Translating options batch {i//50 + 1}/{len(all_option_strings_list)//50 + 1}...")
-            
-            batch_translations = translate_batch_google(api_key, batch)
-            translation_map.update(batch_translations)
+        if options_to_translate:
+            for i in range(0, len(options_to_translate), 50):
+                batch = options_to_translate[i:i+50]
+                print(f"Translating options batch {i//50 + 1}/{len(options_to_translate)//50 + 1}...")
+                
+                batch_translations = translate_batch_google(api_key, batch)
+                translation_map.update(batch_translations)
         
+        # Merge old and new
         for qid, opt_list in options_dict.items():
             translated_pairs = []
-            for original_opt in opt_list:
-                translated_opt = translation_map.get(original_opt, original_opt)
-                translated_pairs.append((original_opt, translated_opt))
-            options_fr[qid] = translated_pairs
+            
+            # Start with existing
+            if qid in existing_options_fr:
+                for en, fr in existing_options_fr[qid].items():
+                    # We only keep it if it's still an option in the dict? Actually just add all existing
+                    translated_pairs.append((en, fr))
+            else:
+                existing_options_fr[qid] = {}
+                
+            # Add new ones
+            for opt in opt_list:
+                if opt not in existing_options_fr[qid]:
+                    translated_opt = translation_map.get(opt, opt)
+                    translated_pairs.append((opt, translated_opt))
+                    existing_options_fr[qid][opt] = translated_opt # prevent duplicates if multiple same strings in list
+                    
+            if translated_pairs:
+                options_fr[qid] = list(dict(translated_pairs).items()) # deduplicate
     
     return questions_fr, options_fr
 
