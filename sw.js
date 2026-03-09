@@ -1,4 +1,4 @@
-const CACHE_NAME = 'python-exercises-learn-offline-v20';
+const CACHE_NAME = 'python-exercises-learn-offline-v21';
 
 const BASE_PATH = '/python-exercisesV1/';
 
@@ -58,7 +58,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const requestUrl = new URL(event.request.url);
-  const isNavigation = event.request.mode === 'navigate' || event.request.destination === 'document';
+  const isNavigation = event.request.mode === 'navigate' || event.request.destination === 'document' || event.request.url.includes('index.html');
   const isLocal = requestUrl.origin === location.origin;
 
   // NETWORK-FIRST for HTML/navigation: always fetch fresh index.html so new JS bundles load
