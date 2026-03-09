@@ -9,7 +9,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useSound } from '../contexts/SoundContext';
 import { formatTranslation } from '../translations';
 import { getTranslatedDetailedExplanation } from '../data/detailedExplanationsTranslations';
-import { translateQuestionText } from '../utils/translateQuestion';
+import { translateQuestionText, translateOptions } from '../utils/translateQuestion';
 import { getTranslatedShortExplanation, SHORT_EXPLANATIONS_FR } from '../data/shortExplanationsTranslations';
 
 // Function to format code snippets with proper Python indentation
@@ -787,6 +787,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
     if (hapticEnabled && triggerHaptic) triggerHaptic();
 
     const currentQuestion = questions[currentIndex];
+    const translatedOptions = translateOptions(currentQuestion.options, language);
     const isCorrect = index === currentQuestion.correct_option_index;
 
     if (soundEnabled) {
@@ -798,7 +799,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
     setIsAnswered(true);
 
     if (isCorrect) {
-      sessionCorrectRef.current += 1;
+      sessionCorrectRef.current = 1;
       setScore(s => s + 1);
       if (randomMode) setScoreJustIncreased(true);
     }
@@ -806,8 +807,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
     onAttempt({
       id: currentQuestion.id,
       question: currentQuestion.question,
-      selectedOption: currentQuestion.options[index],
-      correctOption: currentQuestion.options[currentQuestion.correct_option_index],
+      selectedOption: translatedOptions[index],
+      correctOption: translatedOptions[currentQuestion.correct_option_index],
       isCorrect,
       explanation: currentQuestion.explanation,
       level: level,
@@ -1017,6 +1018,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
             </div>
           )}
           {currentQuestion.options.map((option, idx) => {
+            // Translate options when in French mode
+            const translatedOptions = translateOptions(currentQuestion.options, language);
+            const displayOption = translatedOptions[idx];
             let colorClass = "bg-slate-800/50 border-white/5 hover:border-indigo-500/50 hover:bg-slate-800";
             if (isAnswered) {
               if (idx === currentQuestion.correct_option_index) {
@@ -1042,7 +1046,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                     {String.fromCharCode(65 + idx)}
                   </div>
                   <span className={`font-semibold text-sm md:text-base whitespace-pre-wrap break-words ${showWhitespaceHints ? 'font-mono' : ''}`}>
-                    {showWhitespaceHints ? visualizeWhitespace(option) : option}
+                    {showWhitespaceHints ? visualizeWhitespace(displayOption) : displayOption}
                   </span>
                 </div>
                 {isAnswered && idx === currentQuestion.correct_option_index && (

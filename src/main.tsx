@@ -8,7 +8,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     if (import.meta.env.PROD) {
       const basePath = import.meta.env.BASE_URL || '/';
-      navigator.serviceWorker.register(`${basePath}sw.js?v=14`)
+      navigator.serviceWorker.register(`${basePath}sw.js?v=15`)
         .then(registration => {
           console.log('Python Exercises Learn SW registered: ', registration);
         })

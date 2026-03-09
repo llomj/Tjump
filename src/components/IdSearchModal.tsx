@@ -5,7 +5,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useSound } from '../contexts/SoundContext';
 import { formatTranslation } from '../translations';
 import { getTranslatedDetailedExplanation } from '../data/detailedExplanationsTranslations';
-import { translateQuestionText } from '../utils/translateQuestion';
+import { translateQuestionText, translateOptions } from '../utils/translateQuestion';
 import { getTranslatedShortExplanation } from '../data/shortExplanationsTranslations';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -389,7 +389,10 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                   {showWhitespaceHints && (
                     <p className="text-[10px] text-slate-400 font-mono mb-2">{t('quiz.whitespaceHint')}</p>
                   )}
-                  {question.options.map((option, idx) => (
+                  {question.options.map((option, idx) => {
+                    const translatedOptions = translateOptions(question.options, language);
+                    const displayOption = translatedOptions[idx];
+                    return (
                     <div
                       key={idx}
                       className={`p-3 rounded-lg ${
@@ -404,14 +407,14 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                         )}
                         <span className="font-mono text-xs mr-2">{String.fromCharCode(65 + idx)}.</span>
                         <span className={`whitespace-pre-wrap break-words ${showWhitespaceHints ? 'font-mono' : ''}`}>
-                          {showWhitespaceHints ? visualizeWhitespace(option) : option}
+                          {showWhitespaceHints ? visualizeWhitespace(displayOption) : displayOption}
                         </span>
                         {idx === question.correct_option_index && (
                           <span className="ml-auto text-xs font-bold">{t('quiz.correct')}</span>
                         )}
                       </div>
                     </div>
-                  ))}
+                    );})}
                 </div>
 
                 <div className="pt-4 border-t border-white/10">
