@@ -1,7 +1,7 @@
 import { PersonaStage, LevelInfo, RandomModeStats } from './types';
 
 /** App version (sync with package.json when releasing). */
-export const APP_VERSION = '1.0.3';
+export const APP_VERSION = '1.0.4';
 
 export const XP_PER_QUESTION = 10;
 export const QUESTIONS_PER_SUBLEVEL = 100;

@@ -42,6 +42,25 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
   ].filter(Boolean) as Array<{ icon: string; label: string; onClick: () => void }>;
   rulesItems.sort((a, b) => a.label.localeCompare(b.label));
 
+  // Helper function to get translated persona name
+  const getPersonaName = (persona: string): string => {
+    const personaKeyMap: Record<string, string> = {
+      "Tadpole": 'tadpole',
+      "Plankton": 'plankton',
+      "Shrimp": 'shrimp',
+      "Crab": 'crab',
+      "Small Fish": 'smallFish',
+      "Octopus": 'octopus',
+      "Seal": 'seal',
+      "Dolphin": 'dolphin',
+      "Shark": 'shark',
+      "Whale": 'whale',
+      "God Whale": 'godWhale',
+    };
+    const key = personaKeyMap[persona];
+    return key ? t(`hub.personas.${key}` as any) : persona;
+  };
+
   const handleLevelSelect = (level: number) => {
     playCutSound();
     if (level <= highestUnlockedLevel) {
@@ -81,10 +100,10 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                 className={`
                   relative p-4 rounded-2xl border-2 transition-all
                   ${isCurrent
-                    ? 'bg-indigo-500/20 border-indigo-400 shadow-lg shadow-indigo-500/20'
+                    ? 'bg-indigo-500/40 border-indigo-400 shadow-lg shadow-indigo-500/40'
                     : isUnlocked
-                      ? 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 cursor-pointer'
-                      : 'bg-slate-800/50 border-slate-700/50 opacity-50 cursor-not-allowed'
+                      ? 'bg-white/15 border-white/20 hover:bg-white/25 hover:border-white/30 cursor-pointer'
+                      : 'bg-slate-800/80 border-slate-700/80 opacity-80 cursor-not-allowed'
                   }
                 `}
               >
@@ -119,7 +138,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                     </div>
                     <div className={`text-[10px] font-bold uppercase tracking-wider mt-1 ${isCurrent ? 'text-indigo-300' : isUnlocked ? 'text-slate-400' : 'text-slate-600'
                       }`}>
-                      {levelInfo.persona}
+                      {getPersonaName(levelInfo.persona)}
                     </div>
                   </div>
                 </div>

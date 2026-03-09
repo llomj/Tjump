@@ -723,7 +723,23 @@ const App: React.FC = () => {
         onToggleSound={() => setSoundEnabled(s => !s)}
         onToggleHaptic={() => setHapticEnabled(h => !h)}
         triggerHaptic={triggerHaptic}
-        onRefreshApp={() => window.location.reload()}
+        onRefreshApp={() => {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+              for(let reg of regs) {
+                reg.unregister();
+              }
+              if ('caches' in window) {
+                caches.keys().then(function(names) {
+                  for (let name of names) caches.delete(name);
+                });
+              }
+              window.location.replace(window.location.href.split('?')[0] + '?t=' + Date.now());
+            });
+          } else {
+            window.location.replace(window.location.href.split('?')[0] + '?t=' + Date.now());
+          }
+        }}
         onResetApp={() => setShowResetModal(true)}
       />
 
