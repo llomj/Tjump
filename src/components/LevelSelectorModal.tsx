@@ -100,10 +100,10 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                 className={`
                   relative p-4 rounded-2xl border-2 transition-all
                   ${isCurrent
-                    ? 'bg-indigo-500/40 border-indigo-400 shadow-lg shadow-indigo-500/40'
+                    ? 'bg-indigo-600 border-indigo-400 shadow-lg shadow-indigo-500/50'
                     : isUnlocked
-                      ? 'bg-white/15 border-white/20 hover:bg-white/25 hover:border-white/30 cursor-pointer'
-                      : 'bg-slate-800/80 border-slate-700/80 opacity-80 cursor-not-allowed'
+                      ? 'bg-slate-700 border-slate-500 hover:bg-slate-600 hover:border-slate-400 cursor-pointer'
+                      : 'bg-slate-800 border-slate-700 cursor-not-allowed opacity-90'
                   }
                 `}
               >
