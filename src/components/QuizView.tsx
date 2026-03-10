@@ -1063,6 +1063,13 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
         {isAnswered && (
           <div className="animate-in slide-in-from-bottom-4 duration-500 space-y-6 pt-4">
+            <button
+              onClick={() => { playCutSound(); handleNext(); }}
+              className="w-full py-5 bg-indigo-500 hover:bg-indigo-600 rounded-2xl font-black text-lg text-white transition-all transform active:scale-95 shadow-2xl shadow-indigo-500/30 flex items-center justify-center gap-3"
+            >
+              {currentIndex === questions.length - 1 ? t('quiz.finishEvolution') : t('hub.continueMutation')}
+              <i className="fas fa-arrow-right text-sm"></i>
+            </button>
             <div className="p-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20">
               {currentQuestion.detailedExplanation ? (
                 <button
@@ -1194,14 +1201,6 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 )}
               </div>
             </div>
-
-            <button
-              onClick={() => { playCutSound(); handleNext(); }}
-              className="w-full py-5 bg-indigo-500 hover:bg-indigo-600 rounded-2xl font-black text-lg text-white transition-all transform active:scale-95 shadow-2xl shadow-indigo-500/30 flex items-center justify-center gap-3"
-            >
-              {currentIndex === questions.length - 1 ? t('quiz.finishEvolution') : t('hub.continueMutation')}
-              <i className="fas fa-arrow-right text-sm"></i>
-            </button>
           </div>
         )}
       </div>

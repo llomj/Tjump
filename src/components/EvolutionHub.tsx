@@ -107,6 +107,38 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="glass rounded-3xl p-8 space-y-6 flex flex-col justify-between min-w-0 overflow-x-auto">
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <i className="fas fa-microchip text-indigo-400"></i> {t('hub.nextMutation')}
+            </h3>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-slate-900/50 rounded-2xl p-4 border border-white/5">
+                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">{t('hub.batchSize')}</div>
+                <div className="text-lg font-black text-white">15 {t('hub.questions')}</div>
+              </div>
+              <div className="bg-slate-900/50 rounded-2xl p-4 border border-white/5">
+                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">{t('hub.lastAccuracy')}</div>
+                <div className={`text-lg font-black ${lastAccuracy !== null ? 'text-amber-400' : 'text-slate-700'}`}>
+                  {lastAccuracy !== null ? `${lastAccuracy}%` : '---'}
+                </div>
+              </div>
+            </div>
+
+            <p className="text-slate-300 text-xs leading-relaxed">
+              {randomMode ? t('hub.randomModeAbsorbText') : `${t('hub.absorbText')} ${formatTranslation(t('hub.mutationsRemaining'), { count: QUESTIONS_PER_LEVEL - progress })}`}
+            </p>
+          </div>
+
+          <button
+            onClick={() => { playCutSound(); onStartQuiz(); }}
+            className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-black text-lg transition-all transform hover:scale-[1.02] active:scale-95 shadow-2xl shadow-indigo-500/40 flex items-center justify-center gap-3"
+          >
+            {t('hub.continueMutation')} <i className="fas fa-chevron-right text-sm"></i>
+          </button>
+        </div>
+
+        <div className="glass rounded-3xl p-8 space-y-6 flex flex-col justify-between min-w-0 overflow-x-auto">
           {randomMode ? (
             <>
               <div className="min-w-0">
@@ -214,38 +246,6 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
               </div>
             </>
           )}
-        </div>
-
-        <div className="glass rounded-3xl p-8 space-y-6 flex flex-col justify-between min-w-0 overflow-x-auto">
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <i className="fas fa-microchip text-indigo-400"></i> {t('hub.nextMutation')}
-            </h3>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-slate-900/50 rounded-2xl p-4 border border-white/5">
-                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">{t('hub.batchSize')}</div>
-                <div className="text-lg font-black text-white">15 {t('hub.questions')}</div>
-              </div>
-              <div className="bg-slate-900/50 rounded-2xl p-4 border border-white/5">
-                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">{t('hub.lastAccuracy')}</div>
-                <div className={`text-lg font-black ${lastAccuracy !== null ? 'text-amber-400' : 'text-slate-700'}`}>
-                  {lastAccuracy !== null ? `${lastAccuracy}%` : '---'}
-                </div>
-              </div>
-            </div>
-
-            <p className="text-slate-300 text-xs leading-relaxed">
-              {randomMode ? t('hub.randomModeAbsorbText') : `${t('hub.absorbText')} ${formatTranslation(t('hub.mutationsRemaining'), { count: QUESTIONS_PER_LEVEL - progress })}`}
-            </p>
-          </div>
-
-          <button
-            onClick={() => { playCutSound(); onStartQuiz(); }}
-            className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-black text-lg transition-all transform hover:scale-[1.02] active:scale-95 shadow-2xl shadow-indigo-500/40 flex items-center justify-center gap-3"
-          >
-            {t('hub.continueMutation')} <i className="fas fa-chevron-right text-sm"></i>
-          </button>
         </div>
       </div>
 
