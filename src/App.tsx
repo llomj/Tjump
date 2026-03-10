@@ -269,6 +269,7 @@ const playGodModeSound = (): void => {
 
 const SOUND_PREF_KEY = 'python_exercises_sound_v1';
 const HAPTIC_PREF_KEY = 'python_exercises_haptic_v1';
+const THEME_PREF_KEY = 'python_exercises_theme_v1';
 
 /** Short positive jingle when user selects the correct answer. */
 const playCorrectAnswerSound = (): void => {
@@ -402,6 +403,14 @@ const App: React.FC = () => {
       return true;
     }
   });
+  const [lightMode, setLightMode] = useState(() => {
+    try {
+      const v = localStorage.getItem(THEME_PREF_KEY);
+      return v === 'true';
+    } catch {
+      return false;
+    }
+  });
 
   const triggerHaptic = () => {
     if (!hapticEnabled || typeof navigator === 'undefined' || !navigator.vibrate) return;
@@ -478,6 +487,17 @@ const App: React.FC = () => {
       localStorage.setItem(HAPTIC_PREF_KEY, String(hapticEnabled));
     } catch (_) {}
   }, [hapticEnabled]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(THEME_PREF_KEY, String(lightMode));
+    } catch (_) {}
+  }, [lightMode]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.documentElement.setAttribute('data-theme', lightMode ? 'light' : 'dark');
+  }, [lightMode]);
 
   useEffect(() => {
     if (!soundEnabled) return;
@@ -750,8 +770,10 @@ const App: React.FC = () => {
         onToggleLanguage={toggleLanguage}
         soundEnabled={soundEnabled}
         hapticEnabled={hapticEnabled}
+        lightMode={lightMode}
         onToggleSound={() => setSoundEnabled(s => !s)}
         onToggleHaptic={() => setHapticEnabled(h => !h)}
+        onToggleLightMode={() => setLightMode(l => !l)}
         triggerHaptic={triggerHaptic}
         onRefreshApp={handleRefreshApp}
         onResetApp={() => setShowResetModal(true)}

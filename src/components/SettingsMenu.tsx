@@ -23,8 +23,10 @@ interface SettingsMenuProps {
   onToggleLanguage?: () => void;
   soundEnabled?: boolean;
   hapticEnabled?: boolean;
+  lightMode?: boolean;
   onToggleSound?: () => void;
   onToggleHaptic?: () => void;
+  onToggleLightMode?: () => void;
   triggerHaptic?: () => void;
   onRefreshApp?: () => void;
   onResetApp?: () => void;
@@ -48,8 +50,10 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onToggleLanguage,
   soundEnabled = true,
   hapticEnabled = true,
+  lightMode = false,
   onToggleSound,
   onToggleHaptic,
+  onToggleLightMode,
   triggerHaptic,
   onRefreshApp,
   onResetApp
@@ -236,8 +240,8 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
             )
           )}
 
-          {/* Settings section: wrapped under a single Settings icon (sound, haptic, refresh) */}
-          {(onToggleSound != null || onToggleHaptic != null || onRefreshApp) && (
+          {/* Settings section: wrapped under a single Settings icon (sound, haptic, theme, refresh) */}
+          {(onToggleSound != null || onToggleHaptic != null || onToggleLightMode != null || onRefreshApp) && (
             <>
               <div className="my-2 border-t border-white/10" />
               <button
@@ -250,7 +254,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               </button>
               {settingsExpanded && (
                 <>
-                  {(onToggleSound != null || onToggleHaptic != null) && (
+                  {(onToggleSound != null || onToggleHaptic != null || onToggleLightMode != null) && (
                     <>
                       <div className="flex items-center gap-3 px-4 py-2">
                         <i className="fas fa-volume-high text-sm w-5 flex-shrink-0 text-indigo-400"></i>
@@ -275,6 +279,20 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                           <span className="text-sm font-medium">{t('settings.hapticFeedback')}</span>
                           <span className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${hapticEnabled ? 'bg-indigo-500' : 'bg-slate-600'}`}>
                             <span className={`block w-5 h-5 mt-0.5 rounded-full bg-white shadow transition-transform ${hapticEnabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                          </span>
+                        </button>
+                      )}
+                      {onToggleLightMode != null && (
+                        <button
+                          onClick={withHaptic(onToggleLightMode)}
+                          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
+                        >
+                          <span className="flex items-center gap-3">
+                            <i className="fas fa-palette text-sm w-5 flex-shrink-0 text-indigo-400"></i>
+                            <span className="text-sm font-medium">{t('settings.theme')}</span>
+                          </span>
+                          <span className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${lightMode ? 'bg-indigo-500' : 'bg-slate-600'}`}>
+                            <span className={`block w-5 h-5 mt-0.5 rounded-full bg-white shadow transition-transform ${lightMode ? 'translate-x-5' : 'translate-x-0.5'}`} />
                           </span>
                         </button>
                       )}

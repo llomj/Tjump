@@ -3,6 +3,13 @@
 <head>
     <script>
       (function() {
+        // Set theme before paint to avoid flash (reads localStorage)
+        try {
+          var theme = localStorage.getItem('python_exercises_theme_v1') === 'true' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (_) {}
+      })();
+      (function() {
         // Force preview to always load latest: on localhost, unregister service worker
         // so cached old app (no stars, no random mode) is never served.
         if (typeof window === 'undefined' || window.location.hostname !== 'localhost') return;
@@ -82,6 +89,19 @@
                 max-width: 390px;
                 margin: 0 auto;
             }
+        }
+        /* Light mode: user can select via Settings → Theme toggle (on = light, off = dark) */
+        [data-theme="light"] body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        [data-theme="light"] .glass {
+            background: rgba(241, 245, 249, 0.95);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+        }
+        [data-theme="light"] .glass-settings {
+            background: rgba(241, 245, 249, 0.98);
+            border: 1px solid rgba(15, 23, 42, 0.1);
         }
     </style>
 </head>
