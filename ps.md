@@ -165,6 +165,19 @@ Before moving to the next level:
 
 ---
 
+## CRITICAL: Offline Support & PWA Setup
+
+**This app MUST work fully offline**. This is the highest priority feature.
+
+**The Fix Implemented**:
+The Vite build process hashes JS and CSS files (e.g. `index-HASH.js`), which breaks offline mode on first load if the files aren't pre-cached during the Service Worker install event.
+To solve this, `sw.js` now dynamically fetches `index.html` during the `install` event and uses regex to extract and cache all `/python-exercisesV1/assets/*.js` and `*.css` files immediately.
+
+**URGENT NOTE FOR ALL AGENTS: OFFLINE MODE MUST NEVER BREAK AGAIN.** 
+If you make ANY changes to caching, routing, or the build process, you must double-check that the service worker correctly pre-caches the Vite-hashed JS and CSS files. DO NOT break this offline functionality!
+
+---
+
 ## 🔴 iPhone PWA Settings Bar — WHY FIXES MAY STILL FAIL (ALL POSSIBLE PROBLEMS)
 
 **Symptom**: Settings bar too high / overlaps status bar when opened from Home Screen. Browser preview works.

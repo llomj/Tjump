@@ -50,3 +50,6 @@
 - **Build Process**: Ensure the build copies the correct `sw.js` to `dist/`.
 - **Testing**: Before pushing any changes, verify offline works by testing in browser with network disabled.
 - **PWA**: Ensure manifest.json is correct and the app can be installed as a PWA.
+
+**URGENT NOTE FOR ALL AGENTS: OFFLINE MODE MUST NEVER BREAK AGAIN.** 
+If you make ANY changes to caching, routing, or the build process, you must double-check that the service worker correctly pre-caches the Vite-hashed JS and CSS files. The `install` event in `sw.js` must fetch `index.html` and pre-cache all assets matched by regex so that the app works offline IMMEDIATELY upon first load. DO NOT break this offline functionality!

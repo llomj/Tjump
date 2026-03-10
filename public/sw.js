@@ -1,4 +1,4 @@
-const CACHE_NAME = 'python-exercises-learn-offline-v22';
+const CACHE_NAME = 'python-exercises-learn-offline-v23';
 
 const BASE_PATH = '/python-exercisesV1/';
 
@@ -33,6 +33,28 @@ self.addEventListener('install', (event) => {
         } catch (e) {
           console.log('CDN cache error:', url, e.message);
         }
+      }
+
+      // Dynamically fetch index.html and pre-cache its assets to ensure offline support works right after first load
+      try {
+        // Fetch the HTML to find which hashed JS/CSS files to pre-cache
+        const response = await fetch(BASE_PATH + 'index.html?t=' + new Date().getTime());
+        if (response.ok) {
+          const html = await response.text();
+          // Find all src="..." and href="..." for assets
+          const assetRegex = /(?:src|href)="(\/python-exercisesV1\/assets\/[^"]+\.(?:js|css))"/g;
+          let match;
+          while ((match = assetRegex.exec(html)) !== null) {
+            try {
+              await cache.add(match[1]);
+              console.log('Dynamically pre-cached asset:', match[1]);
+            } catch (e) {
+              console.log('Failed to pre-cache asset:', match[1], e.message);
+            }
+          }
+        }
+      } catch (e) {
+        console.log('Dynamic index.html pre-cache error:', e.message);
       }
     })()
   );
