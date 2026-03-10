@@ -311,7 +311,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
                 <p className="text-slate-400 leading-relaxed text-xs">
                   {t(`levels.level${currentLevelInfo.level}` as any)}
                 </p>
-                <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="mt-6 flex flex-wrap gap-2">
                   {currentLevelInfo.concepts.map(c => (
                     <button
                       key={c}
@@ -321,11 +321,9 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
                         const detail = getConceptDetail(c);
                         setSelectedConcept(detail);
                       }}
-                      className="glass rounded-2xl px-3 py-3 text-left border border-indigo-500/30 bg-slate-900/70 hover:bg-slate-900 active:scale-[0.98] transition-all cursor-pointer flex items-center min-h-[56px]"
+                      className="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[9px] font-mono border border-indigo-500/20 hover:bg-indigo-500/20 active:scale-[0.98] transition-all cursor-pointer"
                     >
-                      <span className="text-xs sm:text-sm font-mono text-indigo-50">
-                        {c}
-                      </span>
+                      {c}
                     </button>
                   ))}
                 </div>
