@@ -381,6 +381,8 @@ const App: React.FC = () => {
   const [showIdLog, setShowIdLog] = useState(false);
   const [showLevelSelector, setShowLevelSelector] = useState(false);
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [showTopLogMenu, setShowTopLogMenu] = useState(false);
+  const [showTopSettingsMenu, setShowTopSettingsMenu] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
   const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
   const [openSettingsOnBack, setOpenSettingsOnBack] = useState(false);
@@ -407,6 +409,24 @@ const App: React.FC = () => {
     try {
       navigator.vibrate(10);
     } catch (_) {}
+  };
+
+  const handleRefreshApp = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        for (let reg of regs) {
+          reg.unregister();
+        }
+        if ('caches' in window) {
+          caches.keys().then(function (names) {
+            for (let name of names) caches.delete(name);
+          });
+        }
+        window.location.href = window.location.pathname + '?t=' + Date.now();
+      });
+    } else {
+      window.location.href = window.location.pathname + '?t=' + Date.now();
+    }
   };
 
   const toggleLanguage = () => {
@@ -681,12 +701,140 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          <div
-            className="ml-auto flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10"
-            title="Answer Count"
-          >
-            <i className="fas fa-hashtag text-slate-400 text-sm"></i>
-            <span className="text-sm font-bold text-slate-200">{(stats.totalAttempts ?? stats.history.length).toLocaleString()}</span>
+          <div className="ml-auto flex items-center gap-3">
+            <div className="relative">
+              <button
+                onClick={() => {
+                  playCutSoundIfEnabled();
+                  setShowTopLogMenu(open => !open);
+                  setShowTopSettingsMenu(false);
+                }}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all"
+                title={t('history.learningLog')}
+              >
+                <i className="fas fa-book-open text-sm"></i>
+              </button>
+              {showTopLogMenu && (
+                <div className="absolute right-0 mt-2 min-w-[220px] glass rounded-2xl p-2 shadow-2xl border border-white/10 z-50">
+                  <button
+                    onClick={() => {
+                      playCutSoundIfEnabled();
+                      setShowIdSearch(true);
+                      setShowTopLogMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-slate-300 hover:bg-white/10 hover:text-white transition-all text-left"
+                  >
+                    <i className="fas fa-hashtag text-xs w-4 flex-shrink-0"></i>
+                    <span>{t('settings.searchById')}</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      playCutSoundIfEnabled();
+                      setShowIdLog(true);
+                      setShowTopLogMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-slate-300 hover:bg-white/10 hover:text-white transition-all text-left"
+                  >
+                    <i className="fas fa-list text-xs w-4 flex-shrink-0"></i>
+                    <span>{t('settings.idLog')}</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      playCutSoundIfEnabled();
+                      setView('log');
+                      setShowTopLogMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-slate-300 hover:bg-white/10 hover:text-white transition-all text-left"
+                  >
+                    <i className="fas fa-book-open text-xs w-4 flex-shrink-0"></i>
+                    <span>{t('app.learningLog')}</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center gap-1">
+              <button
+                onClick={() => {
+                  playCutSoundIfEnabled();
+                  toggleLanguage();
+                  setShowTopSettingsMenu(false);
+                }}
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all text-xs font-bold"
+                title={language === 'en' ? 'Français' : 'English'}
+              >
+                {language === 'en' ? 'EN' : 'FR'}
+              </button>
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    playCutSoundIfEnabled();
+                    setShowTopSettingsMenu(open => !open);
+                    setShowTopLogMenu(false);
+                  }}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all"
+                  title={t('settings.settings')}
+                >
+                  <i className="fas fa-gear text-xs"></i>
+                </button>
+                {showTopSettingsMenu && (
+                  <div className="absolute right-0 mt-2 min-w-[220px] glass-settings rounded-2xl p-2 shadow-2xl border border-white/10 z-50">
+                    <div className="flex items-center gap-3 px-4 py-2">
+                      <i className="fas fa-volume-high text-sm w-5 flex-shrink-0 text-indigo-400"></i>
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        {t('settings.soundSection')}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        triggerHaptic();
+                        setSoundEnabled(s => !s);
+                      }}
+                      className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
+                    >
+                      <span className="text-sm font-medium">{t('settings.soundEffects')}</span>
+                      <span className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${soundEnabled ? 'bg-indigo-500' : 'bg-slate-600'}`}>
+                        <span className={`block w-5 h-5 mt-0.5 rounded-full bg-white shadow transition-transform ${soundEnabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        triggerHaptic();
+                        setHapticEnabled(h => !h);
+                      }}
+                      className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
+                    >
+                      <span className="text-sm font-medium">{t('settings.hapticFeedback')}</span>
+                      <span className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${hapticEnabled ? 'bg-indigo-500' : 'bg-slate-600'}`}>
+                        <span className={`block w-5 h-5 mt-0.5 rounded-full bg-white shadow transition-transform ${hapticEnabled ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                      </span>
+                    </button>
+                    <div className="my-2 border-t border-white/10" />
+                    <button
+                      onClick={() => {
+                        triggerHaptic();
+                        handleRefreshApp();
+                        setShowTopSettingsMenu(false);
+                      }}
+                      className="w-full flex flex-col items-start gap-0.5 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
+                    >
+                      <span className="flex items-center gap-3 w-full">
+                        <i className="fas fa-arrows-rotate text-sm w-5 flex-shrink-0"></i>
+                        <span className="text-sm font-medium">{t('settings.refreshApp')}</span>
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10"
+              title="Answer Count"
+            >
+              <i className="fas fa-hashtag text-slate-400 text-sm"></i>
+              <span className="text-sm font-bold text-slate-200">{(stats.totalAttempts ?? stats.history.length).toLocaleString()}</span>
+            </div>
           </div>
         </div>
 
@@ -723,23 +871,7 @@ const App: React.FC = () => {
         onToggleSound={() => setSoundEnabled(s => !s)}
         onToggleHaptic={() => setHapticEnabled(h => !h)}
         triggerHaptic={triggerHaptic}
-        onRefreshApp={() => {
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(regs) {
-              for(let reg of regs) {
-                reg.unregister();
-              }
-              if ('caches' in window) {
-                caches.keys().then(function(names) {
-                  for (let name of names) caches.delete(name);
-                });
-              }
-              window.location.href = window.location.pathname + '?t=' + Date.now();
-            });
-          } else {
-            window.location.href = window.location.pathname + '?t=' + Date.now();
-          }
-        }}
+        onRefreshApp={handleRefreshApp}
         onResetApp={() => setShowResetModal(true)}
       />
 
