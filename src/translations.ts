@@ -247,6 +247,22 @@ export const translations = {
       confirmYes: "Yes, Reset Everything",
     },
     
+    // Gameplay info (how the game works)
+    gameplayInfo: {
+      title: "How the game works",
+      levelsTitle: "Levels",
+      levelsBody: "There are 11 levels (0–10). Level 0 is Tadpole for complete beginners. Each level has 300 questions. You unlock the next level by answering questions; progress is saved. You can change level from Settings → Select Level.",
+      randomTitle: "Random mode",
+      randomBody: "In Settings you can switch to Random Mode. Questions are drawn from all 3300 questions. You earn separate XP and stars for Random Mode. Evolution uses the same 10 personas (Tadpole → God Whale) but with different score thresholds.",
+      pointsTitle: "Points (XP)",
+      pointsBody: "You earn 10 XP per correct answer. In Level Mode, XP is shown in the nav and used for your evolution stage. In Random Mode, a separate XP total is used. Both modes track progress independently.",
+      starsTitle: "Stars",
+      starsBody: "Level mode: each level has 0–5 stars based on your accuracy on that level (correct answers out of 300). 1★ ≥10%, 2★ ≥30%, 3★ ≥50%, 4★ ≥70%, 5★ ≥90%. Random mode: stars are based on % of the full 3300-question set answered correctly (harder). 5 stars in Random = God Mode.",
+      countTitle: "Answer count",
+      countBody: "The number next to the # icon is your total number of questions answered (across all levels and sessions). It does not reset.",
+      close: "Got it",
+    },
+    
     // Level Selector
     levelSelector: {
       selectLevel: "Select Level",
@@ -561,6 +577,22 @@ export const translations = {
       confirm: "Tout Réinitialiser",
       confirmSure: "Êtes-vous sûr de vouloir tout réinitialiser à zéro ?",
       confirmYes: "Oui, Tout Réinitialiser",
+    },
+    
+    // Gameplay info (how the game works)
+    gameplayInfo: {
+      title: "Comment fonctionne le jeu",
+      levelsTitle: "Niveaux",
+      levelsBody: "Il y a 11 niveaux (0–10). Le niveau 0 est Têtard pour les débutants. Chaque niveau a 300 questions. Vous débloquez le niveau suivant en répondant ; la progression est sauvegardée. Vous pouvez changer de niveau dans Paramètres → Sélectionner le niveau.",
+      randomTitle: "Mode aléatoire",
+      randomBody: "Dans Paramètres vous pouvez activer le Mode Aléatoire. Les questions sont tirées parmi les 3300 questions. Vous gagnez des XP et des étoiles séparés pour le Mode Aléatoire. L'évolution utilise les mêmes 10 personas (Têtard → Baleine Divine) avec des seuils de score différents.",
+      pointsTitle: "Points (XP)",
+      pointsBody: "Vous gagnez 10 XP par bonne réponse. En Mode Niveau, les XP s'affichent dans la barre et servent à votre stade d'évolution. En Mode Aléatoire, un total d'XP séparé est utilisé. Les deux modes enregistrent la progression indépendamment.",
+      starsTitle: "Étoiles",
+      starsBody: "Mode niveau : chaque niveau a 0–5 étoiles selon votre précision sur ce niveau (bonnes réponses sur 300). 1★ ≥10 %, 2★ ≥30 %, 3★ ≥50 %, 4★ ≥70 %, 5★ ≥90 %. Mode aléatoire : les étoiles sont basées sur le % des 3300 questions répondues correctement (plus difficile). 5 étoiles en Aléatoire = Mode Dieu.",
+      countTitle: "Nombre de réponses",
+      countBody: "Le chiffre à côté de l'icône # est le nombre total de questions auxquelles vous avez répondu (tous niveaux et sessions). Il ne se réinitialise pas.",
+      close: "Compris",
     },
     
     // Level Selector
