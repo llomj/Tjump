@@ -961,7 +961,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
         </div>
 
         <div className="space-y-4 pt-8">
-          <div className="max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
+          <div className="question-logic-panel max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
             {(() => {
               const { prefix, code } = splitQuestion(currentQuestion.question, language, currentQuestion.id);
               // If we detected code, show prefix at top and code below
