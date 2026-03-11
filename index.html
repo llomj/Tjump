@@ -5,7 +5,11 @@
       (function() {
         // Set theme before paint to avoid flash (reads localStorage)
         try {
-          var theme = localStorage.getItem('python_exercises_theme_v1') === 'true' ? 'light' : 'dark';
+          var raw = localStorage.getItem('python_exercises_theme_v1');
+          // Migration: old boolean storage ("true" = light)
+          if (raw === 'true') raw = 'light';
+          var allowed = { 'default': 1, 'light': 1, 'blue': 1, 'orange': 1, 'green': 1, 'magenta': 1 };
+          var theme = allowed[raw] ? raw : 'default';
           document.documentElement.setAttribute('data-theme', theme);
         } catch (_) {}
       })();
@@ -90,7 +94,7 @@
                 margin: 0 auto;
             }
         }
-        /* Light mode: user can select via Settings → Theme toggle (on = light, off = dark) */
+        /* Light mode: user can select via Settings → Theme (White mode) */
         [data-theme="light"] body {
             background-color: #f8fafc;
             color: #0f172a;
@@ -128,6 +132,17 @@
         [data-theme="light"] .question-logic-panel h2 {
             color: #f8fafc !important;
         }
+
+        /* Color themes (keep readable, dark UI with a colored background tint) */
+        [data-theme="blue"] body { background-color: #0b1220; color: #f8fafc; }
+        [data-theme="orange"] body { background-color: #1a0f0a; color: #f8fafc; }
+        [data-theme="green"] body { background-color: #07140d; color: #f8fafc; }
+        [data-theme="magenta"] body { background-color: #140714; color: #f8fafc; }
+
+        [data-theme="blue"] .glass { background: rgba(15, 23, 42, 0.88); border-color: rgba(59, 130, 246, 0.18); }
+        [data-theme="orange"] .glass { background: rgba(30, 41, 59, 0.82); border-color: rgba(249, 115, 22, 0.18); }
+        [data-theme="green"] .glass { background: rgba(15, 23, 42, 0.86); border-color: rgba(16, 185, 129, 0.18); }
+        [data-theme="magenta"] .glass { background: rgba(15, 23, 42, 0.86); border-color: rgba(255, 0, 255, 0.2); }
     </style>
 </head>
 <body>

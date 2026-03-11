@@ -23,10 +23,10 @@ interface SettingsMenuProps {
   onToggleLanguage?: () => void;
   soundEnabled?: boolean;
   hapticEnabled?: boolean;
-  lightMode?: boolean;
+  theme?: 'default' | 'light' | 'blue' | 'orange' | 'green' | 'magenta';
   onToggleSound?: () => void;
   onToggleHaptic?: () => void;
-  onToggleLightMode?: () => void;
+  onSetTheme?: (theme: 'default' | 'light' | 'blue' | 'orange' | 'green' | 'magenta') => void;
   triggerHaptic?: () => void;
   onRefreshApp?: () => void;
   onResetApp?: () => void;
@@ -50,10 +50,10 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onToggleLanguage,
   soundEnabled = true,
   hapticEnabled = true,
-  lightMode = false,
+  theme = 'default',
   onToggleSound,
   onToggleHaptic,
-  onToggleLightMode,
+  onSetTheme,
   triggerHaptic,
   onRefreshApp,
   onResetApp
@@ -78,6 +78,15 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   };
 
   if (!isOpen) return null;
+
+  const themeOptions: Array<{ key: 'default' | 'light' | 'blue' | 'orange' | 'green' | 'magenta'; label: string; dotClass: string }> = [
+    { key: 'default', label: t('settings.themeDefault'), dotClass: 'bg-slate-800' },
+    { key: 'light', label: t('settings.themeWhite'), dotClass: 'bg-slate-100' },
+    { key: 'blue', label: t('settings.themeBlue'), dotClass: 'bg-blue-500' },
+    { key: 'orange', label: t('settings.themeOrange'), dotClass: 'bg-orange-500' },
+    { key: 'green', label: t('settings.themeGreen'), dotClass: 'bg-emerald-500' },
+    { key: 'magenta', label: t('settings.themeMagenta'), dotClass: 'bg-fuchsia-500' }
+  ];
 
   const menuItems: Array<{
     icon: string;
@@ -241,7 +250,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
           )}
 
           {/* Settings section: wrapped under a single Settings icon (sound, haptic, theme, refresh) */}
-          {(onToggleSound != null || onToggleHaptic != null || onToggleLightMode != null || onRefreshApp) && (
+          {(onToggleSound != null || onToggleHaptic != null || onSetTheme != null || onRefreshApp) && (
             <>
               <div className="my-2 border-t border-white/10" />
               <button
@@ -254,7 +263,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
               </button>
               {settingsExpanded && (
                 <>
-                  {(onToggleSound != null || onToggleHaptic != null || onToggleLightMode != null) && (
+                  {(onToggleSound != null || onToggleHaptic != null || onSetTheme != null) && (
                     <>
                       <div className="flex items-center gap-3 px-4 py-2">
                         <i className="fas fa-volume-high text-sm w-5 flex-shrink-0 text-indigo-400"></i>
@@ -282,19 +291,33 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
                           </span>
                         </button>
                       )}
-                      {onToggleLightMode != null && (
-                        <button
-                          onClick={withHaptic(onToggleLightMode)}
-                          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all text-left text-slate-300 hover:bg-white/10 hover:text-white"
-                        >
-                          <span className="flex items-center gap-3">
+                      {onSetTheme != null && (
+                        <div className="pt-1">
+                          <div className="flex items-center gap-3 px-4 py-2">
                             <i className="fas fa-palette text-sm w-5 flex-shrink-0 text-indigo-400"></i>
-                            <span className="text-sm font-medium">{t('settings.theme')}</span>
-                          </span>
-                          <span className={`w-10 h-6 rounded-full transition-colors flex-shrink-0 ${lightMode ? 'bg-indigo-500' : 'bg-slate-600'}`}>
-                            <span className={`block w-5 h-5 mt-0.5 rounded-full bg-white shadow transition-transform ${lightMode ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                          </span>
-                        </button>
+                            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t('settings.theme')}</span>
+                          </div>
+                          <div className="px-2 pb-1">
+                            {themeOptions.map(opt => {
+                              const isSelected = theme === opt.key;
+                              return (
+                                <button
+                                  key={opt.key}
+                                  onClick={withHaptic(() => onSetTheme(opt.key))}
+                                  className={`w-full flex items-center justify-between gap-3 px-2 py-2 rounded-xl transition-all text-left ${
+                                    isSelected ? 'bg-indigo-500/20 text-white' : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                                  }`}
+                                >
+                                  <span className="flex items-center gap-3">
+                                    <span className={`w-3.5 h-3.5 rounded-full border border-white/10 ${opt.dotClass}`} />
+                                    <span className="text-sm font-medium">{opt.label}</span>
+                                  </span>
+                                  {isSelected && <i className="fas fa-check text-xs text-indigo-300" />}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
                       )}
                     </>
                   )}

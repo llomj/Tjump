@@ -271,6 +271,11 @@ const SOUND_PREF_KEY = 'python_exercises_sound_v1';
 const HAPTIC_PREF_KEY = 'python_exercises_haptic_v1';
 const THEME_PREF_KEY = 'python_exercises_theme_v1';
 
+type AppTheme = 'default' | 'light' | 'blue' | 'orange' | 'green' | 'magenta';
+
+const isAppTheme = (v: unknown): v is AppTheme =>
+  v === 'default' || v === 'light' || v === 'blue' || v === 'orange' || v === 'green' || v === 'magenta';
+
 /** Short positive jingle when user selects the correct answer. */
 const playCorrectAnswerSound = (): void => {
   if (typeof window === 'undefined') return;
@@ -403,12 +408,15 @@ const App: React.FC = () => {
       return true;
     }
   });
-  const [lightMode, setLightMode] = useState(() => {
+  const [theme, setTheme] = useState<AppTheme>(() => {
     try {
       const v = localStorage.getItem(THEME_PREF_KEY);
-      return v === 'true';
+      if (isAppTheme(v)) return v;
+      // Migration from old boolean storage ("true" = light, anything else = default)
+      if (v === 'true') return 'light';
+      return 'default';
     } catch {
-      return false;
+      return 'default';
     }
   });
 
@@ -490,14 +498,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     try {
-      localStorage.setItem(THEME_PREF_KEY, String(lightMode));
+      localStorage.setItem(THEME_PREF_KEY, theme);
     } catch (_) {}
-  }, [lightMode]);
+  }, [theme]);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
-    document.documentElement.setAttribute('data-theme', lightMode ? 'light' : 'dark');
-  }, [lightMode]);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     if (!soundEnabled) return;
@@ -770,10 +778,10 @@ const App: React.FC = () => {
         onToggleLanguage={toggleLanguage}
         soundEnabled={soundEnabled}
         hapticEnabled={hapticEnabled}
-        lightMode={lightMode}
+        theme={theme}
         onToggleSound={() => setSoundEnabled(s => !s)}
         onToggleHaptic={() => setHapticEnabled(h => !h)}
-        onToggleLightMode={() => setLightMode(l => !l)}
+        onSetTheme={(nextTheme) => setTheme(nextTheme)}
         triggerHaptic={triggerHaptic}
         onRefreshApp={handleRefreshApp}
         onResetApp={() => setShowResetModal(true)}
