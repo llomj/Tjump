@@ -9,10 +9,15 @@ import { LevelSelectorModal } from './components/LevelSelectorModal';
 import { MethodsView } from './components/MethodsView';
 import { FlowView } from './components/FlowView';
 import { UserStats, PersonaStage, QuestionAttempt } from './types';
-import { EvolutionHub } from './components/EvolutionHub';
 import { FallingStars } from './components/FallingStars';
 import { PersonaIcon } from './components/PersonaIcon';
 import { SettingsMenu } from './components/SettingsMenu';
+import { HomeView } from './components/HomeView';
+import { MindMapView } from './components/MindMapView';
+import { SectionListView } from './components/SectionListView';
+import { MarkdownDetailView } from './components/MarkdownDetailView';
+import { MIND_MAP_ROOT, getSectionItems, getSectionItemById } from './data/philosophyData';
+import type { SectionKind } from './data/philosophyData';
 import { IdLogEntry } from './types';
 import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL, getStarsForLevel, getStarsFromAccuracyRandom, getRandomModeScore, getPersonaFromRandomScore } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
@@ -366,7 +371,9 @@ const ViewLoading: React.FC = () => (
 const App: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const [stats, setStats] = useState<UserStats>(INITIAL_STATS);
-  const [view, setView] = useState<'hub' | 'quiz' | 'log' | 'glossary' | 'methods' | 'flow'>('hub');
+  const [view, setView] = useState<'hub' | 'quiz' | 'log' | 'glossary' | 'methods' | 'flow' | 'philosophyMindMap' | 'philosophySection' | 'philosophyDetail'>('hub');
+  const [philosophySectionKind, setPhilosophySectionKind] = useState<SectionKind>('epistemology');
+  const [philosophyDetail, setPhilosophyDetail] = useState<{ title: string; markdown: string; backView: 'philosophySection' | 'philosophyMindMap' } | null>(null);
   const [showResult, setShowResult] = useState<{
     score: number;
     total: number;
@@ -525,6 +532,7 @@ const App: React.FC = () => {
     ? getPersonaFromRandomScore(getRandomModeScore(stats.randomModeStats))
     : currentLevelInfo.persona;
   const currentProgress = stats.levelProgress[stats.currentLevel] || 0;
+  const isTadpolePersona = currentPersona === PersonaStage.TADPOLE;
 
   const handleStartEvolution = () => {
     setView('quiz');
@@ -712,11 +720,19 @@ const App: React.FC = () => {
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-3 bg-white/5 px-3 py-1.5 rounded-2xl border border-white/10">
               <div className="w-8 h-8 rounded-full evolution-gradient flex items-center justify-center text-white">
-                <PersonaIcon persona={currentPersona} size="sm" />
+                {isTadpolePersona ? (
+                  <i className="fas fa-brain text-sm"></i>
+                ) : (
+                  <PersonaIcon persona={currentPersona} size="sm" />
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">{t('app.rank')}</span>
-                <span className="text-sm font-bold text-slate-200 leading-tight">{currentPersona}</span>
+                <span className="text-sm font-bold text-slate-200 leading-tight">
+                  {isTadpolePersona
+                    ? (language === 'fr' ? 'Philosophe' : 'Philosopher')
+                    : currentPersona}
+                </span>
               </div>
             </div>
 
@@ -833,6 +849,48 @@ const App: React.FC = () => {
           <Suspense fallback={<ViewLoading />}>
             <FlowView onBack={() => { setView('hub'); if (openSettingsOnBack) { setShowSettingsMenu(true); setOpenSettingsOnBack(false); } }} />
           </Suspense>
+        ) : view === 'philosophyMindMap' ? (
+          <Suspense fallback={<ViewLoading />}>
+            <MindMapView
+              root={MIND_MAP_ROOT}
+              onBack={() => setView('hub')}
+              onSelectNode={(node) => {
+                const item = getSectionItemById(node.id);
+                if (item?.markdown) {
+                  setPhilosophyDetail({
+                    title: item.title,
+                    markdown: item.markdown,
+                    backView: 'philosophyMindMap',
+                  });
+                  setView('philosophyDetail');
+                }
+              }}
+            />
+          </Suspense>
+        ) : view === 'philosophySection' ? (
+          <Suspense fallback={<ViewLoading />}>
+            <SectionListView
+              kind={philosophySectionKind}
+              items={getSectionItems(philosophySectionKind)}
+              onBack={() => setView('hub')}
+              onSelectItem={(item) => {
+                setPhilosophyDetail({
+                  title: item.title,
+                  markdown: item.markdown ?? `# ${item.title}\n\nNo content yet. Connect \`content/\` or add markdown to the section item.`,
+                  backView: 'philosophySection',
+                });
+                setView('philosophyDetail');
+              }}
+            />
+          </Suspense>
+        ) : view === 'philosophyDetail' && philosophyDetail ? (
+          <Suspense fallback={<ViewLoading />}>
+            <MarkdownDetailView
+              title={philosophyDetail.title}
+              markdown={philosophyDetail.markdown}
+              onBack={() => { if (philosophyDetail) { const back = philosophyDetail.backView; setPhilosophyDetail(null); setView(back); } }}
+            />
+          </Suspense>
         ) : showResult ? (
           <div className="max-w-md mx-auto p-10 glass rounded-3xl text-center space-y-6 animate-in zoom-in duration-500 shadow-2xl relative overflow-hidden">
             {showResult.starEarned && (
@@ -907,10 +965,17 @@ const App: React.FC = () => {
             </button>
           </div>
         ) : (
-          <EvolutionHub
-            stats={stats}
-            onStartQuiz={handleStartEvolution}
-          />
+          /* Hub: always show Philosophy Explorer (HomeView). EvolutionHub removed from main flow. */
+          <Suspense fallback={<ViewLoading />}>
+            <HomeView
+              currentPersona={currentPersona}
+              onOpenEpistemology={() => { setPhilosophySectionKind('epistemology'); setView('philosophySection'); }}
+              onOpenArguments={() => { setPhilosophySectionKind('arguments'); setView('philosophySection'); }}
+              onOpenDebates={() => { setPhilosophySectionKind('debates'); setView('philosophySection'); }}
+              onOpenMindMap={() => setView('philosophyMindMap')}
+              onOpenEvaluations={() => { setPhilosophySectionKind('evaluations'); setView('philosophySection'); }}
+            />
+          </Suspense>
         )}
       </main>
 
