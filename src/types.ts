@@ -86,3 +86,149 @@ export interface LevelInfo {
   description: string;
   color: string;
 }
+
+// --- TJump Philosophy Explorer content types ---
+
+export type PhilosophyTopic =
+  | 'epistemology'
+  | 'metaphysics'
+  | 'ethics'
+  | 'logic'
+  | 'arguments'
+  | 'debate_methods'
+  | 'humor_style'
+  | 'other';
+
+export type ArgumentType =
+  | 'cosmological'
+  | 'teleological'
+  | 'moral'
+  | 'epistemic'
+  | 'metaphysical'
+  | 'pragmatic'
+  | 'other';
+
+export type DebateMode =
+  | 'deductive'
+  | 'inductive'
+  | 'abductive'
+  | 'bayesian'
+  | 'probabilistic_reasoning'
+  | 'socratic'
+  | 'other';
+
+export type ToneTag =
+  | 'serious'
+  | 'sarcastic'
+  | 'playful'
+  | 'dry'
+  | 'neutral';
+
+export type MethodologyTag =
+  | 'bayesian_analysis'
+  | 'thought_experiment'
+  | 'intuition_pump'
+  | 'model_comparison'
+  | 'conceptual_analysis'
+  | 'other';
+
+export interface PhilosophyTags {
+  topic: PhilosophyTopic;
+  argument_type?: ArgumentType;
+  debate_mode?: DebateMode;
+  tone?: ToneTag;
+  methodology?: MethodologyTag;
+  source_video_id?: string;
+  source_video_title?: string;
+  year?: number;
+}
+
+export interface TranscriptSegment {
+  timestamp: string; // "HH:MM:SS"
+  text: string;
+  context?: string;
+}
+
+export interface TranscriptEntry {
+  id: string;
+  videoTitle: string;
+  topic: PhilosophyTopic;
+  description?: string;
+  segments: TranscriptSegment[];
+  tags: PhilosophyTags;
+}
+
+export interface ConceptPage {
+  id: string;
+  title: string;
+  topic: PhilosophyTopic;
+  summary: string;
+  tjumpPosition: string;
+  transcriptExamples?: Array<{
+    transcriptId: string;
+    timestamp: string;
+    excerpt: string;
+  }>;
+  relatedArguments?: string[]; // argument IDs
+  relatedConcepts?: string[]; // concept IDs
+  tags: PhilosophyTags;
+}
+
+export interface ArgumentPremiseStructure {
+  premises: string[];
+  conclusion: string;
+}
+
+export interface ArgumentPage {
+  id: string;
+  title: string;
+  opponentClaim: string;
+  premiseStructure: ArgumentPremiseStructure;
+  tjumpResponse: string;
+  counterArguments: string[];
+  tags: PhilosophyTags;
+}
+
+export interface LogicalEvaluationScores {
+  logicalValidity: number; // 0-10
+  soundness: number; // 0-10
+  coherence: number; // 0-10
+  evidenceStrength: number; // 0-10
+  debateStrength: number; // 0-10
+  rhetoricalClarity: number; // 0-10
+}
+
+export interface LogicalEvaluation {
+  argumentId: string;
+  summaryVerdict: string;
+  scores: LogicalEvaluationScores;
+  notes?: {
+    validity?: string;
+    soundness?: string;
+    coherence?: string;
+    evidenceStrength?: string;
+    debateStrength?: string;
+    rhetoricalClarity?: string;
+  };
+}
+
+export interface FallacyFlag {
+  name: string;
+  present: boolean;
+  notes?: string;
+}
+
+export interface FallacyAnalysis {
+  argumentId: string;
+  fallacies: FallacyFlag[];
+  overallComment?: string;
+}
+
+export interface MindMapNode {
+  id: string;
+  name: string;
+  file?: string; // relative path to markdown file
+  tags?: PhilosophyTags;
+  children?: MindMapNode[];
+}
+
