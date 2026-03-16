@@ -92,6 +92,8 @@ export const MindMapView: React.FC<MindMapViewProps> = ({ root, onBack, onSelect
   const [activePointers, setActivePointers] = useState<Map<number, { x: number; y: number }>>(new Map());
   const [pinchInitialDistance, setPinchInitialDistance] = useState<number | null>(null);
   const [pinchInitialScale, setPinchInitialScale] = useState<number | null>(null);
+  const [touchPinchDistance, setTouchPinchDistance] = useState<number | null>(null);
+  const [touchPinchScale, setTouchPinchScale] = useState<number | null>(null);
 
   const layout = useMemo(() => useLayout(root, expanded), [root, expanded]);
   const edges = useMemo(() => getEdges(root, expanded, layout), [root, expanded, layout]);
@@ -206,6 +208,55 @@ export const MindMapView: React.FC<MindMapViewProps> = ({ root, onBack, onSelect
     setPinchInitialScale(null);
   }, []);
 
+  // Fallback for environments (notably some iOS PWA cases) where pointer events
+  // don’t deliver reliable multi-touch; use touch events explicitly.
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const [t1, t2] = [e.touches[0], e.touches[1]];
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        const dist = Math.hypot(dx, dy) || 1;
+        setTouchPinchDistance(dist);
+        setTouchPinchScale(scale);
+      } else if (e.touches.length === 1 && !touchPinchDistance) {
+        // Single-finger pan when not in a pinch gesture
+        const t = e.touches[0];
+        setIsDragging(true);
+        setDragStart({ x: t.clientX - pan.x, y: t.clientY - pan.y });
+      }
+    },
+    [pan.x, pan.y, scale, touchPinchDistance]
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (e.touches.length === 2 && touchPinchDistance && touchPinchScale) {
+        e.preventDefault();
+        const [t1, t2] = [e.touches[0], e.touches[1]];
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        const dist = Math.hypot(dx, dy) || 1;
+        const factor = dist / touchPinchDistance;
+        const nextScale = Math.min(3, Math.max(0.3, touchPinchScale * factor));
+        setScale(nextScale);
+      } else if (e.touches.length === 1 && isDragging && !touchPinchDistance) {
+        const t = e.touches[0];
+        setPan({ x: t.clientX - dragStart.x, y: t.clientY - dragStart.y });
+      }
+    },
+    [dragStart.x, dragStart.y, isDragging, touchPinchDistance, touchPinchScale]
+  );
+
+  const handleTouchEnd = useCallback(() => {
+    if (!touchPinchDistance) {
+      setIsDragging(false);
+    }
+    setTouchPinchDistance(null);
+    setTouchPinchScale(null);
+  }, [touchPinchDistance]);
+
   const resetView = useCallback(() => {
     setPan({ x: 0, y: 0 });
     setScale(1);
@@ -295,6 +346,9 @@ export const MindMapView: React.FC<MindMapViewProps> = ({ root, onBack, onSelect
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         style={{ touchAction: 'none' }}
       >
         <svg

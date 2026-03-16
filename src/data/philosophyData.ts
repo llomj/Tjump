@@ -325,6 +325,12 @@ Objective morality grounded in nature rather than in divine command. BAPW = stat
 ## TJump Position
 Morality is an objective law of nature based on "least involuntary imposition of will." Best of All Possible Worlds: choice and consent are highest moral values; morality is descriptive law ("is"), not prescriptive ("ought"). Applications: creating beings without consent = immoral; God drowning babies = definitively immoral. Moral progress shows objective patterns.
 
+## Transcript Examples
+
+- **Ethics & God — TJump Vs CJ Cox** (\`ethics_god_cj_cox\`)
+  - Source: \`content/transcripts/6Tqy2CFN4QQ_Ethics_God_TJump_Vs_CJ_Cox.md\`
+  - TODO: Insert specific excerpt and timestamp from the transcript here once curated, illustrating the "least involuntary imposition of will" framing and BAPW in live debate.
+
 ## Related
 - Euthyphro / Theistic Morality critique
 - Moral Argument

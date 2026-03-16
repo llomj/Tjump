@@ -57,6 +57,10 @@
 - **Debugging Reference**: Agents must always consult ps.md for debugging information.
 - **Browser Testing**: Agents must always test the app in the browser first to ensure it works and opens correctly before pushing to Git.
 - **User Consent for Commits**: Agents must always ask the user for approval before committing to Git.
+- **Single-branch workflow (main only)**:
+  - All work must ultimately land on the **`main`** branch; do not maintain or deploy from other long-lived branches unless the user explicitly requests it.
+  - After local commits are pushed to `main`, deployment to GitHub Pages must happen **via the `Deploy to GitHub Pages` GitHub Actions workflow**, not by manual copying of `dist/`.
+  - When checking what is live, always treat the **commit referenced by the latest successful `Deploy to GitHub Pages` run on `main`** as the source of truth for the deployed app.
 
 ## G. CRITICAL: Full Offline Support (MOST IMPORTANT — DO NOT BREAK)
 
